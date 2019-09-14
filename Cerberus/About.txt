@@ -1,0 +1,52 @@
+                             .-.							   
+                            {{@}}							   
+            <>               8@8							   
+          .::::.             888							   
+      @\\/W\/\/W\//@         8@8							   
+       \\/^\/\/^\//      _   )8(    _							   
+        \_O_<>_O_/     (@)__/8@8\__(@)							   
+   ____________________ `~"-=):(=-"~`							   
+  |<><><>  |  |  <><><>|     |.|							   
+  |<>      |  |      <>|     |T|							   
+  |<>      |  |      <>|     |'|							   
+  |<>   .--------.   <>|     |.|							   
+  |     |   ()   |     |     |I|							   
+  |_____| (O\/O) |_____|     |'|							   
+  |     \   /\   /     |     |.|							   
+  |------\  \/  /------|     |N|							   
+  |       '.__.'       |     |'|							   
+  |        |  |        |     |.|							   
+  :        |  |        :     |K|							   
+   \<>     |  |     <>/      |'|							   
+    \<>    |  |    <>/       |.|							   
+     \<>   |  |   <>/        |E|							   
+      `\<> |  | <>/'         |'|							   
+        `-.|  |.-`           \ /							   
+           '--'               ^					    TINKE SOFTWARE
+
+/*
+ ============
+ +
+ + About
+ +
+ ============
+*/
+
+Cerberus Content Management System is a Monolithic and Modular Content Management System that is written in 100% Pure PHP code with 100% Pure HTML output, 
+and it supports multiple Database Management Systems. Versions are always thoroughly tested for errors before official release, and upon release will
+be free of error and will always pass validation checks for Hypertext Markup Language Engines ( HTML ), Robots Protocol, Real Simple Syndication ( RSS ), Cascading Style Sheet Engines ( CSS ), 
+Post-Hypertext Preprocessor Engines ( PHP ) and each of the SQL Database Management Systems.
+
+Cerberus Content Management System source code is completely handwritten by the author(s) whose names are credited in each release. Approximately 20,000 lines of easy-to-read
+and well documented Lines-of-Code powers the Cerberus Content Management System Core Releases.
+
+The CerberusCMS project is focused on data security and ease of use, therefore we have decided to make very little use of JavaScript in the PurePHP Releases. Since JavaScript is incredibly vulnerable we have decided to
+keep JavaScript use at a very basic minimum. Currently you will only find a few lines of JavaScript code in the PurePHP Releases, one line at the bottom of the Cerberus.php file to autoclose the webpage for inactive sessions, 
+another line for the insertion of Bulletin Board ( BB ) codes into forms and one more line to print the News and Article entries.
+
+The still-secure and easier-to-use releases make extensive use of JavaScript, JQuery and AJAX for the best drag-and-drop user experience.
+
+Cerberus Content Management System Releases follow authentic Frisian / Frysk words for elements.
+
+Cerberus Content Management System, Version: 4, Build: 0.6, Code Name: Wyn, has been debugged and tested to be 100% functional and secure on the latest Apache, HTML, PHP and MySQL
+versions, which at the time of this release is: Apache Version: 2.4.38 - 2019, HTML Version: 5.1 - 2019, PHP Version: 5.6 - 2019 and MySQL Version: 8.0.15 - 2019.

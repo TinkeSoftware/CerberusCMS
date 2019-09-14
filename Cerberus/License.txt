@@ -1,0 +1,158 @@
+/*
+ ===========================================================================================
+ + Cerberus Content Management System.
+ + ---
+ + - Author : Gary Christopher Johnson
+ + - E-Mail : TinkeSoftware@Protonmail.com // GCJohnsonChevalier@Protonmail.com
+ + - Company: Tinke Software
+ + - Notes  : View this file in a non-formatting text editor for correct indentation display
+ + ---
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ + ---
+ + - File Location: root->License.txt
+ + - File Version:  0.4 - Sunday, September, 08, 2019.
+ + ---
+ +%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ +%%%()()%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()()()%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%/-\%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%|4|%  ~ Wyn ~
+ +%%%()()%%()()()%%()%%()%%()()()%%()()()%%()%%()%%()()()%%()()()%%%%%%%%%%%%\-/% Build 0.6
+ ===========================================================================================
+*/
+
+                             .-.							   
+                            {{@}}							   
+            <>               8@8							   
+          .::::.             888							   
+      @\\/W\/\/W\//@         8@8							   
+       \\/^\/\/^\//     _    )8(    _							   
+        \_O_<>_O_/     (@)__/8@8\__(@)							   
+   ____________________ `~"-=):(=-"~`							   
+  |<><><>  |  |  <><><>|     |.|							   
+  |<>      |  |      <>|     |T|							   
+  |<>      |  |      <>|     |'|							   
+  |<>   .--------.   <>|     |.|							   
+  |     |   ()   |     |     |I|							   
+  |_____| (O\/O) |_____|     |'|							   
+  |     \   /\   /     |     |.|							   
+  |------\  \/  /------|     |N|							   
+  |       '.__.'       |     |'|							   
+  |        |  |        |     |.|							   
+  :        |  |        :     |K|							   
+   \<>     |  |     <>/      |'|							   
+    \<>    |  |    <>/       |.|							   
+     \<>   |  |   <>/        |E|							   
+      `\<> |  | <>/'         |'|							   
+        `-.|  |.-`           \ /							   
+           '--'               ^					    TINKE SOFTWARE
+
+/*
+ ===========================
+ +
+ +
+ + Licenses
+ +
+ +
+ ===========================
+*/
+
+****************
+\
+- Commercial
+/
+****************
+
+Cerberus Content Management System - Commercial License
+
+(C) Tinke Software, G.C. Johnson's Works 2005 - 2019.
+
+https://www.SourceForge.net/project/cerberuscms
+https://cerberuscms.SourceForge.net
+
+https://www.SourceForge.net/u/tinkesoftware/profile
+https://www.GitHub.com/TinkeSoftware
+============================================================================================================================================================
+LET ("Tinke Software, Inc.") FORMERLY KNOWN AS RUNESOFT, INC. BE KNOWN AS THE CREATOR AND DEVELOPER OF Cerberus, Cerberus C.M.S.,
+Cerberus Content Management System, AND THE REPRESENTOR, LICENSE AND RIGHTS HOLDER OF Gary Christopher Johnson also known as G.C. Johnson's WORKS.
+
+----------------
+Rules
+----------------
+
+1a.) Tinke Software permits you to operate Cerberus Content Management System strictly by the following rules:
+1b.) You may make copies of Cerberus Content Management System and transfer, distribute them freely, but not for monetary or lucrative gain.
+1c.) You may not usurp, reproduce or plagiarize any of the fundamentals, content or programming code released with Cerberus Content Management System.
+
+----------------
+Damages
+----------------
+
+2.) If damage(s) is(are) incurred you may receive a refund of 100% upon request and explanation of damage(s).
+
+----------------
+Warranty
+----------------
+
+3a.) The software by this License (Commercial) comes with warranty.
+3b.) If you are not satisfied with Cerberus Content Management System within 90 days from purchase date you may receive refund of 100% upon request.
+3c.) If Cerberus Content Management System Compact Disc, USB Drive is damaged in any way you may receive refund of 100% upon request within 90 days from purchase date.
+============================================================================================================================================================
+THIS LICENSE MAY BE UPDATED AT ANY TIME WITH PRACTICAL NOTICE; YOU CAN FIND NOTICE OF THIS LICENSE BEING UPDATED AT:
+httpw://cerberuscms.sourceforge.net
+
+****************
+\
+- Non-Commercial
+/
+****************
+
+Cerberus Content Management System - Non-Commercial License
+
+(C) Tinke Software, G.C. Johnson's Works 2005 - 2010.
+
+https://www.SourceForge.net/project/cerberuscms
+https://cerberuscms.SourceForge.net
+
+https://www.SourceForge.net/u/tinkesoftware/profile
+https://www.GitHub.com/TinkeSoftware
+============================================================================================================================================================
+LET ("Tinke Software, Inc.") FORMERLY KNOWN AS RUNESOFT, INC. BE KNOWN AS THE CREATOR AND DEVELOPER OF Cerberus, Cerberus C.M.S.,
+Cerberus Content Management System, AND THE REPRESENTOR, LICENSE AND RIGHTS HOLDER OF Gary Christopher Johnson also known as G.C. Johnson's WORKS.
+
+----------------
+Rules
+----------------
+
+1a.) Tinke Software permits you to operate Cerberus Content Management System strictly by the following rules:
+1b.) You may not make copies of Cerberus Content Management System for monetary or lucrative gain.
+1c.) You may not usurp, reproduce or plagiarize any of the fundamentals, content or programming code released with Cerberus Content Management System.
+
+----------------
+Damages
+----------------
+
+2.) Tinke Software, G.C. Johnson is not responsible for any damages incurred with the use of this software.
+
+----------------
+Warranty
+----------------
+
+3.) The software by this License (Free Non-Commercial) comes with no warranty of any kind.
+============================================================================================================================================================
+THIS LICENSE MAY BE UPDATED AT ANY TIME WITH PRACTICAL NOTICE; YOU CAN FIND NOTICE OF THIS LICENSE BEING UPDATED AT:-
+https://cerberuscms.sourceforge.net

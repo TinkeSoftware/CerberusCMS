@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /Member/
+Disallow: /Module/
+Disallow: /System/
+Disallow: /Temporary/
+Disallow: /Theme/
+Disallow: /Upload/

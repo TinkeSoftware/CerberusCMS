@@ -1,0 +1,495 @@
+/*
+ ===========================================================================================
+ + Cerberus Content Management System.
+ + ---
+ + - Author : Gary Christopher Johnson
+ + - E-Mail : TinkeSoftware@Protonmail.com // GCJohnsonChevalier@Protonmail.com
+ + - Company: Tinke Software
+ + - Notes  : View this file in a non-formatting text editor for correct indentation display
+ + ---
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ + ---
+ + - File Location: root->Change-Log.txt
+ + - File Version:  0.4 - Sunday, September, 08, 2019.
+ + ---
+ +%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ +%%%()()%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()()()%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%/-\%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%|4|%  ~ Wyn ~
+ +%%%()()%%()()()%%()%%()%%()()()%%()()()%%()%%()%%()()()%%()()()%%%%%%%%%%%%\-/% Build 0.6
+ ===========================================================================================
+*/
+
+/*
+ +===========
+ +
+ + Change Log
+ +
+ +===========
+*/
+
+============================================================================================
++ Version Series: 2 Build: 1.2.5 To Version Series: 3 Build: 1.3
+============================================================================================
+
+[ 01 - 05 - 08 ]
+
+* Implemented 'Spam-Bot' Program to ext/adm/.
+* Implemented 'System_Message' Program to ext/usr/.
+* Added .htaccess double security option to ext/adm/.
+* Changed Backup Directory to ext/adm/.
+* Changed Viewable Logs Directory to ext/adm/.
+* Updated Register Program.
+* Implemented new SQL Table System.
+* Cleaned up the code.
+* Revised System grammar, punctuation, spelling and Flesch-Readability.
+* Revised main Theme.
+
+[ 03 - 28 - 2008 ]
+
+* Indented HTML output O.C.D. style. :D
+
+[ 07 - 23 - 2008 ]
+
+* Fixed Cerberus 'Safe-HTML' and Smiley Faces program.
+* Removed cookie injection vulnerability in background programs.
+
+============================================================================================
++ Version Series: 3 Build: 1.3 To Version Series: 3 Build: 1.3.5
+============================================================================================
+
+[ 07 - 29 - 2008 ]
+
+* Updated 'Cerberus' Theme.
+* Corrected grammar errors in ext/adm/*.
+* Added an index.php (deny directory listing) in ext/adm/System_Backup/.
+* Updated File System.
+* Renamed ChangeLog.txt to Change-Log.txt.
+* Combined License files into one file.
+* Renamed ToDo.txt to To-Do.txt.
+* Added [link], [/link] to the Safe-HTML program.
+
+============================================================================================
++ Version Series: 3 Build: 1.3.5 To Version Series: 3 Build: 1.4
+============================================================================================
+
+[ 08 - 08 - 08 ]
+
+* Created Forum Program.
+* Simplified the Register Program.
+
+============================================================================================
++ Version Series: 3 Build: 1.4 To Version Series: 3 Build: 1.4.5
+============================================================================================
+
+[ 08 - 16 - 08 ]
+
+* Updated Forum Program.
+
+[ 08 - 19 - 08 ]
+
+* Updated Administration Programs.
+* Updated Background Programs.
+* Updated Member Programs.
+* Updated Language System.
+
+[ 08 - 20 - 08 ]
+
+* Updated Forum Program.
+* Removed the Spanish language file.
+
+============================================================================================
++ Version Series: 3 Build: 1.4.5 To Version Series: 3 Build: 1.4.6
+============================================================================================
+
+[ 08 - 20 - 08 ]
+
+* Updated cerberus.php.
+* Updated * sub-programs.
+* Updated Cerberus Theme.
+
+============================================================================================
++ Version Series: 3 Build: 1.4.6 To Version Series: 3 Build: 1.4.7
+============================================================================================
+
+[ 08 - 25 - 08 ]
+
+* Updated Cerberus Theme.
+* Added Prefix System to S.Q.L. System.
+* Updated install.php, cerberus.php.
+* Updated Safe-HTML System.
+* Added an RSS System.
+
+============================================================================================
++ Version Series: 3 Build: 1.4.7 To Version Series: 3 Build: 1.4.8
+============================================================================================
+
+[ 08 - 27 - 08 ]
+
+* Fixed ext/adm/Modify.
+* Updated RSS System.
+* Updated Safe-HTML System.
+* Updated Documentation.
+* Simplified Naming System.
+
+[ 08 - 28 - 08 ]
+
+* Completed renaming/simplifying directory/file names.
+* Updated * code.
+
+============================================================================================
++ Version Series: 3 Build: 1.4.8 To Version Series: 3 Build: 1.4.9
+============================================================================================
+
+[ 08 - 31 - 08 ]
+
+* Created and implemented Members_Online System to Module/User/.
+
+[ 09 - 05 - 08 ]
+
+* Updated Forum System.
+* Created and implemented Search System to Module/User.
+* Updated Module/Background/Log_Background.
+* Updated Module/User/Members_Online.
+* Renamed Old_News to All_News.
+
+============================================================================================
++ Version Series: 3 Build: 1.4.9 To Version Series: 3 Build: 1.5
+============================================================================================
+
+[ 09 - 22 - 08 ]
+
+* Various clean-up.
+* Updated Module/Administration/Administrators.
+* Moved Administration Log to Module/Administration/Access_Log/.
+* Updated install.php.
+
+============================================================================================
++ Version Series: 3 Build: 1.5 To Version Series: 3 Build: 1.5.1
+============================================================================================
+
+[ 09 - 29 - 08 ]
+
+* Updated Module/Administration/*.
+* Updated Module/User/*.
+* Created Secondary Login Form System.
+* Updated Theme/Cerberus/HTML/*.
+
+============================================================================================
++ Version Series: 3 Build: 1.5.1 To Version Series: 4 Build: 0.1
+============================================================================================
+
+[ 03 - 19 - 09 ]
+
+* Updated install.php (works).
+* Updated License.txt.
+* Various Clean-up.
+
+============================================================================================
++ Version Series: 4 Build: 0.1 To Version Series: 4 Build: 0.2
+============================================================================================
+
+[ 04 - 04 - 09 ]
+
+* Improved Forum System.
+
+[ 08 - 01 - 09 ]
+
+* Improved Forum System; Removed Conflicting Code.
+* Improved Install.php; Updated Table Insertion Blocks, Added Table Insertion Blocks, Updated Display Texts.
+
+[ 08 - 05 - 09 ]
+
+* Updated Files Module.
+* Updated Articles Module.
+* Updated Forum Module.
+* Improved Install.php; Added Table Insertion Blocks.
+
+============================================================================================
++ Version Series: 4 Build: 0.2 To Version Series: 4 Build: 0.2.1
+============================================================================================
+
+[ 08 - 08 - 09 ]
+
+* Improved Install.php; Clarified Output Messages.
+* Defaulted Member cPanel Sound to Off, but allowed the option to change to 'On' or 'Off' in Edit_Profile.
+* Made the News/Text Submission Module Publishable.
+* Fixed Shout Box.
+* Updated diagnose.php.
+* Updated English Language File.
+
+============================================================================================
++ Version Series: 4 Build: 0.2.1 To Version Series: 4 Build: 0.3
+============================================================================================
+
+[ 12 - 05 - 09 ]
+
+* Corrected Error in cerberus.php, Member Module File Inclusion was set to authorize double USERNAME instead of USERNAME && PASSWORD != null.
+
+[ 12 - 27 - 09 ]
+
+* Perfected main theme block image borders to be jet black instead of blotchy black.
+
+============================================================================================
++ Version Series: 4 Build: 0.3 To Version Series: 4 Build: 0.4
+============================================================================================
+
+[ 01 - 17 - 10 ]
+
+* Updated * Files () Cerberus Logo (Corrected the misaligned C).
+* Updated * Files by Correcting all Errors.
+* Updated Documentation Module.
+* Updated Default Theme Script.
+* Updated Legal File.
+* Updated Default Theme Images->Icon_Administration && Images->Icon_Member.
+
+============================================================================================
++ Version Series: 4 Build: 0.4 To Version Series: 4 Build: 0.5
+============================================================================================
+
+[ 01 - 18 - 10 ]
+
+* Updated Cerberus Theme Theme.php (Updated Description Blocks and META INFORMATION).
+* Updated Cerberus Theme Style.css (Updated Cerberus Logo, E-Mail Address and Web URL).
+
+[ 05 - 18 - 10 ]
+
+* Undisclosed Changes.
+
+============================================================================================
++ Version Series: 4 Build: 0.5 To Version Series: 4 Build: 0.5a
+============================================================================================
+
+[ 10 - 25 - 18 ]
+
+* Changed Software Developer Name, Updated Information In Each File, Changed E-Mail Address.
+
+============================================================================================
++ Version Series: 4 Build: 0.5a To Version Series: 4 Build: 0.6
+============================================================================================
+
+[ 11 - 06 - 18 ]
+
+* Corrected PHP Function Misuse In Each File From Earlier Versions.
+
+Example:
+
+if ($Page == "1") {} else }}
+
+To:
+
+if ($_GET("Page") == "1") {} else }}
+
+[ 11 - 07 - 18 ]
+
+* Updated Code For Compatibility With New PHP Versions.
+* Updated All Security Layers.
+* Added SALT, BlowFish To SHA-256 and MD-5 Password Hashing Algorithms.
+
+[ 11 - 08 - 18 ]
+
+* Updated MySQL Tables Generator Script For Installation.
+
+[ 11 - 10 - 18 ]
+
+* Updated Header Information In Each Script File To Display root->Directory Location->File.ext and File Version With Date.
+* Changed root File Names To Uppercase Characters:
+	cerberus.php->Cerberus.php
+	diagnose.php->Diagnose.php
+	install.php->Install.php
+	rss.php->RSS.php
+
+[ 11 - 11 - 18 ]
+
+* Updated Installation Script.
+* Updated Header Information In Each File.
+* Updated index.php Files In Each Directory To Point To 'Listing Denied' File.
+* Fixed FavIcon.ico Linking.
+* Updated Default Theme Cascading Style Sheet.
+* Added Image Transparency and Reduced Blocks To 75% Width In Default Theme.
+
+[ 11 - 12 - 18 ]
+
+* Created File-List.txt System For Tracking File Versions, Tests, Progress Tracking of Files and Code.
+* Updated All Administration and User Modules, Corrected Errors and Made Them All Functional.
+
+[ 11 - 13 - 18 ]
+
+* Created About.txt
+* Created Version.txt
+* Updated Default English Language File.
+* Updated All User Modules With Variables From English Language File.
+* Updated All User Modules To Display Root :: Application Path :: Application Linking.
+
+[ 11 - 18 - 18 ]
+
+* Updated Install.php File.
+* Updated / Corrected password_hash(); and password_verify(); functions in: Install.php, Cerberus.php and Register Module.
+
+[ 03 - 08 - 19 ]
+
+* Updated Application Include Variables From:
+    app     -> Application
+    admincp -> adminApplication
+    cpp     -> customApplication
+
+[ 03 - 14 - 19 ]
+
+* Rewrote and Documented Source Code In:
+    Cerberus.php
+    Install.php
+    System/Configuration/Main_Access.php
+
+[ 03 - 15 - 19 ]
+
+* Added Variables In:
+    Main_Configuration.php:
+        * $_INTERNAL_ADMINISTRATOR_MODULE
+        * $_INTERNAL_USER_MODULE
+        * $_INTERNAL_CUSTOM_MODULE
+* Updated All Modules To Use The $_INTERNAL_*_MODULE Variables.
+* Rewrote and Documented Diagnose.php File.
+* Rewrote and Documented RSS.php File.
+* Rewrote and Documented Install.php File.
+* Rewrote and Documented ./Module/Administration/Applications File.
+* Rewrote and Documented ./Module/Administration/Backup File.
+* Rewrote and Documented ./Module/Administration/Banish File.
+* Rewrote and Documented ./Module/Administration/Blocks File.
+* Rewrote and Documented ./Module/Administration/Bot_Monitor File.
+
+[ 03 - 16 - 19 ]
+
+* Rewrote and Documented ./Module/Administration/Categories File.
+* Rewrote and Documented ./Module/Administration/cPanel File.
+* Rewrote and Documented ./Module/Administration/Polls File.
+* Rewrote and Documented ./Module/Administration/Publish File.
+* Rewrote and Documented ./Module/Administration/Ranks File.
+* Rewrote and Documented ./Module/Administration/Referrers File.
+* Rewrote and Documented ./Module/Administration/Settings File.
+* Rewrote and Documented ./Module/Administration/SQL_Query File.
+* Rewrote and Documented ./Module/Administration/Submissons File.
+
+[ 03 - 18 - 19 ]
+
+* Rewrote and Documented ./Module/Administration/Forum File.
+
+[ 03 - 19 - 19 ]
+
+* Rewrote and Documented ./Module/Administration/Modify File.
+* Rewrote and Documented ./Module/Administration/Web_Pages File.
+
+* Rewrote and Documented ./Module/User/All_News File.
+* Rewrote and Documented ./Module/User/All_Shouts File.
+* Rewrote and Documented ./Module/User/Articles File.
+* Rewrote and Documented ./Module/User/Change_Password File.
+* Rewrote and Documented ./Module/User/Comment File.
+* Rewrote and Documented ./Module/User/Contact_Admin File.
+* Rewrote and Documented ./Module/User/cPanel File.
+
+[ 03 - 20 - 19 ]
+
+* Rewrote and Documented ./Module/User/Documentation File.
+* Rewrote and Documented ./Module/User/Edit_Profile File.
+* Rewrote and Documented ./Module/User/Files File.
+* Rewrote and Documented ./Module/User/Friend File.
+* Rewrote and Documented ./Module/User/Legal File.
+* Rewrote and Documented ./Module/User/Links File.
+* Rewrote and Documented ./Module/User/List File.
+* Rewrote and Documented ./Module/User/Polls File.
+* Rewrote and Documented ./Module/User/Private_Files File.
+
+[ 03 - 21 - 19 ]
+
+* Rewrote and Documented ./Module/User/Private_Message File.
+* Rewrote and Documented ./Module/User/Profile File.
+* Rewrote and Documented ./Module/User/Referrers File.
+* Rewrote and Documented ./Module/User/Register File.
+* Rewrote and Documented ./Module/User/Reset_Password File.
+* Rewrote and Documented ./Module/User/Search File.
+* Rewrote and Documented ./Module/User/Send_Friend File.
+* Rewrote and Documented ./Module/User/Statistics File.
+* Rewrote and Documented ./Module/User/Submit_News File.
+* Rewrote and Documented ./Module/User/System_Message File.
+* Rewrote and Documented ./Module/User/Upload File.
+* Rewrote and Documented ./Module/User/Webspace File.
+
+* Rewrote and Documented ./Module/Block/Admin.blk File.
+* Rewrote and Documented ./Module/Block/Articles.blk File.
+* Rewrote and Documented ./Module/Block/Banned.blk File.
+* Rewrote and Documented ./Module/Block/Cerberus.blk File.
+* Rewrote and Documented ./Module/Block/Files.blk File.
+* Rewrote and Documented ./Module/Block/Language.blk File.
+* Rewrote and Documented ./Module/Block/Member_List.blk File.
+* Rewrote and Documented ./Module/Block/Members.blk File.
+* Rewrote and Documented ./Module/Block/Modules.blk File.
+* Rewrote and Documented ./Module/Block/Polls.blk File.
+* Rewrote and Documented ./Module/Block/Shouts.blk File.
+
+* Rewrote and Documented ./Module/Background/Log_Administration File.
+* Rewrote and Documented ./Module/Background/Log_Background File.
+* Rewrote and Documented ./Module/Background/Log_User File.
+
+* Rewrote and Documented ./System/Safe-HTML/default/Safe-HTML.cerb File.
+
+[ 03 - 23 - 2019 ]
+
+* Rewrote and Documented ./System/Safe-HTML/default/Safe-HTML.cerb File.
+* Rewrote and Documented ./System/Language/English/Language.cerb File.
+* Rewrote and Documented ./Module/User/Forum File.
+
+[ 03 - 24 - 2019 ]
+
+* Rewrote and Documented ./Module/User/List File.
+* Updated All User Modules With New Language File Variables.
+* Fixed Incorrect Variable Names In Each User Module.
+* Updated All File Headers For Current Date, File Version: 0.4 and Cerberus Build Number: 0.6.
+
+[ 03 - 25 - 2019 ]
+
+* Debugged Each File.
+* Removed Poll System.
+
+[ 08 - * - 2019 ]
+
+* Debugged ./Module/Administrator/*Modules
+* Debugged ./Module/Background/*Modules
+* Debugged ./Module/Block/*Modules
+* Debugged ./Module/User/*Modules
+
+[ 09 - 07 - 2019 ]
+
+* Added Function For Deleting Forum Posts By Author.
+* Added BitCoin Options To Profile System.
+* Added PGP Encryption Keys Option To Profile System.
+
+[ 09 - 08 - 2019 ]
+
+* Added KeyBase Option To Profile System.
+
+[ 09 - 09 - 2019 ]
+
+* Converted All Output Messages To Variables Within Each Administration Module. Placed Variables Within Default Language File.
+
+[ 09 - 11 - 2019 ]
+
+* Corrected Page Generation Time Variables In: Cerberus.php File.
+
+[ 09 - 12 - 2019 ]
+
+* Added Made In The USA Image To ./Module/Block/Cerberus.blk File.
+* Added Maximum Length of 2,000 Characters To Text Area Forms In All User Space Modules That Use The Function.

@@ -1,0 +1,132 @@
+<?php
+/*
+ ===========================================================================================
+ + Cerberus Content Management System.
+ + ---
+ + - Author : Gary Christopher Johnson
+ + - E-Mail : TinkeSoftware@Protonmail.com // GCJohnsonChevalier@Protonmail.com
+ + - Company: Tinke Software
+ + - Notes  : View this file in a non-formatting text editor for correct indentation display
+ + ---
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ + ---
+ + - File Location: root->Module->User->Members_Online
+ + - File Version:  0.4 - Sunday, September, 08, 2019.
+ + ---
+ +%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ +%%%()()%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()()()%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%/-\%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%|4|%  ~ Wyn ~
+ +%%%()()%%()()()%%()%%()%%()()()%%()()()%%()%%()%%()()()%%()()()%%%%%%%%%%%%\-/% Build 0.6
+ ===========================================================================================
+*/
+
+/*
+ ===========================
+ +
+ +
+ + Members Online
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ +
+ + List Members Online
+ +
+ ===========================
+*/
+
+$_Module_Members_DB_Query_SELECT_MEMBERS			= $DB->query("SELECT * FROM {$_ACCESS_DATABASE_PREFIX}_members ORDER BY member_username ASC");
+
+											echo ($_Message_Members_Online_Header);
+
+echo ("
+												<CENTER>
+													<TABLE BORDER=\"1\" WIDTH=\"100%\" CELLPADDING=\"0\" CELLSPACING=\"0\">
+														<TR>
+															<TD WIDTH=\"40%\"><A TITLE=\":: Profile ::\"><B>Member Name</B></A></TD>
+															<TD WIDTH=\"20%\"><A TITLE=\":: Private Message ::\"><B>Private Message</B></A></TD>
+															<TD WIDTH=\"20%\"><A TITLE=\":: Last Page View ::\"><B>Last Page View</B></A></TD>
+															<TD WIDTH=\"15%\"><B>Permissions</B></TD>
+														</TR>
+													</TABLE>
+												</CENTER>
+");
+
+/*
+ ===========================
+ +
+ + List Member Entries
+ +
+ ===========================
+*/
+
+while ($_Module_Members_DB_Query_SELECT_MEMBERS_Fetch_Array = $DB->fetch_array($_Module_Members_DB_Query_SELECT_MEMBERS)) {
+
+$_Module_Members_LIST_MEMBER_ID				= $_Module_Members_DB_Query_SELECT_MEMBERS_Fetch_Array['id'];
+$_Module_Members_LIST_MEMBER_ACCESS_LEVEL			= $_Module_Members_DB_Query_SELECT_MEMBERS_Fetch_Array['member_access_level'];
+$_Module_Members_LIST_MEMBER_LAST_POST			= $_Module_Members_DB_Query_SELECT_MEMBERS_Fetch_Array['member_last_post'];
+$_Module_Members_LIST_MEMBER_USERNAME			= $_Module_Members_DB_Query_SELECT_MEMBERS_Fetch_Array['member_username'];
+$_Module_Members_LIST_MEMBER_ONLINE			= $_Module_Members_DB_Query_SELECT_MEMBERS_Fetch_Array['member_online_status'];
+
+/*
+ ===========================
+ + If Member User / Administrator
+ ===========================
+*/
+
+if ($_Module_Members_LIST_MEMBER_ACCESS_LEVEL == "1") {
+	$_Module_Members_LIST_MEMBER_PERMISSION	= "Member";
+}
+
+if ($_Module_Members_LIST_MEMBER_ACCESS_LEVEL >= "2") {
+	$_Module_Members_LIST_MEMBER_PERMISSION	= "Administrator";
+}
+
+$_Module_Members_DATE_UOC 							= date("HdmY");
+
+if ($_Module_Members_LIST_MEMBER_ONLINE == $_Module_Members_DATE_UOC) {
+
+echo ("
+											<CENTER>
+												<TABLE BORDER=\"1\" WIDTH=\"100%\" CELLPADDING=\"0\" CELLSPACING=\"0\">
+													<TR>
+														<TD WIDTH=\"40%\"><A HREF=\"?$_INTERNAL_USER_MODULE&#61;Profile&amp;Name&#61;$_Module_Members_LIST_MEMBER_USERNAME\" TITLE=\"Open Profile :: $_Module_Members_LIST_MEMBER_USERNAME\">$_Module_Members_LIST_MEMBER_USERNAME</A></TD>
+														<TD WIDTH=\"20%\"><A HREF=\"?$_INTERNAL_USER_MODULE&#61;Private_Message\" TITLE=\"Send Private Message To :: $_Module_Members_LIST_MEMBER_USERNAME\">Private Message</A></TD>
+														<TD WIDTH=\"20%\"><A HREF=\"$_Module_Members_LIST_MEMBER_LAST_POST\" TITLE=\":: Last Page View ::\">Hover</A>
+														<TD WIDTH=\"15%\">$_Module_Members_LIST_MEMBER_PERMISSION</TD>
+													</TR>
+												</TABLE>
+											</CENTER>
+");
+
+} // [ + ] IF_ONLINE
+
+} // [ + ] WHILE_MEMBERS
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_Members_DB_Query_SELECT_MEMBERS);
+?>

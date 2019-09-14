@@ -1,0 +1,351 @@
+<?php
+/*
+ ===========================================================================================
+ + Cerberus Content Management System.
+ + ---
+ + - Author : Gary Christopher Johnson
+ + - E-Mail : TinkeSoftware@Protonmail.com // GCJohnsonChevalier@Protonmail.com
+ + - Company: Tinke Software
+ + - Notes  : View this file in a non-formatting text editor for correct indentation display
+ + ---
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ + ---
+ + - File Location: root->Module->User->Private_Message
+ + - File Version:  0.4 - Sunday, September, 08, 2019.
+ + ---
+ +%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ +%%%()()%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()()()%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%/-\%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%|4|%  ~ Wyn ~
+ +%%%()()%%()()()%%()%%()%%()()()%%()()()%%()%%()%%()()()%%()()()%%%%%%%%%%%%\-/% Build 0.6
+ ===========================================================================================
+*/
+
+/*
+ ===========================
+ +
+ +
+ + Private Messages
+ +
+ +
+ ===========================
+*/
+
+$_Module_Private_Message_DB_Query_SELECT_PRIVATE_MESSAGES			= $DB->query("SELECT * FROM {$_ACCESS_DATABASE_PREFIX}_private_messages WHERE private_message_recipient='$_GLOBAL_USERNAME' ORDER BY private_message_sent_time ASC LIMIT 20");
+
+echo ("
+																		$_Message_Private_Messages_Header
+																			<CENTER>[ <A HREF=\"?$_INTERNAL_USER_MODULE&#61;Private_Message&amp;PrivateMessageID&#61;All\" TITLE=\"View Private Message Inbox\">Inbox</A> - <A HREF=\"?$_INTERNAL_USER_MODULE&#61;Private_Message&amp;PrivateMessageID&#61;Outbox\" TITLE=\"View Private Message Outbox\">Outbox</A> - <A HREF=\"?$_INTERNAL_USER_MODULE&#61;Private_Message&amp;PrivateMessageID&#61;Send\" TITLE=\"Compose New Private Message\">Compose</A> ]</CENTER><HR>
+");
+
+if ($DB->num_rows($_Module_Private_Message_DB_Query_SELECT_PRIVATE_MESSAGES) <= 0) {
+
+											echo ($_Message_Private_Messages_NO_MESSAGES);
+
+} // [ + ] IF_NUMBER_OF_ROWS_LESS_THAN_0
+
+while ($_Module_Private_Message_DB_Query_SELECT_PRIVATE_MESSAGES_Fetch_Array = $DB->fetch_array($_Module_Private_Message_DB_Query_SELECT_PRIVATE_MESSAGES)) {
+
+$_Module_Private_Message_LIST_PRIVATE_MESSAGE_ID				= $_Module_Private_Message_DB_Query_SELECT_PRIVATE_MESSAGES_Fetch_Array['id'];
+$_Module_Private_Message_LIST_PRIVATE_MESSAGE_FROM				= $_Module_Private_Message_DB_Query_SELECT_PRIVATE_MESSAGES_Fetch_Array['private_message_from'];
+$_Module_Private_Message_LIST_PRIVATE_MESSAGE_SUBJECT			= $_Module_Private_Message_DB_Query_SELECT_PRIVATE_MESSAGES_Fetch_Array['private_message_subject'];
+$_Module_Private_Message_LIST_PRIVATE_MESSAGE_DATA				= $_Module_Private_Message_DB_Query_SELECT_PRIVATE_MESSAGES_Fetch_Array['private_message_data'];
+$_Module_Private_Message_LIST_PRIVATE_MESSAGE_SENT_TIME			= $_Module_Private_Message_DB_Query_SELECT_PRIVATE_MESSAGES_Fetch_Array['private_message_sent_time'];
+
+/*
+ ===========================
+ +
+ + List All Private Messages
+ +
+ ===========================
+*/
+
+if ($_GET["PrivateMessageID"] == "All") {
+
+echo ("
+											<CENTER>
+												<TABLE BORDER=\"1\" WIDTH=\"100%\" CELLPADDING=\"0\" CELLSPACING=\"0\">
+													<TR>
+														<TD WIDTH=\"100%\"><B>Message Subject</B>: $_Module_Private_Message_LIST_PRIVATE_MESSAGE_SUBJECT</TD>
+														<TD><A HREF=\"?$_INTERNAL_USER_MODULE&#61;Private_Message&amp;PrivateMessageID&#61;$_Module_Private_Message_LIST_PRIVATE_MESSAGE_ID\" TITLE=\"View :: $_Module_Private_Message_LIST_PRIVATE_MESSAGE_SUBJECT\">View</A></TD>
+													</TR>
+												</TABLE>
+											</CENTER>
+");
+
+} // [ + ] IF_PrivateMessageID_ALL
+
+/*
+ ===========================
+ +
+ + List Selected Private Message ID
+ +
+ ===========================
+*/
+
+if ($_GET["PrivateMessageID"] == "$_Module_Private_Message_LIST_PRIVATE_MESSAGE_ID") {
+
+echo ("
+											<B>Message Subject</B>: $_Module_Private_Message_LIST_PRIVATE_MESSAGE_SUBJECT<BR>________________________<BR><BR>
+											<B>Message</B>:<BR><I>$_Module_Private_Message_LIST_PRIVATE_MESSAGE_DATA</I><HR>
+											<B>Sent</B>: $_Module_Private_Message_LIST_PRIVATE_MESSAGE_SENT_TIME - <B>From</B>: [ <A HREF=\"?$_INTERNAL_USER_MODULE&#61;Profile&amp;Name&#61;$_Module_Private_Message_LIST_PRIVATE_MESSAGE_FROM\" TITLE=\"Profile :: $_Module_Private_Message_LIST_PRIVATE_MESSAGE_FROM\">$_Module_Private_Message_LIST_PRIVATE_MESSAGE_FROM</A> - <A HREF=\"?$_INTERNAL_USER_MODULE&#61;Private_Message&amp;DeleteMessageID&#61;$_Module_Private_Message_LIST_PRIVATE_MESSAGE_ID\" TITLE=\"Delete :: $_Module_Private_Message_LIST_PRIVATE_MESSAGE_SUBJECT\">Delete</A> ]
+");
+
+} // [ + ] IF_PrivateMessageID
+
+/*
+ ===========================
+ +
+ + Delete Selected Private Message
+ +
+ ===========================
+*/
+
+if ($_GET["DeleteMessageID"] == "$_Module_Private_Message_LIST_PRIVATE_MESSAGE_ID") {
+
+$_Module_Private_Message_DB_Query_DELETE_PRIVATE_MESSAGE			= $DB->query("DELETE FROM {$_ACCESS_DATABASE_PREFIX}_private_messages WHERE private_message_recipient='$_GLOBAL_USERNAME' AND id='$_Module_Private_Message_LIST_PRIVATE_MESSAGE_ID'");
+
+if ($_Module_Private_Message_DB_Query_DELETE_PRIVATE_MESSAGE) {
+
+											echo ($_Message_Private_Messages_DELETE_SUCCESSFUL);
+
+} else {
+											echo ($_Message_Private_Messages_DELETE_ERROR);
+} // [ + ] IF_DB_Query_DELETE_PRIVATE_MESSAGE
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_Private_Message_DB_Query_DELETE_PRIVATE_MESSAGE);
+
+} // [ + ] IF_DeleteMessageID
+
+} // [ + ] WHILE_PRIVATE_MESSAGES
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_Private_Message_DB_Query_SELECT_PRIVATE_MESSAGES);
+
+/*
+ ===========================
+ +
+ + Send Private Message
+ +
+ ===========================
+*/
+
+if ($_GET["PrivateMessageID"] == "Send") {
+
+$_Module_Private_Message_DB_Query_SELECT_MEMBERS				= $DB->query("SELECT * FROM {$_ACCESS_DATABASE_PREFIX}_members ORDER BY member_username ASC");
+
+/*
+ ===========================
+ + Form Post Variables
+ ===========================
+*/
+
+$_Module_Private_Message_POST_MESSAGE_SUBJECT					= $_POST['private_message_subject'];
+$_Module_Private_Message_POST_MESSAGE_RECIPIENT					= $_POST['private_message_recipient'];
+$_Module_Private_Message_POST_MESSAGE_DATA 					= $_POST['private_message_data'];
+
+/*
+ ===========================
+ + Character Replace
+ ===========================
+*/
+
+$_Module_Private_Message_POST_MESSAGE_SUBJECT					= str_replace("<", "&lt;", $_Module_Private_Message_POST_MESSAGE_SUBJECT);
+$_Module_Private_Message_POST_MESSAGE_SUBJECT					= str_replace("'", "&#39;", $_Module_Private_Message_POST_MESSAGE_SUBJECT);
+
+$_Module_Private_Message_POST_MESSAGE_RECIPIENT					= str_replace("<", "&lt;", $_Module_Private_Message_POST_MESSAGE_RECIPIENT);
+$_Module_Private_Message_POST_MESSAGE_RECIPIENT					= str_replace("'", "&#39;", $_Module_Private_Message_POST_MESSAGE_RECIPIENT);
+
+/*
+ ===========================
+ + SafeHTML Code && Smileys
+ ===========================
+*/
+
+$_Module_Private_Message_POST_MESSAGE_DATA					= str_replace($_GLOBAL_SAFEHTML_CODE, $_GLOBAL_SAFEHTML_CODE_REPLACE, $_Module_Private_Message_POST_MESSAGE_DATA);
+$_Module_Private_Message_POST_MESSAGE_DATA					= str_replace($_GLOBAL_SAFEHTML_SMILEYS, $_GLOBAL_SAFEHTML_SMILEYS_REPLACE, $_Module_Private_Message_POST_MESSAGE_DATA);
+
+/*
+ ===========================
+ + Send Private Message Form
+ ===========================
+*/
+
+if ((!$_Module_Private_Message_POST_MESSAGE_SUBJECT) || (!$_Module_Private_Message_POST_MESSAGE_RECIPIENT) || (!$_Module_Private_Message_POST_MESSAGE_DATA)) {
+
+echo ("
+											$_GLOBAL_TEXTEDITOR_BUTTONS
+											<BR><BR><FORM ACTION=\"?$_INTERNAL_USER_MODULE&#61;Private_Message&amp;PrivateMessageID&#61;Send\" METHOD=\"post\">
+												Message Subject:<BR>
+													<INPUT TYPE=\"text\" NAME=\"private_message_subject\" MAXLENGTH=\"250\"><BR>
+												Member ID:<BR>
+													<SELECT NAME=\"private_message_recipient\">
+");
+
+while ($_Module_Private_Message_DB_Query_SELECT_MEMBERS_Fetch_Array = $DB->fetch_array($_Module_Private_Message_DB_Query_SELECT_MEMBERS)) {
+
+$_Module_Private_Message_DB_Query_SELECT_PRIVATE_MESSAGE_RECIPIENT		= $_Module_Private_Message_DB_Query_SELECT_MEMBERS_Fetch_Array['member_username'];
+
+														echo ("<OPTION VALUE=\"$_Module_Private_Message_DB_Query_SELECT_PRIVATE_MESSAGE_RECIPIENT\">$_Module_Private_Message_DB_Query_SELECT_PRIVATE_MESSAGE_RECIPIENT</OPTION>");
+
+} // [ + ] WHILE_ARRAY
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_Private_Message_DB_Query_SELECT_MEMBERS);
+
+echo ("
+													</SELECT><BR>
+												Message:<BR>
+													<TEXTAREA ROWS=\"15\" COLS=\"75\" MAXLENGTH=\"2000\" NAME=\"private_message_data\" ID=\"WYSIWYG\"></TEXTAREA><BR>
+												<INPUT TYPE=\"submit\" VALUE=\"Send Message\">
+											</FORM>
+");
+
+} else {
+
+$_Module_Private_Message_DB_Query_UPDATE_PRIVATE_MESSAGES			= $DB->query("INSERT INTO {$_ACCESS_DATABASE_PREFIX}_private_messages(private_message_from,private_message_recipient,private_message_subject,private_message_data,private_message_sent_time)VALUES('$_GLOBAL_USERNAME','$_Module_Private_Message_POST_MESSAGE_RECIPIENT','$_Module_Private_Message_POST_MESSAGE_SUBJECT','$_Module_Private_Message_POST_MESSAGE_DATA','$_GLOBAL_DATE')");
+
+if ($_Module_Private_Message_DB_Query_UPDATE_PRIVATE_MESSAGES) {
+
+											echo ($_Message_Private_Messages_SEND_SUCCESSFUL);
+
+} else {
+											echo ($_Message_Private_Messages_SEND_ERROR);
+} // [ + ] IF_DB_Query_UPDATE_PRIVATE_MESSAGES
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_Private_Message_DB_Query_UPDATE_PRIVATE_MESSAGES);
+
+} // [ + ] IF_NULL
+
+} // [ + ] IF_PrivateMessageID_Send
+
+$_Module_Private_Message_DB_Query_SELECT_PRIVATE_MESSAGES_OUTBOX		= $DB->query("SELECT * FROM {$_ACCESS_DATABASE_PREFIX}_private_messages WHERE private_message_from='$_GLOBAL_USERNAME'");
+
+if ($DB->num_rows($_Module_Private_Message_DB_Query_SELECT_PRIVATE_MESSAGES_OUTBOX) <= 0) {
+											//echo ($_Message_Private_Messages_NO_MESSAGES);
+} // [ + ] IF_NUMBER_OF_ROWS
+
+while ($_Module_Private_Message_DB_Query_SELECT_PRIVATE_MESSAGES_OUTBOX_Fetch_Array = $DB->fetch_array($_Module_Private_Message_DB_Query_SELECT_PRIVATE_MESSAGES_OUTBOX)) {
+
+$_Module_Private_Message_LIST_OUTBOX_PRIVATE_MESSAGE_ID			= $_Module_Private_Message_DB_Query_SELECT_PRIVATE_MESSAGES_OUTBOX_Fetch_Array['id'];
+$_Module_Private_Message_LIST_OUTBOX_PRIVATE_MESSAGE_FROM			= $_Module_Private_Message_DB_Query_SELECT_PRIVATE_MESSAGES_OUTBOX_Fetch_Array['private_message_from'];
+$_Module_Private_Message_LIST_OUTBOX_PRIVATE_MESSAGE_SUBJECT		= $_Module_Private_Message_DB_Query_SELECT_PRIVATE_MESSAGES_OUTBOX_Fetch_Array['private_message_subject'];
+$_Module_Private_Message_LIST_OUTBOX_PRIVATE_MESSAGE_DATA			= $_Module_Private_Message_DB_Query_SELECT_PRIVATE_MESSAGES_OUTBOX_Fetch_Array['private_message_data'];
+$_Module_Private_Message_LIST_OUTBOX_PRIVATE_MESSAGE_SENT_TIME		= $_Module_Private_Message_DB_Query_SELECT_PRIVATE_MESSAGES_OUTBOX_Fetch_Array['private_message_sent_time'];
+
+/*
+ ===========================
+ +
+ + Private Messages Outbox
+ +
+ ===========================
+*/
+
+if ($_GET["PrivateMessageID"] == "Outbox") {
+
+echo ("
+											<CENTER>
+												<TABLE BORDER=\"1\" WIDTH=\"100%\" CELLPADDING=\"0\" CELLSPACING=\"0\">
+													<TR>
+														<TD WIDTH=\"90%\"><B>Message Subject</B>: <A HREF=\"?$_INTERNAL_USER_MODULE&#61;Private_Message&amp;PrivateMessageID&#61;$_Module_Private_Message_LIST_OUTBOX_PRIVATE_MESSAGE_ID\" TITLE=\"Read Private Message :: $_Module_Private_Message_LIST_OUTBOX_PRIVATE_MESSAGE_SUBJECT\">$_Module_Private_Message_LIST_OUTBOX_PRIVATE_MESSAGE_SUBJECT</A></TD>
+														<TD WIDTH=\"10%\"><A HREF=\"?$_INTERNAL_USER_MODULE&#61;Private_Message&amp;DeleteMessageID&#61;$_Module_Private_Message_LIST_OUTBOX_PRIVATE_MESSAGE_ID\" TITLE=\"Delete Private Message :: $_Module_Private_Message_LIST_OUTBOX_PRIVATE_MESSAGE_SUBJECT\">Delete</A></TD>
+													</TR>
+												</TABLE>
+											</CENTER>
+");
+
+} // [ + ] IF_PrivateMessageID_Outbox
+
+/*
+ ===========================
+ +
+ + Delete Private Message
+ +
+ ===========================
+*/
+
+if ($_GET["DeleteMessageID"] == "$_Module_Private_Message_LIST_OUTBOX_PRIVATE_MESSAGE_ID") {
+
+$_Module_Private_Message_DB_Query_DELETE_PRIVATE_MESSAGE			= $DB->query("DELETE FROM {$_ACCESS_DATABASE_PREFIX}_private_messages WHERE id='$_Module_Private_Message_LIST_OUTBOX_PRIVATE_MESSAGE_ID'");
+
+if ($_Module_Private_Message_DB_Query_DELETE_PRIVATE_MESSAGE) {
+											echo ($_Message_Private_Messages_DELETE_SUCCESSFUL);
+} else {
+											echo ($_Message_Private_Messages_DELETE_ERROR);
+} // [ + ] IF_DB_Query_DeleteMessageID
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_Private_Message_DB_Query_DELETE_PRIVATE_MESSAGE);
+
+} // [ + ] IF_DeleteMessageID
+
+/*
+ ===========================
+ +
+ + List Selected Outbox Message
+ +
+ ===========================
+*/
+
+if ($_GET["PrivateMessageID"] == "$_Module_Private_Message_LIST_OUTBOX_PRIVATE_MESSAGE_ID") {
+
+echo ("
+											<B>Message Subject</B>: $_Module_Private_Message_LIST_OUTBOX_PRIVATE_MESSAGE_SUBJECT<BR>________________________<BR><BR>
+											<B>Message</B>:<BR><I>$_Module_Private_Message_LIST_OUTBOX_PRIVATE_MESSAGE_DATA</I><HR>
+											<B>Sent</B>: $_Module_Private_Message_LIST_OUTBOX_PRIVATE_MESSAGE_SENT_TIME - <B>From</B>: [ <A HREF=\"?$_INTERNAL_USER_MODULE&#61;Profile&amp;Name&#61;$_Module_Private_Message_LIST_OUTBOX_PRIVATE_MESSAGE_FROM\" TITLE=\"Profile :: $_Module_Private_Message_LIST_OUTBOX_PRIVATE_MESSAGE_FROM\">$_Module_Private_Message_LIST_OUTBOX_PRIVATE_MESSAGE_FROM</A> - <A HREF=\"?$_INTERNAL_USER_MODULE&#61;Private_Message&amp;DeleteMessageID&#61;$_Module_Private_Message_LIST_OUTBOX_PRIVATE_MESSAGE_ID\" TITLE=\"Delete :: $_Module_Private_Message_LIST_OUTBOX_PRIVATE_MESSAGE_SUBJECT\">Delete</A> ]
+");
+
+} // [ + ] IF_DisplayMessageID
+
+} // [ + ] WHILE_ARRAY
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_Private_Message_DB_Query_SELECT_PRIVATE_MESSAGES_OUTBOX);
+?>

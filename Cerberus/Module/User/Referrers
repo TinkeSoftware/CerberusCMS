@@ -1,0 +1,84 @@
+<?php
+/*
+ ===========================================================================================
+ + Cerberus Content Management System.
+ + ---
+ + - Author : Gary Christopher Johnson
+ + - E-Mail : TinkeSoftware@Protonmail.com // GCJohnsonChevalier@Protonmail.com
+ + - Company: Tinke Software
+ + - Notes  : View this file in a non-formatting text editor for correct indentation display
+ + ---
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ + ---
+ + - File Location: root->Module->User->Referrers
+ + - File Version:  0.4 - Sunday, September, 08, 2019.
+ + ---
+ +%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ +%%%()()%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()()()%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%/-\%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%|4|%  ~ Wyn ~
+ +%%%()()%%()()()%%()%%()%%()()()%%()()()%%()%%()%%()()()%%()()()%%%%%%%%%%%%\-/% Build 0.6
+ ===========================================================================================
+*/
+
+/*
+ ===========================
+ +
+ +
+ + Referrers
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Specify Referrer Log File
+ ===========================
+*/
+
+$_Module_Referrers_SPECIFY_REFERRER_LOG_FILE 				= "System/Log/User/Log_User.html";
+
+/*
+ ===========================
+ + If FileSize Is Greater Than, Delete
+ ===========================
+*/
+
+if (filesize($_Module_Referrers_SPECIFY_REFERRER_LOG_FILE) > 1024*1400) {
+
+	unlink($_Module_Referrers_SPECIFY_REFERRER_LOG_FILE);
+
+} // [ + ] IF_REFERRER_FILESIZE
+
+/*
+ ===========================
+ + If Log File Exists, Include
+ ===========================
+*/
+
+if (file_exists($_Module_Referrers_SPECIFY_REFERRER_LOG_FILE)) {
+
+											echo ($_Message_Referrers_Header);
+
+											include_once "$_Module_Referrers_SPECIFY_REFERRER_LOG_FILE";
+
+} else {
+											echo ("<CENTER>[ <A HREF=\"?$_INTERNAL_USER_MODULE&#61;Referrers\" TITLE=\"Refresh Page\">Refresh Log</A> ]</CENTER>");
+} // [ + ] IF_REFERRER_FILE_EXISTS
+?>

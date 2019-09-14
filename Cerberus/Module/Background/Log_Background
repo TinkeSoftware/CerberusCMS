@@ -1,0 +1,128 @@
+<?php
+/*
+ ===========================================================================================
+ + Cerberus Content Management System.
+ + ---
+ + - Author : Gary Christopher Johnson
+ + - E-Mail : TinkeSoftware@Protonmail.com // GCJohnsonChevalier@Protonmail.com
+ + - Company: Tinke Software
+ + - Notes  : View this file in a non-formatting text editor for correct indentation display
+ + ---
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ + ---
+ + - File Location: root->Module->Background->Log_Background
+ + - File Version:  0.4 - Sunday, September, 08, 2019.
+ + ---
+ +%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ +%%%()()%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()()()%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%/-\%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%|4|%  ~ Wyn ~
+ +%%%()()%%()()()%%()%%()%%()()()%%()()()%%()%%()%%()()()%%()()()%%%%%%%%%%%%\-/% Build 0.6
+ ===========================================================================================
+*/
+
+/*
+ ===========================
+ +
+ +
+ + Log Background
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Fetch Statistics Data
+ ===========================
+*/
+
+$_Log_Background_DB_Query_SELECT_STATISTICS 			= $DB->query("SELECT * FROM {$_ACCESS_DATABASE_PREFIX}_statistics");
+$_Log_Background_DB_Query_SELECT_STATISTICS_Fetch_Array 		= $DB->fetch_array($_Log_Background_DB_Query_SELECT_STATISTICS);
+
+/*
+ ===========================
+ + Increment Page Hits
+ ===========================
+*/
+
+$_Log_Background_LIST_STATISTICS_NUMBER_OF_HITS 			= $_Log_Background_DB_Query_SELECT_STATISTICS_Fetch_Array['statistics_number_of_hits'];
+$_Log_Background_LIST_STATISTICS_NUMBER_OF_HITS_INCREMENT 		= $_Log_Background_LIST_STATISTICS_NUMBER_OF_HITS + 1;
+
+$_Log_Background_DB_Query_UPDATE_STATISTICS			= $DB->query("UPDATE {$_ACCESS_DATABASE_PREFIX}_statistics SET statistics_number_of_hits='$_Log_Background_LIST_STATISTICS_NUMBER_OF_HITS_INCREMENT' WHERE id='1'");
+
+/*
+ ===========================
+ + Update Statistics Data
+ ===========================
+*/
+
+if ($_Log_Background_DB_Query_UPDATE_STATISTICS) {
+/**
+ * Do Nothing
+**/
+} else {
+											echo ($_Message_Log_Background_ERROR_SQL_STATISTICS);
+} // [ + ] IF_QUERY
+
+/*
+ ===========================
+ + Update Member, Last Active
+ ===========================
+*/
+
+if ($_GLOBAL_USERNAME != null) {
+
+$_Log_Background_DATE 						= date("HdmY");
+
+$_Log_Background_DB_Query_UPDATE_MEMBERS				= $DB->query("UPDATE {$_ACCESS_DATABASE_PREFIX}_members SET member_online_status='$_Log_Background_DATE' WHERE member_username='$_GLOBAL_USERNAME'");
+
+if ($_Log_Background_DB_Query_UPDATE_MEMBERS) {
+/**
+ * Do Nothing
+**/
+} else {
+											echo ($_Message_Log_Background_ERROR_SQL_MEMBERS);
+} // [ + ] IF_QUERY
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Log_Background_DB_Query_UPDATE_MEMBERS);
+
+} // [ + ] IF_DB_Query_UPDATE_MEMBERS
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Log_Background_DB_Query_SELECT_STATISTICS);
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Log_Background_DB_Query_UPDATE_STATISTICS);
+?>

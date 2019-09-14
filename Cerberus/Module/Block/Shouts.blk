@@ -1,0 +1,105 @@
+<?php
+/*
+ ===========================================================================================
+ + Cerberus Content Management System.
+ + ---
+ + - Author : Gary Christopher Johnson
+ + - E-Mail : TinkeSoftware@Protonmail.com // GCJohnsonChevalier@Protonmail.com
+ + - Company: Tinke Software
+ + - Notes  : View this file in a non-formatting text editor for correct indentation display
+ + ---
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ + ---
+ + - File Location: root->Module->Block->Shouts.blk
+ + - File Version:  0.4 - Sunday, September, 08, 2019.
+ + ---
+ +%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ +%%%()()%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()()()%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%/-\%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%|4|%  ~ Wyn ~
+ +%%%()()%%()()()%%()%%()%%()()()%%()()()%%()%%()%%()()()%%()()()%%%%%%%%%%%%\-/% Build 0.6
+ ===========================================================================================
+*/
+
+/*
+ ===========================
+ +
+ +
+ + Shouts Block
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Retrieve Shout Entries
+ ===========================
+*/
+
+$_Block_Shouts_DB_Query_SELECT_SHOUTS		= $DB->query("SELECT * FROM {$_ACCESS_DATABASE_PREFIX}_shouts ORDER BY id DESC LIMIT 10");
+
+/*
+ ===========================
+ + If No Entries Exist
+ ===========================
+*/
+
+if ($DB->num_rows($_Block_Shouts_DB_Query_SELECT_SHOUTS) <= 0) {
+
+											echo ("No Shout(s) Exist.<BR><BR>");
+
+} else {
+
+/*
+ ===========================
+ + List Shout Entries
+ ===========================
+*/
+
+while ($_Block_Shouts_DB_Query_SELECT_SHOUTS_Fetch_Array = $DB->fetch_array($_Block_Shouts_DB_Query_SELECT_SHOUTS)) {
+
+$_Module_Shout_LIST_SHOUT_ID			= $_Block_Shouts_DB_Query_SELECT_SHOUTS_Fetch_Array['id'];
+$_Module_Shout_LIST_SHOUT_AUTHOR			= $_Block_Shouts_DB_Query_SELECT_SHOUTS_Fetch_Array['shout_author'];
+$_Module_Shout_LIST_SHOUT_DATA			= $_Block_Shouts_DB_Query_SELECT_SHOUTS_Fetch_Array['shout_data'];
+$_Module_Shout_LIST_SHOUT_TIME			= $_Block_Shouts_DB_Query_SELECT_SHOUTS_Fetch_Array['shout_time'];
+
+											echo ("<A HREF=\"?$_INTERNAL_USER_MODULE&#61;Profile&amp;Name&#61;$_Module_Shout_LIST_SHOUT_AUTHOR\" TITLE=\"View Profile For :: $_Module_Shout_LIST_SHOUT_AUTHOR\">$_Module_Shout_LIST_SHOUT_AUTHOR</A> Wrote:<BR><I><B>$_Module_Shout_LIST_SHOUT_DATA</B></I><BR><B>$_Module_Shout_LIST_SHOUT_TIME</B><BR><BR>");
+
+} // [ + ] WHILE_SHOUTS
+
+} // [ + ] IF_NUMBER_OF_ROWS
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Block_Shouts_DB_Query_SELECT_SHOUTS);
+
+echo ("
+											<FORM ACTION=\"?$_INTERNAL_USER_MODULE&#61;All_Shouts\" METHOD=\"post\">
+												Message:<BR>
+													<INPUT TYPE=\"text\" NAME=\"post_shout_message\" MAXLENGTH=\"250\"><BR>
+													<INPUT TYPE=\"submit\" VALUE=\"Post Shout\">
+											</FORM>
+											<BR>
+											<CENTER>[ <A HREF=\"?$_INTERNAL_USER_MODULE&#61;All_Shouts\" TITLE=\"View All Shout Messages\">View All</A> ]</CENTER>
+");
+?>

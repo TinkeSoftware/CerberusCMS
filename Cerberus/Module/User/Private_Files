@@ -1,0 +1,256 @@
+<?php
+/*
+ ===========================================================================================
+ + Cerberus Content Management System.
+ + ---
+ + - Author : Gary Christopher Johnson
+ + - E-Mail : TinkeSoftware@Protonmail.com // GCJohnsonChevalier@Protonmail.com
+ + - Company: Tinke Software
+ + - Notes  : View this file in a non-formatting text editor for correct indentation display
+ + ---
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ + ---
+ + - File Location: root->Module->User->Private_Files
+ + - File Version:  0.4 - Sunday, September, 08, 2019.
+ + ---
+ +%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ +%%%()()%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()()()%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%/-\%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%|4|%  ~ Wyn ~
+ +%%%()()%%()()()%%()%%()%%()()()%%()()()%%()%%()%%()()()%%()()()%%%%%%%%%%%%\-/% Build 0.6
+ ===========================================================================================
+*/
+
+/*
+ ===========================
+ +
+ +
+ + Private Files
+ +
+ +
+ ===========================
+*/
+
+											echo ("$_Message_Private_Files_Header");
+
+/*
+ ===========================
+ +
+ + Read Member Directory
+ +
+ ===========================
+*/
+
+$_Module_Private_Files_SPECIFY_MEMBER_DIRECTORY			= "Member/$_GLOBAL_USERNAME/";
+$_Module_Private_Files_OPEN_MEMBER_DIRECTORY			= opendir($_Module_Private_Files_SPECIFY_MEMBER_DIRECTORY);
+
+$_Module_Private_Files_POST_DELETE_FILE				= $_POST['post_delete_file'];
+$_Module_Private_Files_MAXIMUM_UPLOAD_SIZE			= $_GLOBAL_UPLOAD_SIZE_PRIVATE / 1024;
+
+/*
+ ===========================
+ +
+ + List Member Files
+ +
+ ===========================
+*/
+
+if (!$_Module_Private_Files_POST_DELETE_FILE) {
+
+echo ("
+											<FORM ACTION=\"?$_INTERNAL_USER_MODULE&#61;Private_Files\" METHOD=\"post\">
+												<B>Delete:</B><HR>
+													<SELECT NAME=\"post_delete_file\">
+");
+
+while (($_Module_Private_Files_READ_MEMBER_DIRECTORY = readdir($_Module_Private_Files_OPEN_MEMBER_DIRECTORY))) {
+
+if ($_Module_Private_Files_READ_MEMBER_DIRECTORY == "." || $_Module_Private_Files_READ_MEMBER_DIRECTORY == ".." || $_Module_Private_Files_READ_MEMBER_DIRECTORY == "Friend" || $_Module_Private_Files_READ_MEMBER_DIRECTORY == "E-Mail" || $_Module_Private_Files_READ_MEMBER_DIRECTORY == "index.html") {
+/**
+ * Do Nothing
+**/
+} else {
+
+														echo ("<OPTION VALUE=\"$_Module_Private_Files_READ_MEMBER_DIRECTORY\">$_Module_Private_Files_READ_MEMBER_DIRECTORY</OPTION>");
+
+} // [ + ] IF_NOT_DIRECTORY || FILE
+
+} // [ + ] WHILE_DIRECTORY
+
+/*
+ ===========================
+ + Close Directory
+ ===========================
+*/
+
+closedir($_Module_Private_Files_OPEN_MEMBER_DIRECTORY);
+
+echo ("
+													</SELECT><BR>
+												<INPUT TYPE=\"submit\" VALUE=\"Delete File\">
+											</FORM>
+");
+
+} else {
+
+/*
+ ===========================
+ + Delete Selected File
+ ===========================
+*/
+
+if (unlink("Member/$_GLOBAL_USERNAME/$_Module_Private_Files_POST_DELETE_FILE")) {
+
+											echo ($_Message_Private_Files_DELETE_SUCCESSFUL);
+
+} else {
+											echo ($_Message_Private_Files_DELETE_ERROR);
+} // [ + ] IF_DELETE_SELECTED_FILE
+
+} // [ + ] IF_NULL
+
+/*
+ ===========================
+ +
+ + Upload File
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Specify Upload Variables
+ ===========================
+*/
+
+$_Module_Private_Files_SPECIFY_UPLOAD_DIRECTORY			= "./Temporary/";
+$_Module_Private_Files_UPLOAD_FILE 				= $_Module_Private_Files_SPECIFY_UPLOAD_DIRECTORY . basename($_FILES['post_upload_file']['name']);
+
+/*
+ ===========================
+ + Allowed File Extensions
+ ===========================
+*/
+
+$_Module_Private_Files_UPLOAD_ALLOWED_FILE_EXTENSIONS		= "jpg gif png bmp";
+$_Module_Private_Files_POST_UPLOAD_TEMPORARY			= $_POST['post_upload_temporary'];
+
+/*
+ ===========================
+ + Explode File Data For Upload
+ ===========================
+*/
+
+$_Module_Private_Files_POST_UPLOAD_PATH_INFO 			= pathinfo($_FILES['post_upload_file']['name']);
+$_Module_Private_Files_POST_UPLOAD_EXTENSION 			= $_Module_Private_Files_POST_UPLOAD_PATH_INFO['extension'];
+$_Module_Private_Files_POST_UPLOAD_BASENAME			= $_Module_Private_Files_POST_UPLOAD_PATH_INFO['basename'];
+$_Module_Private_Files_POST_UPLOAD_EXPLODE			= explode(" ", $_Module_Private_Files_UPLOAD_ALLOWED_FILE_EXTENSIONS);
+
+/*
+ ===========================
+ + Upload File Form
+ ===========================
+*/
+
+if (!$_Module_Private_Files_POST_UPLOAD_TEMPORARY) {
+
+echo ("
+											<FORM ACTION=\"?$_INTERNAL_USER_MODULE&#61;Private_Files\" METHOD=\"post\" ENCTYPE=\"multipart/form-data\">
+												<BR><B>Upload [ Maximum File Size: $_Module_Private_Files_MAXIMUM_UPLOAD_SIZE KB ]:</B>
+											<HR>
+													<INPUT TYPE=\"hidden\" NAME=\"post_upload_temporary\" VALUE=\"1\">
+													<INPUT TYPE=\"file\" NAME=\"post_upload_file\"><BR>
+												<INPUT TYPE=\"submit\" VALUE=\"Upload File\">
+											</FORM>
+");
+
+} else {
+
+/*
+ ===========================
+ + If File Data Exploded, Increment
+ ===========================
+*/
+
+for ($i = 0; $i < count($_Module_Private_Files_POST_UPLOAD_EXPLODE); $i++) {
+
+/*
+ ===========================
+ + If File Is Allowed, Prepare Variable
+ ===========================
+*/
+
+if ($_Module_Private_Files_POST_UPLOAD_EXPLODE[$i] == "$_Module_Private_Files_POST_UPLOAD_EXTENSION") {
+
+$_Module_Private_Files_OK_FOR_UPLOAD 				= "1";
+
+} // [ + ] IF_FILE_IS_ALLOWED
+
+} // [ + ] FOR_ALLOWED_INCREMENT
+
+/*
+ ===========================
+ + File Is Allowed, Upload
+ ===========================
+*/
+
+if ($_Module_Private_Files_OK_FOR_UPLOAD == "1") {
+
+	move_uploaded_file($_FILES['post_upload_file']['tmp_name'], $_Module_Private_Files_UPLOAD_FILE);
+
+} else {
+
+/*
+ ===========================
+ + File Is Not Allowed, Delete
+ ===========================
+*/
+
+	unlink($_Module_Private_Files_UPLOAD_FILE);
+
+											echo ($_Message_Private_Files_UPLOAD_ERROR_EXTENSION);
+} // [ + ] EXTENSION_OK
+
+/*
+ ===========================
+ + File Exceeds File Size Restrictions, Delete
+ ===========================
+*/
+
+if (filesize($_Module_Private_Files_UPLOAD_FILE) > $_GLOBAL_UPLOAD_SIZE_PRIVATE) {
+
+	unlink($_Module_Private_Files_UPLOAD_FILE);
+
+											echo ($_Message_Private_Files_UPLOAD_ERROR_FILESIZE);
+} else {
+
+/*
+ ===========================
+ + File Is Allowed, Place File
+ ===========================
+*/
+
+	copy($_Module_Private_Files_UPLOAD_FILE,"Member/$_GLOBAL_USERNAME/$_Module_Private_Files_POST_UPLOAD_BASENAME");
+	unlink($_Module_Private_Files_UPLOAD_FILE);
+
+											echo ($_Message_Private_Files_UPLOAD_SUCCESSFUL);
+
+} // [ + ] IF_FILE_SIZE_TOO_LARGE
+
+} // [ + ] IF_NULL
+?>

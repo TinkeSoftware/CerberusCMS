@@ -1,0 +1,317 @@
+<?php
+/*
+ ===========================================================================================
+ + Cerberus Content Management System.
+ + ---
+ + - Author : Gary Christopher Johnson
+ + - E-Mail : TinkeSoftware@Protonmail.com // GCJohnsonChevalier@Protonmail.com
+ + - Company: Tinke Software
+ + - Notes  : View this file in a non-formatting text editor for correct indentation display
+ + ---
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ + ---
+ + - File Location: root->Module->User->Search
+ + - File Version:  0.4 - Sunday, September, 08, 2019.
+ + ---
+ +%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ +%%%()()%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()()()%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%/-\%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%|4|%  ~ Wyn ~
+ +%%%()()%%()()()%%()%%()%%()()()%%()()()%%()%%()%%()()()%%()()()%%%%%%%%%%%%\-/% Build 0.6
+ ===========================================================================================
+*/
+
+/*
+ ===========================
+ +
+ +
+ + Search
+ +
+ +
+ ===========================
+*/
+
+										echo ($_Message_Search_Header);
+
+$_Module_Search_POST_KEYWORD					= $_POST['post_search_keyword'];
+$_Module_Search_POST_SECTION					= $_POST['post_search_section'];
+$_Module_Search_POST_KEYWORD_REPLACE[0]				= "'";
+$_Module_Search_POST_KEYWORD_REPLACE[1]				= "\"";
+$_Module_Search_POST_KEYWORD_REPLACE_WITH[0]			= "&#39;";
+$_Module_Search_POST_KEYWORD_REPLACE_WITH[0]			= "&quot;";
+$_Module_Search_POST_KEYWORD					= str_replace($_Module_Search_POST_KEYWORD_REPLACE, $_Module_Search_POST_KEYWORD_REPLACE_WITH, $_Module_Search_POST_KEYWORD);
+
+if ((!$_Module_Search_POST_KEYWORD) || (!$_Module_Search_POST_SECTION)) {
+
+echo ("
+										<FORM ACTION=\"?$_INTERNAL_USER_MODULE&#61;Search\" METHOD=\"POST\">
+											Keyword(s):<BR>
+												<INPUT TYPE=\"TEXT\" NAME=\"post_search_keyword\"><BR>
+											Section:<BR>
+												<SELECT NAME=\"post_search_section\">
+													<OPTION VALUE=\"1\">Articles</OPTION>
+													<OPTION VALUE=\"2\">Files</OPTION>
+													<OPTION VALUE=\"3\">Forum</OPTION>
+													<OPTION VALUE=\"4\">Members</OPTION>
+													<OPTION VALUE=\"5\">News</OPTION>
+												</SELECT><BR>
+											<INPUT TYPE=\"SUBMIT\" VALUE=\"Search\">
+										</FORM>
+");
+} else {
+
+										echo ("<B>Search Result(s) For</B>: <I>$_Module_Search_POST_KEYWORD</I><BR>");
+
+/*
+ ===========================
+ +
+ + SECTION 1: Articles
+ +
+ ===========================
+*/
+
+if ($_Module_Search_POST_SECTION == 1) {
+
+$_Module_Search_DB_Query_SEARCH_ARTICLES				= $DB->query("SELECT * FROM {$_ACCESS_DATABASE_PREFIX}_articles WHERE article_data LIKE '%$_Module_Search_POST_KEYWORD%' ORDER BY id ASC");
+
+if ($DB->num_rows($_Module_Search_DB_Query_SEARCH_ARTICLES) <= 0) {
+
+										echo ($_Message_Search_RESULTS_ARTICLE_NONE);
+
+} else {
+
+while ($_Module_Search_DB_Query_SEARCH_ARTICLES_Fetch_Array = $DB->fetch_array($_Module_Search_DB_Query_SEARCH_ARTICLES)) {
+
+$_Module_Search_LIST_ARTICLE_ID 					= $_Module_Search_DB_Query_SEARCH_ARTICLES_Fetch_Array['id'];
+$_Module_Search_LIST_ARTICLE_DATA 				= $_Module_Search_DB_Query_SEARCH_ARTICLES_Fetch_Array['article_data'];
+$_Module_Search_LIST_ARTICLE_TITLE 				= $_Module_Search_DB_Query_SEARCH_ARTICLES_Fetch_Array['article_title'];
+$_Module_Search_LIST_ARTICLE_DATA_REDUCED 			= substr($_Module_Search_LIST_ARTICLE_DATA, 0, 30);
+
+echo ("
+										<CENTER>
+											<TABLE WIDTH=\"100%\" CELLPADDING=\"0\" CELLSPACING=\"0\" BORDER=\"1\">
+												<TR>
+													<TD WIDTH=\"100%\"><A HREF=\"?$_INTERNAL_USER_MODULE&#61;Articles&amp;DisplayID&#61;$_Module_Search_LIST_ARTICLE_ID\" TITLE=\"View Article\">$_Module_Search_LIST_ARTICLE_TITLE</A><BR>__________________________________<BR>$_Module_Search_LIST_ARTICLE_DATA_REDUCED...</TD>
+												</TR>
+											</TABLE>
+										</CENTER><BR>
+");
+
+} // [ + ] WHILE_ARRAY
+
+} // [ + ] IF_NUMBER_OF_ROWS
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_Search_DB_Query_SEARCH_ARTICLES);
+
+} // [ + ] IF_SECTION_1
+
+/*
+ ===========================
+ +
+ + SECTION 2: Files
+ +
+ ===========================
+*/
+
+if ($_Module_Search_POST_SECTION == 2) {
+
+$_Module_Search_DB_Query_SEARCH_FILES				= $DB->query("SELECT * FROM {$_ACCESS_DATABASE_PREFIX}_files WHERE file_description LIKE '%$_Module_Search_POST_KEYWORD%' ORDER BY id ASC");
+
+if ($DB->num_rows($_Module_Search_DB_Query_SEARCH_FILES) <= 0) {
+
+										echo ($_Message_Search_RESULTS_FILE_NONE);
+
+} else {
+
+while ($_Module_Search_DB_Query_SEARCH_FILES_Fetch_Array = $DB->fetch_array($_Module_Search_DB_Query_SEARCH_FILES)) {
+
+$_Module_Search_LIST_FILE_ID					= $_Module_Search_DB_Query_SEARCH_FILES_Fetch_Array['id'];
+$_Module_Search_LIST_FILE_DATA					= $_Module_Search_DB_Query_SEARCH_FILES_Fetch_Array['file_description'];
+$_Module_Search_LIST_FILE_TITLE					= $_Module_Search_DB_Query_SEARCH_FILES_Fetch_Array['file_title'];
+$_Module_Search_LIST_FILE_DATA_REDUCED				= substr($_Module_Search_LIST_FILE_DATA, 0, 30);
+
+echo ("
+										<CENTER>
+											<TABLE WIDTH=\"100%\" CELLPADDING=\"0\" CELLSPACING=\"0\" BORDER=\"1\">
+												<TR>
+													<TD WIDTH=\"100%\"><A HREF=\"?$_INTERNAL_USER_MODULE&#61;Files&amp;FileID&#61;$_Module_Search_LIST_FILE_ID\" TITLE=\"View File\">$_Module_Search_LIST_FILE_TITLE</A><BR>__________________________________<BR>$_Module_Search_LIST_FILE_DATA_REDUCED...</TD>
+												</TR>
+											</TABLE>
+										</CENTER><BR>
+");
+
+} // [ + ] WHILE_ARRAY
+
+} // [ + ] IF_NUMBER_OF_ROWS
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_Search_DB_Query_SEARCH_FILES);
+
+} // [ + ] IF_SECTION_2
+
+/*
+ ===========================
+ +
+ + SECTION 3: Forum
+ +
+ ===========================
+*/
+
+if ($_Module_Search_POST_SECTION == 3) {
+
+$_Module_Search_DB_Query_SEARCH_FORUM 				= $DB->query("SELECT * FROM {$_ACCESS_DATABASE_PREFIX}_forum_post WHERE post_data LIKE '%$_Module_Search_POST_KEYWORD%' ORDER BY id ASC");
+
+if ($DB->num_rows($_Module_Search_DB_Query_SEARCH_FORUM) <= 0) {
+
+										echo ($_Message_Search_RESULTS_FORUM_NONE);
+
+} else {
+
+while ($_Module_Search_DB_Query_SEARCH_FORUM_Fetch_Array = $DB->fetch_array($_Module_Search_DB_Query_SEARCH_FORUM)) {
+
+$_Module_Search_LIST_FORUM_ID					= $_Module_Search_DB_Query_SEARCH_FORUM_Fetch_Array['post_topic_id'];
+$_Module_Search_LIST_FORUM_AUTHOR					= $_Module_Search_DB_Query_SEARCH_FORUM_Fetch_Array['post_author'];
+$_Module_Search_LIST_FORUM_DATA					= $_Module_Search_DB_Query_SEARCH_FORUM_Fetch_Array['post_data'];
+$_Module_Search_LIST_FORUM_DATA_REDUCED				= substr($_Module_Search_LIST_FORUM_DATA, 0, 30);
+
+echo ("
+										<CENTER>
+											<TABLE WIDTH=\"100%\" CELLPADDING=\"0\" CELLSPACING=\"0\" BORDER=\"1\">
+												<TR>
+													<TD WIDTH=\"100%\"><A HREF=\"?$_INTERNAL_USER_MODULE&#61;Forum&amp;TopicID&#61;$_Module_Search_LIST_FORUM_ID\" TITLE=\"View Topic &amp; Post\">$_Module_Search_LIST_FORUM_AUTHOR</A> Wrote:<BR>__________________________________<BR>$_Module_Search_LIST_FORUM_DATA_REDUCED...</TD>
+												</TR>
+											</TABLE>
+										</CENTER><BR>
+");
+
+} // [ + ] WHILE_ARRAY
+
+} // [ + ] IF_NUMBER_OF_ROWS
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_Search_DB_Query_SEARCH_FORUM);
+
+} // [ + ] IF_SECTION_3
+
+/*
+ ===========================
+ +
+ + SECTION 4: Members
+ +
+ ===========================
+*/
+
+if ($_Module_Search_POST_SECTION == 4) {
+
+$_Module_Search_DB_Query_SEARCH_MEMBERS 				= $DB->query("SELECT * FROM {$_ACCESS_DATABASE_PREFIX}_members WHERE member_username LIKE '%$_Module_Search_POST_KEYWORD%' ORDER BY id ASC");
+
+if ($DB->num_rows($_Module_Search_DB_Query_SEARCH_MEMBERS) <= 0) {
+
+										echo ($_Message_Search_RESULTS_MEMBER_NONE);
+
+} else {
+
+while ($_Module_Search_DB_Query_SEARCH_MEMBERS_Fetch_Array = $DB->fetch_array($_Module_Search_DB_Query_SEARCH_MEMBERS)) {
+
+$_Module_Search_LIST_MEMBER_USERNAME				= $_Module_Search_DB_Query_SEARCH_MEMBERS_Fetch_Array['member_username'];
+
+echo ("
+										<CENTER>
+											<TABLE WIDTH=\"100%\" CELLPADDING=\"0\" CELLSPACING=\"0\" BORDER=\"1\">
+												<TR>
+													<TD WIDTH=\"100%\"><A HREF=\"?$_INTERNAL_USER_MODULE&#61;Profile&amp;Name&#61;$_Module_Search_LIST_MEMBER_USERNAME\" TITLE=\"View Profile\">$_Module_Search_LIST_MEMBER_USERNAME</A></TD>
+												</TR>
+											</TABLE>
+										</CENTER>
+");
+
+} // [ + ] WHILE_ARRAY
+
+} // [ + ] IF_NUMBER_OF_ROWS
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_Search_DB_Query_SEARCH_MEMBERS);
+
+} // [ + ] IF_SECTION_4
+
+/*
+ ===========================
+ +
+ + SECTION 5: News
+ +
+ ===========================
+*/
+
+if ($_Module_Search_POST_SECTION == 5) {
+
+$_Module_Search_DB_Query_SEARCH_NEWS 				= $DB->query("SELECT * FROM {$_ACCESS_DATABASE_PREFIX}_news WHERE news_data LIKE '%$_Module_Search_POST_KEYWORD%' ORDER BY id ASC");
+
+if ($DB->num_rows($_Module_Search_DB_Query_SEARCH_NEWS) <= 0) {
+
+										echo ($_Message_Search_RESULTS_NEWS_NONE);
+
+} else {
+
+while ($_Module_Search_DB_Query_SEARCH_NEWS_Fetch_Array = $DB->fetch_array($_Module_Search_DB_Query_SEARCH_NEWS)) {
+
+$_Module_Search_LIST_NEWS_ID					= $_Module_Search_DB_Query_SEARCH_NEWS_Fetch_Array['id'];
+$_Module_Search_LIST_NEWS_DATA					= $_Module_Search_DB_Query_SEARCH_NEWS_Fetch_Array['news_data'];
+$_Module_Search_LIST_NEWS_TITLE					= $_Module_Search_DB_Query_SEARCH_NEWS_Fetch_Array['news_title'];
+$_Module_Search_LIST_NEWS_DATA_REDUCED				= substr($_Module_Search_LIST_NEWS_DATA, 0, 30);
+
+echo ("
+										<CENTER>
+											<TABLE WIDTH=\"100%\" CELLPADDING=\"0\" CELLSPACING=\"0\" BORDER=\"1\">
+												<TR>
+													<TD WIDTH=\"100%\"><A HREF=\"?$_INTERNAL_USER_MODULE&#61;All_News&amp;DisplayID&#61;$_Module_Search_LIST_NEWS_ID\" TITLE=\"View News\">$_Module_Search_LIST_NEWS_TITLE</A><BR>__________________________________<BR>$_Module_Search_LIST_NEWS_DATA_REDUCED...</TD>
+												</TR>
+											</TABLE>
+										</CENTER><BR>
+");
+
+} // [ + ] WHILE_ARRAY
+
+} // [ + ] IF_NUMBER_OF_ROWS
+
+$DB->free($_Module_Search_DB_Query_SEARCH_NEWS);
+
+} // [ + ] IF_SECTION_5
+
+} // [ + ] IF_POST
+?>

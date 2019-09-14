@@ -1,0 +1,236 @@
+<?php
+/*
+ ===========================================================================================
+ + Cerberus Content Management System.
+ + ---
+ + - Author : Gary Christopher Johnson
+ + - E-Mail : TinkeSoftware@Protonmail.com // GCJohnsonChevalier@Protonmail.com
+ + - Company: Tinke Software
+ + - Notes  : View this file in a non-formatting text editor for correct indentation display
+ + ---
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ + ---
+ + - File Location: root->Module->User->List
+ + - File Version:  0.4 - Sunday, September, 08, 2019.
+ + ---
+ +%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ +%%%()()%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()()()%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%/-\%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%|4|%  ~ Wyn ~
+ +%%%()()%%()()()%%()%%()%%()()()%%()()()%%()%%()%%()()()%%()()()%%%%%%%%%%%%\-/% Build 0.6
+ ===========================================================================================
+*/
+
+											echo ($_Message_List_Header);
+
+/*
+ ===========================
+ +
+ +
+ + List
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ +
+ + List All
+ +
+ ===========================
+*/
+
+if ($_GET["Display"] == "List") {
+
+											echo ("<CENTER><A HREF=\"?$_INTERNAL_USER_MODULE&#61;List&amp;Display&#61;Avatars\" TITLE=\"Display Avatars\">Avatars</A> :: <A HREF=\"?$_INTERNAL_USER_MODULE&#61;List&amp;Display&#61;Smileys\" TITLE=\"Display Smiley Codes\">Smiley Codes</A> :: <A HREF=\"?$_INTERNAL_USER_MODULE&#61;List&amp;Display&#61;MyFiles\" TITLE=\"Display My Personal Files\">My Files</A> :: <A HREF=\"?$_INTERNAL_USER_MODULE&#61;List&amp;Display&#61;Ranks\" TITLE=\"Display Ranks\">Ranks</A> :: <A HREF=\"?$_INTERNAL_USER_MODULE&#61;List&amp;Display&#61;SafeHTML\" TITLE=\"Display Safe-HTML Codes\">Safe-HTML Codes</A></CENTER>");
+} // [ + ] IF_DISPLAY_LIST
+
+/*
+ ===========================
+ +
+ + Display Avatars
+ +
+ ===========================
+*/
+
+if ($_GET["Display"] == "Avatars") {
+
+											echo ($_Message_List_Header_AVATARS);
+
+$_Module_List_SPECIFY_AVATAR_DIRECTORY				= "Theme/$_GLOBAL_THEME_DIRECTORY/Image/Icon_Avatar/";
+$_Module_List_OPEN_AVATAR_DIRECTORY				= opendir($_Module_List_SPECIFY_AVATAR_DIRECTORY);
+
+while (($_Module_List_READ_AVATAR_DIRECTORY = readdir($_Module_List_OPEN_AVATAR_DIRECTORY))) {
+
+if ($_Module_List_READ_AVATAR_DIRECTORY == "." || $_Module_List_READ_AVATAR_DIRECTORY == ".." || $_Module_List_READ_AVATAR_DIRECTORY == "index.php") {
+/**
+ * Do Nothing
+**/
+} else {
+
+											echo ("<A HREF=\"Theme/$_GLOBAL_THEME_DIRECTORY/Image/Icon_Avatar/$_Module_List_READ_AVATAR_DIRECTORY\" TITLE=\"Open File :: $_Module_List_READ_AVATAR_DIRECTORY\"><IMG SRC=\"Theme/$_GLOBAL_THEME_DIRECTORY/Image/Icon_Avatar/$_Module_List_READ_AVATAR_DIRECTORY\" ALT=\"$_Module_List_READ_AVATAR_DIRECTORY\"></A>&nbsp;");
+
+} // [ + ] IF_NOT_DIRECTORY || FILE
+
+} // [ + ] WHILE_DIRECTORY
+
+/*
+ ===========================
+ + Close Directory
+ ===========================
+*/
+
+closedir($_Module_List_OPEN_AVATAR_DIRECTORY);
+
+} // [ + ] IF_Display_Avatars
+
+/*
+ ===========================
+ +
+ + Display Smileys
+ +
+ ===========================
+*/
+
+if ($_GET["Display"] == "Smileys") {
+
+											echo ($_Message_List_Header_SMILEYS);
+
+$_Module_List_SPECIFY_SMILEYS_DIRECTORY				= "System/Smiley/$_GLOBAL_SMILES_DIRECTORY/";
+$_Module_List_OPEN_SMILEYS_DIRECTORY				= opendir($_Module_List_SPECIFY_SMILEYS_DIRECTORY);
+
+while (($_Module_List_READ_SMILEYS_DIRECTORY = readdir($_Module_List_OPEN_SMILEYS_DIRECTORY))) {
+
+if ($_Module_List_READ_SMILEYS_DIRECTORY == "." || $_Module_List_READ_SMILEYS_DIRECTORY == ".." || $_Module_List_READ_SMILEYS_DIRECTORY == "index.php") {
+/**
+ * Do Nothing
+**/
+} else {
+
+											echo ("<A HREF=\"System/Smiley/$_GLOBAL_SMILES_DIRECTORY/$_Module_List_READ_SMILEYS_DIRECTORY\" TITLE=\"Open File :: $_Module_List_READ_SMILEYS_DIRECTORY\"><IMG SRC=\"System/Smiley/$_GLOBAL_SMILES_DIRECTORY/$_Module_List_READ_SMILEYS_DIRECTORY\" ALT=\"$_Module_List_READ_SMILEYS_DIRECTORY\"></A>&nbsp;");
+
+} // [ + ] IF_NOT_DIRECTORY || FILE
+
+} // [ + ] WHILE_DIRECTORY
+
+/*
+ ===========================
+ + Close Directory
+ ===========================
+*/
+
+closedir($_Module_List_OPEN_AVATAR_DIRECTORY);
+
+} // [ + ] IF_DISPLAY_SMILEYS
+
+/*
+ ===========================
+ +
+ + Display My Files
+ +
+ ===========================
+*/
+
+if ($_GET["Display"] == "MyFiles") {
+
+if ($_GLOBAL_USERNAME && $_GLOBAL_PASSWORD != null) {
+
+											echo ($_Message_List_Header_MYFILES);
+
+$_Module_List_SPECIFY_MYFILES_DIRECTORY				= "Member/$_GLOBAL_USERNAME/";
+$_Module_List_OPEN_MYFILES_DIRECTORY				= opendir($_Module_List_SPECIFY_MYFILES_DIRECTORY);
+
+while (($_Module_List_READ_MYFILES_DIRECTORY = readdir($_Module_List_OPEN_MYFILES_DIRECTORY))) {
+
+if ($_Module_List_READ_MYFILES_DIRECTORY == "." || $_Module_List_READ_MYFILES_DIRECTORY == ".." || $_Module_List_READ_MYFILES_DIRECTORY == "Friend" || $_Module_List_READ_MYFILES_DIRECTORY == "E-Mail") {
+/**
+ * Do Nothing
+**/
+} else {
+
+											echo ("<A HREF=\"Member/$_GLOBAL_USERNAME/$_Module_List_READ_MYFILES_DIRECTORY\" TITLE=\"Open File :: $_Module_List_READ_MYFILES_DIRECTORY\">$_Module_List_READ_MYFILES_DIRECTORY</A><BR>");
+
+} // [ + ] IF_NOT_DIRECTORY || FILE
+
+} // [ + ] WHILE_DIRECTORY
+
+/*
+ ===========================
+ + Close Directory
+ ===========================
+*/
+
+closedir($_Module_List_OPEN_MYFILES_DIRECTORY);
+
+} else {
+											echo ($_Message_List_ACCESS_ERROR);
+} // [ + ] IF_MEMBER_CREDENTIALS
+
+} // [ + ] IF_Display_MyFiles
+
+/*
+ ===========================
+ +
+ + Display Ranks
+ +
+ ===========================
+*/
+
+if ($_GET["Display"] == "Ranks") {
+
+$_Module_List_DB_Query_SELECT_RANKS				= $DB->query("SELECT * FROM {$_ACCESS_DATABASE_PREFIX}_ranks");
+
+while ($_Module_List_DB_Query_SELECT_RANKS_Fetch_Array = $DB->fetch_array($_Module_List_DB_Query_SELECT_RANKS)) {
+
+$_Module_Ranks_LIST_RANK_1						= $_Module_List_DB_Query_SELECT_RANKS_Fetch_Array['rank_1'];
+$_Module_Ranks_LIST_RANK_2						= $_Module_List_DB_Query_SELECT_RANKS_Fetch_Array['rank_2'];
+$_Module_Ranks_LIST_RANK_3						= $_Module_List_DB_Query_SELECT_RANKS_Fetch_Array['rank_3'];
+$_Module_Ranks_LIST_RANK_4						= $_Module_List_DB_Query_SELECT_RANKS_Fetch_Array['rank_4'];
+$_Module_Ranks_LIST_RANK_5						= $_Module_List_DB_Query_SELECT_RANKS_Fetch_Array['rank_5'];
+
+											echo ($_Message_List_Header_RANKS);
+
+											echo ("Rank #1: $_Module_Ranks_LIST_RANK_1<BR>Rank #2: $_Module_Ranks_LIST_RANK_2<BR>Rank #3: $_Module_Ranks_LIST_RANK_3<BR>Rank #4: $_Module_Ranks_LIST_RANK_4<BR>Rank #5: $_Module_Ranks_LIST_RANK_5");
+
+} // [ + ] WHILE_ARRAY
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_List_DB_Query_SELECT_RANKS);
+
+} // [ + ] IF_Display_Ranks
+
+/*
+ ===========================
+ +
+ + Display SafeHTML Code
+ +
+ ===========================
+*/
+
+if ($_GET["Display"] == "SafeHTML") {
+											echo ("$_Message_List_Header_SAFEHTML");
+											echo ("$_LIST_SAFEHTML_COMMANDS");
+												
+} // [ + ] IF_Display_SafeHTML
+?>

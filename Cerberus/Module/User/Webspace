@@ -1,0 +1,137 @@
+<?php
+/*
+ ===========================================================================================
+ + Cerberus Content Management System.
+ + ---
+ + - Author : Gary Christopher Johnson
+ + - E-Mail : TinkeSoftware@Protonmail.com // GCJohnsonChevalier@Protonmail.com
+ + - Company: Tinke Software
+ + - Notes  : View this file in a non-formatting text editor for correct indentation display
+ + ---
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ + ---
+ + - File Location: root->Module->User->Webspace
+ + - File Version:  0.4 - Sunday, September, 08, 2019.
+ + ---
+ +%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ +%%%()()%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()()()%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%/-\%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%|4|%  ~ Wyn ~
+ +%%%()()%%()()()%%()%%()%%()()()%%()()()%%()%%()%%()()()%%()()()%%%%%%%%%%%%\-/% Build 0.6
+ ===========================================================================================
+*/
+
+/*
+ ===========================
+ +
+ +
+ + Webspace
+ +
+ +
+ ===========================
+*/
+											echo ($_Message_Webspace_Header);
+/*
+ ===========================
+ +
+ + Webspace Form Post Data
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Read Webspace Index
+ ===========================
+*/
+
+$_Module_Webspace_SPECIFY_MEMBER_INDEX				= "Member/$_GLOBAL_USERNAME/index.html";
+$_Module_Webspace_OPEN_MEMBER_INDEX_FILE			= fopen($_Module_Webspace_SPECIFY_MEMBER_INDEX, "r");
+$_Module_Webspace_READ_MEMBER_INDEX_FILE			= fread($_Module_Webspace_OPEN_MEMBER_INDEX_FILE, filesize($_Module_Webspace_SPECIFY_MEMBER_INDEX));
+
+/*
+ ===========================
+ + Form Post Variables
+ ===========================
+*/
+
+$_Module_Webspace_POST_WEBSPACE_DATA				= $_POST['post_webspace_data'];
+
+/*
+ ===========================
+ + Character Replace
+ ===========================
+*/
+
+$_Module_Webspace_POST_WEBSPACE_DATA				= stripslashes($_Module_Webspace_POST_WEBSPACE_DATA);
+$_Module_Webspace_POST_WEBSPACE_DATA				= preg_replace("/{/","&#123;", $_Module_Webspace_POST_WEBSPACE_DATA);
+$_Module_Webspace_POST_WEBSPACE_DATA				= preg_replace("/}/","&#125;", $_Module_Webspace_POST_WEBSPACE_DATA);
+$_Module_Webspace_POST_WEBSPACE_DATA				= preg_replace("/<SCRIPT>/","", $_Module_Webspace_POST_WEBSPACE_DATA);
+$_Module_Webspace_POST_WEBSPACE_DATA				= preg_replace("/<\/SCRIPT>/","", $_Module_Webspace_POST_WEBSPACE_DATA);
+$_Module_Webspace_POST_WEBSPACE_DATA				= preg_replace("/<OBJECT>/","", $_Module_Webspace_POST_WEBSPACE_DATA);
+$_Module_Webspace_POST_WEBSPACE_DATA				= preg_replace("/<\/OBJECT>/","", $_Module_Webspace_POST_WEBSPACE_DATA);
+	
+/*
+ ===========================
+ +
+ + Modify Webspace Form
+ +
+ ===========================
+*/
+
+if (!$_Module_Webspace_POST_WEBSPACE_DATA) {
+
+echo ("
+												<FORM ACTION=\"?$_INTERNAL_USER_MODULE&#61;Webspace\" METHOD=\"post\">
+													<TEXTAREA ROWS=\"15\" COLS=\"75\" NAME=\"post_webspace_data\">$_Module_Webspace_READ_MEMBER_INDEX_FILE</TEXTAREA><BR>
+													<INPUT TYPE=\"submit\" VALUE=\"Update Web Page\">
+												</FORM>
+");
+
+/*
+ ===========================
+ + Close Webspace Index File
+ ===========================
+*/
+
+fclose($_Module_Webspace_OPEN_MEMBER_INDEX_FILE);
+
+} else {
+
+$_Module_Webspace_SPECIFY_MEMBER_INDEX_FOR_WRITE		= fopen("Member/$_GLOBAL_USERNAME/index.html", "w");
+
+if (fwrite($_Module_Webspace_SPECIFY_MEMBER_INDEX_FOR_WRITE, $_Module_Webspace_POST_WEBSPACE_DATA)) {
+
+											echo ($_Message_Webspace_UPDATE_SUCCESSFUL);
+
+} else {
+
+											echo ($_Message_Webspace_UPDATE_ERROR);
+
+} // [ + ] IF_WRITE_DATA
+
+/*
+ ===========================
+ + Close Webspace Index File
+ ===========================
+*/
+
+fclose($_Module_Webspace_SPECIFY_MEMBER_INDEX_FOR_WRITE);
+
+} // [ + ] IF_NULL
+?>

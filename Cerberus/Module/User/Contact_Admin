@@ -1,0 +1,113 @@
+<?php
+/*
+ ===========================================================================================
+ + Cerberus Content Management System.
+ + ---
+ + - Author : Gary Christopher Johnson
+ + - E-Mail : TinkeSoftware@Protonmail.com // GCJohnsonChevalier@Protonmail.com
+ + - Company: Tinke Software
+ + - Notes  : View this file in a non-formatting text editor for correct indentation display
+ + ---
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ + ---
+ + - File Location: root->Module->User->Contact_Admin
+ + - File Version:  0.4 - Sunday, September, 08, 2019.
+ + ---
+ +%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ +%%%()()%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()()()%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%/-\%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%|4|%  ~ Wyn ~
+ +%%%()()%%()()()%%()%%()%%()()()%%()()()%%()%%()%%()()()%%()()()%%%%%%%%%%%%\-/% Build 0.6
+ ===========================================================================================
+*/
+
+/*
+ ===========================
+ +
+ +
+ + Contact Administrator
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ +
+ + Form Post Variables
+ +
+ ===========================
+*/
+
+$_Module_Contact_Admin_POST_NAME 				= $_POST['post_send_name'];
+$_Module_Contact_Admin_POST_EMAIL_ADDRESS			= $_POST['post_send_email_address'];
+$_Module_Contact_Admin_POST_MESSAGE			= $_POST['post_send_message'];
+
+/*
+ ===========================
+ +
+ + Contact Administrator Form
+ +
+ ===========================
+*/
+
+if ((!$_Module_Contact_Admin_POST_NAME) || (!$_Module_Contact_Admin_POST_MESSAGE) || (!$_Module_Contact_Admin_POST_EMAIL_ADDRESS)) {
+
+echo ("
+											$_Message_Contact_Admin_Header
+												<FORM ACTION=\"?$_INTERNAL_USER_MODULE&#61;Contact_Admin\" METHOD=\"post\">
+													* Your Full Name:<BR>
+														<INPUT TYPE=\"text\" NAME=\"post_send_name\" VALUE=\"$_GLOBAL_USERNAME\"><BR>
+													* Your Electronic Mail Address:<BR>
+														<INPUT TYPE=\"text\" NAME=\"post_send_email_address\"><BR>
+													* Message:<BR>
+														<TEXTAREA ROWS=\"15\" COLS=\"75\" NAME=\"post_send_message\"></TEXTAREA><BR>
+													<INPUT TYPE=\"submit\" VALUE=\"Send Electronic Mail\">
+												</FORM>
+");
+
+} else {
+
+/*
+ ===========================
+ +
+ + Send E-Mail Notification
+ +
+ ===========================
+*/
+
+if (mail($_ACCESS_ADMINISTRATOR_EMAIL,"Report From ~ $_GLOBAL_SITE_TITLE","
+Dear $_ACCESS_ADMINISTRATOR_EMAIL,
+=============================================================
+[ $_Module_Contact_Admin_POST_NAME | $_Module_Contact_Admin_POST_EMAIL_ADDRESS ] has sent you this message from the Contact Services Administrator Module:
+
+$_Module_Contact_Admin_POST_MESSAGE
+
+The Internet Protocol Address associated with the message is: [ $_GLOBAL_REMOTE_ADDRESS ] :: [ $_GLOBAL_USERNAME ]
+=============================================================
+Have a nice day,
+		    - Cerberus Content Management System.
+")) {
+
+											echo ($_Message_Contact_Admin_MESSAGE_SENT);
+} else {
+											echo ($_Message_Contact_Admin_MESSAGE_SENT_ERROR);
+} // [ + ] IF_MAIL
+
+} // [ + ] IF_NULL
+?>

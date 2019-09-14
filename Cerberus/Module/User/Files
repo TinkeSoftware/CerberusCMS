@@ -1,0 +1,442 @@
+<?php
+/*
+ ===========================================================================================
+ + Cerberus Content Management System.
+ + ---
+ + - Author : Gary Christopher Johnson
+ + - E-Mail : TinkeSoftware@Protonmail.com // GCJohnsonChevalier@Protonmail.com
+ + - Company: Tinke Software
+ + - Notes  : View this file in a non-formatting text editor for correct indentation display
+ + ---
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ + ---
+ + - File Location: root->Module->User->Files
+ + - File Version:  0.4 - Sunday, September, 08, 2019.
+ + ---
+ +%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ +%%%()()%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()()()%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%/-\%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%|4|%  ~ Wyn ~
+ +%%%()()%%()()()%%()%%()%%()()()%%()()()%%()%%()%%()()()%%()()()%%%%%%%%%%%%\-/% Build 0.6
+ ===========================================================================================
+*/
+
+/*
+ ===========================
+ +
+ +
+ + Files & File Categories
+ +
+ +
+ ===========================
+*/
+
+											echo ($_Message_Files_Header);
+
+/*
+ ===========================
+ +
+ + List Category Entries
+ +
+ ===========================
+*/
+
+$_Module_Files_DB_Query_SELECT_CATEGORIES 						= $DB->query("SELECT * FROM {$_ACCESS_DATABASE_PREFIX}_categories ORDER BY category_title ASC");
+
+if ($DB->num_rows($_Module_Files_DB_Query_SELECT_CATEGORIES) <= 0) {
+
+											echo ($_Message_Files_NO_CATEGORIES);
+
+} // [ + ] IF_NUMBER_OF_ROWS
+
+while ($_Module_Files_DB_Query_SELECT_CATEGORIES_Fetch_Array	= $DB->fetch_array($_Module_Files_DB_Query_SELECT_CATEGORIES)) {
+
+$_Module_Files_LIST_CATEGORY_ID								= $_Module_Files_DB_Query_SELECT_CATEGORIES_Fetch_Array['id'];
+$_Module_Files_LIST_CATEGORY_DESCRIPTION 							= $_Module_Files_DB_Query_SELECT_CATEGORIES_Fetch_Array['category_description'];
+$_Module_Files_LIST_CATEGORY_TIME 							= $_Module_Files_DB_Query_SELECT_CATEGORIES_Fetch_Array['category_time'];
+$_Module_Files_LIST_CATEGORY_TITLE 							= $_Module_Files_DB_Query_SELECT_CATEGORIES_Fetch_Array['category_title'];
+
+/*
+ ===========================
+ +
+ + List All Categories
+ +
+ ===========================
+*/
+
+if ($_GET["CategoryID"] == "All") {
+
+echo ("
+											<CENTER>
+												<TABLE WIDTH=\"100%\" CELLPADDING=\"0\" CELLSPACING=\"0\" BORDER=\"1\">
+													<TR>
+														<TD WIDTH=\"1%\" VALIGN=\"TOP\"><CENTER><IMG SRC=\"Theme/$_GLOBAL_THEME_DIRECTORY/Image/File_Categories/Folder_Closed.$_GLOBAL_IMAGE_EXTENSION\" ALT=\"File Category :: $_Module_Files_LIST_CATEGORY_TITLE\" WIDTH=\"60\" HEIGHT=\"60\"></CENTER></TD>
+														<TD WIDTH=\"60%\" VALIGN=\"TOP\">
+														&nbsp;[ <A HREF=\"?$_INTERNAL_USER_MODULE&#61;Files&amp;CategoryID&#61;$_Module_Files_LIST_CATEGORY_ID\" TITLE=\"Open File Category :: $_Module_Files_LIST_CATEGORY_TITLE\">$_Module_Files_LIST_CATEGORY_TITLE</A> ]<BR><BR>
+														&nbsp;<B>File Category Description</B>:<BR>
+														&nbsp;<I>$_Module_Files_LIST_CATEGORY_DESCRIPTION</I><BR><BR>
+														&nbsp;<B>File Category Created On</B>: <I>$_Module_Files_LIST_CATEGORY_TIME</I></TD>
+													</TR>
+												</TABLE>
+											</CENTER><BR><BR>
+");
+
+} // [ + ] If_CategoryID_All
+
+/*
+ ===========================
+ +
+ + List Files Within Selected Category ID
+ +
+ ===========================
+*/
+
+if ($_GET["CategoryID"] == "$_Module_Files_LIST_CATEGORY_ID") {
+
+$_Module_Files_DB_Query_SELECT_FILES_FOR_CATEGORY 						= $DB->query("SELECT * FROM {$_ACCESS_DATABASE_PREFIX}_files WHERE file_category='$_Module_Files_LIST_CATEGORY_ID' ORDER BY file_title ASC");
+
+											echo ("<A HREF=\"?$_INTERNAL_USER_MODULE&#61;Files&amp;CategoryID&#61;All\" TITLE=\":: All File Categories ::\">Categories</A> // $_Module_Files_LIST_CATEGORY_TITLE<BR><BR>");
+
+/*
+ ===========================
+ + If No Rows Exist, Show Message
+ ===========================
+*/
+
+if ($DB->num_rows($_Module_Files_DB_Query_SELECT_FILES_FOR_CATEGORY) <= 0) {
+
+											echo ($_Message_Files_NO_FILES);
+
+} // [ + ] IF_NUMBER_OF_ROWS
+
+/*
+ ===========================
+ + List File Entries
+ ===========================
+*/
+
+while ($_Module_Files_DB_Query_SELECT_FILES_FOR_CATEGORY_Fetch_Array = $DB->fetch_array($_Module_Files_DB_Query_SELECT_FILES_FOR_CATEGORY)) {
+
+$_Module_Files_LIST_FILE_FOR_CATEGORY_ID 							= $_Module_Files_DB_Query_SELECT_FILES_FOR_CATEGORY_Fetch_Array['id'];
+$_Module_Files_LIST_FILE_FOR_CATEGORY_TITLE 						= $_Module_Files_DB_Query_SELECT_FILES_FOR_CATEGORY_Fetch_Array['file_title'];
+$_Module_Files_LIST_FILE_FOR_CATEGORY_TIME 						= $_Module_Files_DB_Query_SELECT_FILES_FOR_CATEGORY_Fetch_Array['file_time'];
+$_Module_Files_LIST_FILE_FOR_CATEGORY_NUMBER_OF_DOWNLOADS 					= $_Module_Files_DB_Query_SELECT_FILES_FOR_CATEGORY_Fetch_Array['file_number_of_downloads'];
+
+/*
+ ===========================
+ + If Number of Downloads Blank
+ ===========================
+*/
+
+if ($_Module_Files_LIST_FILE_FOR_CATEGORY_NUMBER_OF_DOWNLOADS == "") {
+
+		$_Module_Files_LIST_FILE_FOR_CATEGORY_NUMBER_OF_DOWNLOADS	= "0";
+
+} // [ + ] IF_NUMBER_OF_DOWNLOADS_BLANK
+
+/*
+ ===========================
+ + List All Files In Category
+ ===========================
+*/
+
+echo ("
+											<CENTER>
+												<TABLE WIDTH=\"100%\" CELLPADDING=\"0\" CELLSPACING=\"0\" BORDER=\"1\">
+													<TR>
+														<TD WIDTH=\"1%\" VALIGN=\"TOP\"><CENTER><A HREF=\"?$_INTERNAL_USER_MODULE&#61;Files&amp;FileID&#61;$_Module_Files_LIST_FILE_FOR_CATEGORY_ID\" TITLE=\"Open File :: $_Module_Files_LIST_FILE_FOR_CATEGORY_TITLE\"><IMG SRC=\"Theme/$_GLOBAL_THEME_DIRECTORY/Image/File_Categories/Folder_File.$_GLOBAL_IMAGE_EXTENSION\" ALT=\"$_Module_Files_LIST_FILE_FOR_CATEGORY_TITLE\" WIDTH=\"60\" HEIGHT=\"60\"></A></CENTER></TD>
+														<TD WIDTH=\"99%\" VALIGN=\"TOP\"><B>File</B>:&nbsp;<A HREF=\"?$_INTERNAL_USER_MODULE&#61;Files&amp;FileID&#61;$_Module_Files_LIST_FILE_FOR_CATEGORY_ID\" TITLE=\"Open File :: $_Module_Files_LIST_FILE_FOR_CATEGORY_TITLE\">$_Module_Files_LIST_FILE_FOR_CATEGORY_TITLE</A><HR><B>Downloaded</B>: $_Module_Files_LIST_FILE_FOR_CATEGORY_NUMBER_OF_DOWNLOADS Time(s).</TD>
+													</TR>
+												</TABLE>
+											</CENTER><BR>
+");
+
+} // [ + ] WHILE_ARRAY
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_Files_DB_Query_SELECT_FILES_FOR_CATEGORY);
+
+} // [ + ] IF_CategoryID
+
+} // [ + ] WHILE_CATEGORY
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_Files_DB_Query_SELECT_CATEGORIES);
+
+/*
+ ===========================
+ +
+ + List File Entries
+ +
+ ===========================
+*/
+
+$_Module_Files_DB_Query_SELECT_FILES							= $DB->query("SELECT * FROM {$_ACCESS_DATABASE_PREFIX}_files");
+
+while ($_Module_Files_DB_Query_SELECT_FILES_Fetch_Array = $DB->fetch_array($_Module_Files_DB_Query_SELECT_FILES)) {
+
+$_Module_Files_LIST_FILE_ID								= $_Module_Files_DB_Query_SELECT_FILES_Fetch_Array['id'];
+$_Module_Files_LIST_FILE_AUTHOR								= $_Module_Files_DB_Query_SELECT_FILES_Fetch_Array['file_author'];
+$_Module_Files_LIST_FILE_CATEGORY								= $_Module_Files_DB_Query_SELECT_FILES_Fetch_Array['file_category'];
+$_Module_Files_LIST_FILE_DESCRIPTION							= $_Module_Files_DB_Query_SELECT_FILES_Fetch_Array['file_description'];
+$_Module_Files_LIST_FILE_IMAGE								= $_Module_Files_DB_Query_SELECT_FILES_Fetch_Array['file_image'];
+$_Module_Files_LIST_FILE_LOCATION								= $_Module_Files_DB_Query_SELECT_FILES_Fetch_Array['file_location'];
+$_Module_Files_LIST_FILE_NUMBER_OF_DOWNLOADS						= $_Module_Files_DB_Query_SELECT_FILES_Fetch_Array['file_number_of_downloads'];
+$_Module_Files_LIST_FILE_TIME								= $_Module_Files_DB_Query_SELECT_FILES_Fetch_Array['file_time'];
+$_Module_Files_LIST_FILE_TITLE								= $_Module_Files_DB_Query_SELECT_FILES_Fetch_Array['file_title'];
+$_Module_Files_LIST_FILE_UPLOADER								= $_Module_Files_DB_Query_SELECT_FILES_Fetch_Array['file_uploader'];
+$_Module_Files_LIST_FILE_SIZE								= filesize("Upload/$_Module_Files_LIST_FILE_LOCATION");
+$_Module_Files_LIST_FILE_MD5								= md5($_Module_Files_LIST_FILE_SIZE);
+
+$_Module_Files_DB_Query_SELECT_CATEGORIES_BY_ID						= $DB->query("SELECT * FROM {$_ACCESS_DATABASE_PREFIX}_categories WHERE id='$_Module_Files_LIST_FILE_CATEGORY'");
+
+while ($_Module_Files_DB_Query_SELECT_CATEGORIES_BY_ID_Fetch_Array = $DB->fetch_array($_Module_Files_DB_Query_SELECT_CATEGORIES_BY_ID)) {
+
+$_Module_Files_LIST_FILE_CATEGORY_FOR_FILE 						= $_Module_Files_DB_Query_SELECT_CATEGORIES_BY_ID_Fetch_Array['category_title'];
+
+/*
+ ===========================
+ +
+ + List Selected File ID
+ +
+ ===========================
+*/
+
+if ($_GET["FileID"] == "$_Module_Files_LIST_FILE_ID") {
+
+if (!file_exists("Upload/$_Module_Files_LIST_FILE_IMAGE")) {
+
+$_Module_Files_LIST_FILE_IMAGE		= "Theme/$_GLOBAL_THEME_DIRECTORY/Image/Icon/No_Image.$_GLOBAL_IMAGE_EXTENSION";
+
+} else {
+
+$_Module_Files_LIST_FILE_IMAGE		= "Upload/$_Module_Files_LIST_FILE_IMAGE";
+
+} // [ + ] IF_FILE_EXISTS
+
+												echo ("<A HREF=\"?$_INTERNAL_USER_MODULE&#61;Files&amp;CategoryID&#61;All\" TITLE=\":: All File Categories ::\">Categories</A>&nbsp;//&nbsp;<A HREF=\"?$_INTERNAL_USER_MODULE&#61;Files&amp;CategoryID&#61;$_Module_Files_LIST_FILE_CATEGORY\" TITLE=\"Category :: $_Module_Files_LIST_FILE_CATEGORY_FOR_FILE\">$_Module_Files_LIST_FILE_CATEGORY_FOR_FILE</A>&nbsp;//&nbsp;$_Module_Files_LIST_FILE_TITLE<BR><BR>");
+echo ("
+
+											<CENTER>
+												<TABLE WIDTH=\"100%\" CELLPADDING=\"0\" CELLSPACING=\"0\" BORDER=\"1\">
+													<TR>
+														<TD WIDTH=\"1%\" VALIGN=\"TOP\"><A HREF=\"$_Module_Files_LIST_FILE_IMAGE\"><IMG SRC=\"$_Module_Files_LIST_FILE_IMAGE\" TITLE=\"Expand Image :: $_Module_Files_LIST_FILE_TITLE\" WIDTH=\"110\" ALT=\"Expand Image :: $_Module_Files_LIST_FILE_IMAGE\" HEIGHT=\"110\"></A></TD>
+														<TD WIDTH=\"99%\" VALIGN=\"TOP\"><B>File Description</B>:<BR>$_Module_Files_LIST_FILE_DESCRIPTION</TD>
+													</TR>
+												</TABLE>
+											</CENTER><BR>
+
+												<B>File Information</B>:<BR>
+												<BIG><B>&middot;</B></BIG>&nbsp;<B>File Author</B>: $_Module_Files_LIST_FILE_AUTHOR<BR>
+												<BIG><B>&middot;</B></BIG>&nbsp;<B>File Uploader</B>: <A HREF=\"?$_INTERNAL_USER_MODULE&#61;Profile&amp;Name&#61;$_Module_Files_LIST_FILE_UPLOADER\" TITLE=\"Profile :: $_Module_Files_LIST_FILE_UPLOADER\">$_Module_Files_LIST_FILE_UPLOADER</A><BR>
+												<BIG><B>&middot;</B></BIG>&nbsp;<B>Number of Downloads</B>: $_Module_Files_LIST_FILE_NUMBER_OF_DOWNLOADS<BR>
+												<BIG><B>&middot;</B></BIG>&nbsp;<B>File Size</B>: $_Module_Files_LIST_FILE_SIZE Bytes<BR>
+												<BIG><B>&middot;</B></BIG>&nbsp;<B>MD5 Signature</B>: $_Module_Files_LIST_FILE_MD5<BR>
+												<BIG><B>&middot;</B></BIG>&nbsp;<B>File Uploaded On</B>: $_Module_Files_LIST_FILE_TIME<BR>
+
+												<HR>
+												[&nbsp;<A HREF=\"?$_INTERNAL_USER_MODULE&#61;Files&amp;FileID&#61;$_Module_Files_LIST_FILE_ID&amp;Download&#61;Yes\" TITLE=\"Download File :: $_Module_Files_LIST_FILE_TITLE\">Download</A>&nbsp;-&nbsp;
+												<A HREF=\"?$_INTERNAL_USER_MODULE&#61;Send_Friend\" TITLE=\":: Share This File Via Electronic Mail ::\">Share</A>&nbsp;-&nbsp;
+												<A HREF=\"?$_INTERNAL_ADMINISTRATOR_MODULE&#61;cPanel&amp;Action&#61;Modify&amp;Data&#61;Files&amp;ModifyFileID&#61;$_Module_Files_LIST_FILE_ID\" TITLE=\":: Modify This File Entry ::\">Modify</A>&nbsp;-&nbsp;
+												<A HREF=\"?$_INTERNAL_ADMINISTRATOR_MODULE&#61;cPanel&amp;Action&#61;Modify&amp;Data&#61;Files&amp;DeleteFileID&#61;$_Module_Files_LIST_FILE_ID\" TITLE=\":: Delete This File Entry ::\">Delete</A>&nbsp;]
+");
+
+/*
+ ===========================
+ +
+ + Download Selected File ID
+ +
+ ===========================
+*/
+
+if ($_GET["Download"] == "Yes") {
+
+$_Module_Files_UPDATE_FILE_NUMBER_OF_DOWNLOADS 						= $_Module_Files_LIST_FILE_NUMBER_OF_DOWNLOADS + 1;
+
+$_Module_Files_DB_Query_UPDATE_FILES 							= $DB->query("UPDATE {$_ACCESS_DATABASE_PREFIX}_files SET file_number_of_downloads='$_Module_Files_UPDATE_FILE_NUMBER_OF_DOWNLOADS' WHERE id='$_Module_Files_LIST_FILE_ID'");
+
+/*
+ ===========================
+ + Update File Entry
+ ===========================
+*/
+
+if ($_Module_Files_DB_Query_UPDATE_FILES) {
+
+if (!file_exists("Upload/$_Module_Files_LIST_FILE_LOCATION")) {
+											echo ($_MSG_FILES_DOWNLOAD_MISSING);
+} else {
+											echo ("<BR><HR><CENTER>Download: <A HREF=\"Upload/$_Module_Files_LIST_FILE_LOCATION\" TITLE=\"Download :: $_Module_Files_LIST_FILE_LOCATION\">$_Module_Files_LIST_FILE_TITLE</A></CENTER><HR>");
+} // [ + ] IF_FILE_EXISTS
+
+} else {
+											echo ($_Message_Files_DOWNLOAD_ERROR);
+} // [ + ] IF_DB_QUERY
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_Files_DB_Query_UPDATE_FILES);
+
+} // [ + ] DOWNLOAD_SELECTED_FILE_ID
+
+/*
+ ===========================
+ +
+ + List File Comments
+ +
+ ===========================
+*/
+
+$_Module_Files_DB_Query_SELECT_COMMENTS 							= $DB->query("SELECT * FROM {$_ACCESS_DATABASE_PREFIX}_comments WHERE comment_application_id='$_Module_Files_LIST_FILE_ID' AND comment_application_name='FILES'");
+
+											echo ("<CENTER>&nbsp;</CENTER><CENTER>&nbsp;</CENTER><CENTER><B>[ <A HREF=\"?$_INTERNAL_USER_MODULE&#61;Files&amp;FileID&#61;$_Module_Files_LIST_FILE_ID&amp;Display&#61;Comment_Field\" TITLE=\"Comment :: $_Module_Files_LIST_FILE_TITLE\">Comments</A> ]</B></CENTER><HR><CENTER>&nbsp;</CENTER>");
+
+/*
+ ===========================
+ + If There Are No Comments
+ ===========================
+*/
+
+if ($DB->num_rows($_Module_Files_DB_Query_SELECT_COMMENTS) <= 0) {
+											echo ($_Message_Files_NO_COMMENTS);
+} // [ + ] IF_NUMBER_OF_ROWS
+
+while ($_Module_Files_DB_Query_SELECT_COMMENTS_Fetch_Array = $DB->fetch_array($_Module_Files_DB_Query_SELECT_COMMENTS)) {
+
+$_Module_Files_LIST_COMMENT_ID 								= $_Module_Files_DB_Query_SELECT_COMMENTS_Fetch_Array['id'];
+$_Module_Files_LIST_COMMENT_AUTHOR							= $_Module_Files_DB_Query_SELECT_COMMENTS_Fetch_Array['comment_author'];
+$_Module_Files_LIST_COMMENT_DATA								= $_Module_Files_DB_Query_SELECT_COMMENTS_Fetch_Array['comment_data'];
+$_Module_Files_LIST_COMMENT_APPLICATION_ID						= $_Module_Files_DB_Query_SELECT_COMMENTS_Fetch_Array['comment_application_id'];
+$_Module_Files_LIST_COMMENT_APPLICATION_NAME						= $_Module_Files_DB_Query_SELECT_COMMENTS_Fetch_Array['comment_application_name'];
+$_Module_Files_LIST_COMMENT_TIME								= $_Module_Files_DB_Query_SELECT_COMMENTS_Fetch_Array['comment_time'];
+
+$_Module_Files_DB_Query_SELECT_MEMBERS_FOR_COMMENT 					= $DB->query("SELECT * FROM {$_ACCESS_DATABASE_PREFIX}_members WHERE member_username='$_Module_Files_LIST_COMMENT_AUTHOR'");
+
+while ($_Module_Files_DB_Query_SELECT_MEMBERS_FOR_COMMENT_Fetch_Array = $DB->fetch_array($_Module_Files_DB_Query_SELECT_MEMBERS_FOR_COMMENT)) {
+
+$_Module_Files_LIST_COMMENT_AUTHOR_AVATAR							= $_Module_Files_DB_Query_SELECT_MEMBERS_FOR_COMMENT_Fetch_Array['member_avatar'];
+$_Module_Files_LIST_COMMENT_AUTHOR_CITY							= $_Module_Files_DB_Query_SELECT_MEMBERS_FOR_COMMENT_Fetch_Array['member_city'];
+$_Module_Files_LIST_COMMENT_AUTHOR_EXPERIENCE_AMOUNT					= $_Module_Files_DB_Query_SELECT_MEMBERS_FOR_COMMENT_Fetch_Array['member_experience_amount'];
+$_Module_Files_LIST_COMMENT_AUTHOR_JOIN_DATE						= $_Module_Files_DB_Query_SELECT_MEMBERS_FOR_COMMENT_Fetch_Array['member_join_date'];
+$_Module_Files_LIST_COMMENT_AUTHOR_SIGNATURE						= $_Module_Files_DB_Query_SELECT_MEMBERS_FOR_COMMENT_Fetch_Array['member_signature'];
+
+/*
+ ===========================
+ + List Comments
+ ===========================
+*/
+
+echo ("
+											<CENTER>&nbsp;</CENTER>
+
+											<CENTER>
+												<TABLE BORDER=\"1\" WIDTH=\"100%\">
+													<TR>
+														<TD VALIGN=\"top\">
+															<IMG SRC=\"Theme/$_GLOBAL_THEME_DIRECTORY/Image/Icon_Avatar/$_Module_Files_LIST_COMMENT_AUTHOR_AVATAR\" TITLE=\"Avatar\" ALT=\"Avatar\"><HR>
+															<B>Member</B>: <A HREF=\"?$_INTERNAL_USER_MODULE&#61;Profile&amp;Name&#61;$_Module_Files_LIST_COMMENT_AUTHOR\" TITLE=\"Profile: $_Module_Files_LIST_COMMENT_AUTHOR\">$_Module_Files_LIST_COMMENT_AUTHOR</A><BR><B>Location</B>: $_Module_Files_LIST_COMMENT_AUTHOR_CITY<BR><B>Experience</B>: $_Module_Files_LIST_COMMENT_AUTHOR_EXPERIENCE_AMOUNT<HR>
+															[&nbsp;<A HREF=\"?$_INTERNAL_USER_MODULE&#61;Comment&amp;ModifyCommentID&#61;$_Module_Files_LIST_COMMENT_ID\" TITLE=\"Modify This Comment Entry\">Modify</A>&nbsp;-&nbsp;
+															<A HREF=\"?$_INTERNAL_USER_MODULE&#61;Comment&amp;DeleteCommentID&#61;$_Module_Files_LIST_COMMENT_ID\" TITLE=\"Delete This Comment Entry\">Delete</A>&nbsp;]
+														</TD>
+														<TD VALIGN=\"top\" WIDTH=\"100%\"><B>Comment</B>: <I>$_Module_Files_LIST_COMMENT_DATA</I><HR><B>Author Signature</B>:<BR>$_Module_Files_LIST_COMMENT_AUTHOR_SIGNATURE<HR><B>Posted On</B>: $_Module_Files_LIST_COMMENT_TIME</TD>
+													</TR>
+												</TABLE>
+											</CENTER>
+	<CENTER>&nbsp;</CENTER>
+");
+
+} // [ + ] WHILE_AUTHOR
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_Files_DB_Query_SELECT_MEMBERS_FOR_COMMENT);
+
+} // [ + ] WHILE_COMMENTS
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_Files_DB_Query_SELECT_COMMENTS);
+
+/*
+ ===========================
+ +
+ + Comment Form
+ +
+ ===========================
+*/
+
+if ($_GET["Display"] == "Comment_Field") {
+
+echo ("
+											<CENTER>&nbsp;</CENTER>
+											$_GLOBAL_TEXTEDITOR_BUTTONS
+											<BR><BR><B>Comment:</B><BR>
+												<FORM ACTION=\"?$_INTERNAL_USER_MODULE&#61;Comment\" METHOD=\"post\">
+													<INPUT TYPE=\"hidden\" NAME=\"post_application_name\" VALUE=\"FILES\">
+													<INPUT TYPE=\"hidden\" NAME=\"post_application_id\" VALUE=\"$_Module_Files_LIST_FILE_ID\">
+													<TEXTAREA ROWS=\"15\" COLS=\"75\" MAXLENGTH=\"2000\" NAME=\"post_comment_data\" ID=\"WYSIWYG\"></TEXTAREA><BR>
+													<INPUT TYPE=\"submit\" VALUE=\"Comment\">
+												</FORM>
+");
+
+} // [ + ] IF_Display_Comment_Field
+
+} // [ + ] LIST_FILEID
+
+} // [ + ] WHILE_ARRAY
+
+} // [ + ] WHILE_ARRAY
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_Files_DB_Query_SELECT_CATEGORIES_BY_ID);
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_Files_DB_Query_SELECT_FILES);
+?>

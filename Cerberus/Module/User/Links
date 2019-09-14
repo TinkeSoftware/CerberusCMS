@@ -1,0 +1,211 @@
+<?php
+/*
+ ===========================================================================================
+ + Cerberus Content Management System.
+ + ---
+ + - Author : Gary Christopher Johnson
+ + - E-Mail : TinkeSoftware@Protonmail.com // GCJohnsonChevalier@Protonmail.com
+ + - Company: Tinke Software
+ + - Notes  : View this file in a non-formatting text editor for correct indentation display
+ + ---
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ + ---
+ + - File Location: root->Module->User->Links
+ + - File Version:  0.4 - Sunday, September, 08, 2019.
+ + ---
+ +%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ +%%%()()%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()()()%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%/-\%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%|4|%  ~ Wyn ~
+ +%%%()()%%()()()%%()%%()%%()()()%%()()()%%()%%()%%()()()%%()()()%%%%%%%%%%%%\-/% Build 0.6
+ ===========================================================================================
+*/
+
+/*
+ ===========================
+ +
+ +
+ + Links
+ +
+ +
+ ===========================
+*/
+
+$_Module_Links_DB_Query_SELECT_LINKS		= $DB->query("SELECT * FROM {$_ACCESS_DATABASE_PREFIX}_links");
+
+											echo ($_Message_Links_Header);
+
+if ($DB->num_rows($_Module_Links_DB_Query_SELECT_LINKS) <= 0) {
+											echo ($_Message_Links_NO_LINKS);
+} // [ IF_NUMBER_OF_ROWS ]
+
+while ($_Module_Links_DB_Query_SELECT_LINKS_Fetch_Array = $DB->fetch_array($_Module_Links_DB_Query_SELECT_LINKS)) {
+
+$_Module_Links_LIST_LINK_ID							= $_Module_Links_DB_Query_SELECT_LINKS_Fetch_Array['id'];
+$_Module_Links_LIST_LINK_AUTHOR							= $_Module_Links_DB_Query_SELECT_LINKS_Fetch_Array['link_author'];
+$_Module_Links_LIST_LINK_DESCRIPTION						= $_Module_Links_DB_Query_SELECT_LINKS_Fetch_Array['link_description'];
+$_Module_Links_LIST_LINK_TIME							= $_Module_Links_DB_Query_SELECT_LINKS_Fetch_Array['link_time'];
+$_Module_Links_LIST_LINK_TITLE							= $_Module_Links_DB_Query_SELECT_LINKS_Fetch_Array['link_title'];
+$_Module_Links_LIST_LINK_URL							= $_Module_Links_DB_Query_SELECT_LINKS_Fetch_Array['link_url'];
+
+/*
+ ===========================
+ +
+ + List All Links
+ +
+ ===========================
+*/
+
+if ($_GET["DisplayID"] == "All") {
+
+											echo ("<CENTER><TABLE WIDTH=\"100%\" BORDER=\"1\" CELLPADDING=\"0\" CELLSPACING=\"0\"><TD WIDTH=\"90%\"><B>Link Name</B>: $_Module_Links_LIST_LINK_TITLE</TD><TD WIDTH=\"10%\"><A HREF=\"?$_INTERNAL_USER_MODULE&#61;Links&amp;DisplayID&#61;$_Module_Links_LIST_LINK_ID\" TITLE=\"Open Link :: $_Module_Links_LIST_LINK_TITLE\">Open Link</A></TD></TR></TABLE></CENTER>");
+
+} // [ + ] IF_DisplayID_All
+
+/*
+ ===========================
+ +
+ + List Selected Link ID
+ +
+ ===========================
+*/
+
+if ($_GET["DisplayID"] == "$_Module_Links_LIST_LINK_ID") {
+
+echo ("
+											[ <A HREF=\"http://$_Module_Links_LIST_LINK_URL\" TARGET=\"_NEW\" TITLE=\"Open Link :: $_Module_Links_LIST_LINK_TITLE\">$_Module_Links_LIST_LINK_TITLE</A> ]<BR><BR>
+											<B>Link Description</B>: <I>$_Module_Links_LIST_LINK_DESCRIPTION</I><HR>
+											<B>Link Submitted On</B>: $_Module_Links_LIST_LINK_TIME - <B>By</B>: <A HREF=\"?$_INTERNAL_USER_MODULE&#61;Profile&amp;Name&#61;$_Module_Links_LIST_LINK_AUTHOR\" TITLE=\"Profile :: $_Module_Links_LIST_LINK_AUTHOR\">$_Module_Links_LIST_LINK_AUTHOR</A>
+											<BR><BR>
+											[ <A HREF=\"?$_INTERNAL_ADMINISTRATOR_MODULE&#61;cPanel&amp;Action&#61;Modify&amp;Data&#61;Links&amp;ModifyLinkID&#61;$_Module_Links_LIST_LINK_ID\" TITLE=\":: Modify This Link ::\">Modify</A> - <A HREF=\"?$_INTERNAL_ADMINISTRATOR_MODULE&#61;cPanel&amp;Action&#61;Modify&amp;Data&#61;Links&amp;DeleteLinkID&#61;$_Module_Links_LIST_LINK_ID\" TITLE=\":: Delete This Link ::\">Delete</A> ]
+");
+
+} // [ + ] IF_DisplayID_Selected
+
+} // [ + ] WHILE_LINKS
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_Links_DB_Query_SELECT_LINKS);
+
+/*
+ ===========================
+ +
+ + Submit Link
+ +
+ ===========================
+*/
+
+if ($_GET["SubmitLink"] == "Yes") {
+
+/*
+ ===========================
+ + Submit Link Post Variables
+ ===========================
+*/
+
+$_Module_Links_POST_LINK_TITLE							= $_POST['link_title'];
+$_Module_Links_POST_LINK_URL							= $_POST['link_url'];
+$_Module_Links_POST_LINK_DESCRIPTION						= $_POST['link_description'];
+
+/*
+ ===========================
+ + Post Variables Character Replace
+ ===========================
+*/
+
+$_Module_Links_POST_LINK_TITLE							= str_replace("<", "&lt;", $_Module_Links_POST_LINK_TITLE);
+$_Module_Links_POST_LINK_TITLE							= str_replace("'", "&#39;", $_Module_Links_POST_LINK_TITLE);
+$_Module_Links_POST_LINK_URL							= str_replace("<", "&lt;", $_Module_Links_POST_LINK_URL);
+$_Module_Links_POST_LINK_URL							= str_replace("'", "&#39;", $_Module_Links_POST_LINK_URL);
+
+/*
+ ===========================
+ + SafeHTML Code && Smileys
+ ===========================
+*/
+
+$_Module_Links_POST_LINK_DESCRIPTION						= str_replace($_GLOBAL_SAFEHTML_CODE, $_GLOBAL_SAFEHTML_CODE_REPLACE, $_Module_Links_POST_LINK_DESCRIPTION);
+$_Module_Links_POST_LINK_DESCRIPTION						= str_replace($_GLOBAL_SAFEHTML_SMILEYS, $_GLOBAL_SAFEHTML_SMILEYS_REPLACE, $_Module_Links_POST_LINK_DESCRIPTION);
+
+if ((!$_Module_Links_POST_LINK_TITLE) || (!$_Module_Links_POST_LINK_URL) || (!$_Module_Links_POST_LINK_DESCRIPTION)) {
+
+echo ("
+											$_GLOBAL_TEXTEDITOR_BUTTONS
+											<BR><BR><FORM ACTION=\"?$_INTERNAL_USER_MODULE&#61;Links&amp;SubmitLink&#61;Yes\" METHOD=\"post\">
+												* Link Title:<BR>
+													<INPUT TYPE=\"text\" NAME=\"link_title\" MAXLENGTH=\"50\"><BR>
+												* Link URL (Without: http://):<BR>
+													<INPUT TYPE=\"text\" NAME=\"link_url\" MAXLENGTH=\"250\"><BR>
+												* Link Description:<BR>
+													<TEXTAREA COLS=\"75\" ROWS=\"15\" MAXLENGTH=\"2000\" NAME=\"link_description\" ID=\"WYSIWYG\">Please describe this link.</TEXTAREA><BR>
+												<INPUT TYPE=\"submit\" VALUE=\"Submit Link\"><BR>
+											</FORM>
+");
+
+} else {
+
+/*
+ ===========================
+ +
+ + Insert Link
+ +
+ ===========================
+*/
+
+$_Module_Links_DB_Query_INSERT_LINK						= $DB->query("INSERT INTO {$_ACCESS_DATABASE_PREFIX}_links(link_author,link_description,link_time,link_title,link_url)VALUES('$_GLOBAL_USERNAME','$_Module_Links_POST_LINK_DESCRIPTION','$_GLOBAL_DATE','$_Module_Links_POST_LINK_TITLE','$_Module_Links_POST_LINK_URL')");
+
+/*
+ ===========================
+ + Update Member Entry
+ ===========================
+*/
+
+$_Module_Links_UPDATE_MEMBER_EXPERIENCE_AMOUNT					= $_GLOBAL_MEMBER_EXPERIENCE_AMOUNT + 15;
+$_Module_Links_UPDATE_MEMBER_NUMBER_OF_POSTS					= $_GLOBAL_MEMBER_NUMBER_OF_POSTS + 1;
+
+$_Module_Links_DB_Query_UPDATE_MEMBERS						= $DB->query("UPDATE {$_ACCESS_DATABASE_PREFIX}_members SET member_experience_amount='$_Module_Links_UPDATE_MEMBER_EXPERIENCE_AMOUNT',member_number_of_posts='$_Module_Links_UPDATE_MEMBER_NUMBER_OF_POSTS' WHERE member_username='$_GLOBAL_USERNAME'");
+
+if ($_Module_Links_DB_Query_UPDATE_MEMBERS) {
+											//echo ($_Message_Links_POST_EXPERIENCE_AMOUNT);
+} else {
+											echo ($_Message_Links_POST_EXPERIENCE_AMOUNT_ERROR);
+} // [ + ] IF_DB_Query_INSERT_LINK
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_Links_DB_Query_UPDATE_MEMBERS);
+
+if ($_Module_Links_DB_Query_INSERT_LINK) {
+											echo ($_Message_Links_POST_SUCCESSFUL);
+} else {
+											echo ($_Message_Links_POST_ERROR);
+} // [ + ] IF_POST
+
+} // [ + ] NULL_POST
+
+} // [ + ] IF_SubmitLink
+?>

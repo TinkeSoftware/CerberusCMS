@@ -1,0 +1,349 @@
+<?php
+/*
+ ===========================================================================================
+ + Cerberus Content Management System.
+ + ---
+ + - Author : Gary Christopher Johnson
+ + - E-Mail : TinkeSoftware@Protonmail.com // GCJohnsonChevalier@Protonmail.com
+ + - Company: Tinke Software
+ + - Notes  : View this file in a non-formatting text editor for correct indentation display
+ + ---
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ + ---
+ + - File Location: root->Module->User->Upload
+ + - File Version:  0.4 - Sunday, September, 08, 2019.
+ + ---
+ +%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ +%%%()()%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()()()%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%/-\%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%|4|%  ~ Wyn ~
+ +%%%()()%%()()()%%()%%()%%()()()%%()()()%%()%%()%%()()()%%()()()%%%%%%%%%%%%\-/% Build 0.6
+ ===========================================================================================
+*/
+
+/*
+ ===========================
+ +
+ +
+ + Upload
+ +
+ +
+ ===========================
+*/
+
+ 											echo ($_Message_Upload_Header);
+
+/*
+ ===========================
+ +
+ + Form Post Variables
+ +
+ ===========================
+*/
+
+$_Module_Upload_DB_Query_SELECT_CATEGORIES		= $DB->query("SELECT * FROM {$_ACCESS_DATABASE_PREFIX}_categories ORDER BY category_title ASC");
+
+/*
+ ===========================
+ + Upload Size Limit
+ ===========================
+*/
+
+$_Module_Upload_MAXIMUM_UPLOAD_LIMIT			= $_GLOBAL_UPLOAD_SIZE_PUBLIC / 1024;
+
+/*
+ ===========================
+ + File Upload Details
+ ===========================
+*/
+
+$_Module_Upload_SPECIFY_UPLOAD_DIRECTORY			= "./Temporary/";
+$_Module_Upload_SPECIFY_UPLOAD_FILE			= $_Module_Upload_SPECIFY_UPLOAD_DIRECTORY . basename($_FILES['post_upload_file']['name']);
+$_Module_Upload_SPECIFY_UPLOAD_IMAGE			= $_Module_Upload_SPECIFY_UPLOAD_DIRECTORY . basename($_FILES['post_upload_image']['name']);
+
+/*
+ ===========================
+ + Allowed File Extensions
+ ===========================
+*/
+
+$_Module_Upload_ALLOWED_FILE_EXTENSIONS			= array();
+$_Module_Upload_ALLOWED_FILE_EXTENSIONS[0]		= "jpg";
+$_Module_Upload_ALLOWED_FILE_EXTENSIONS[1]		= "gif";
+$_Module_Upload_ALLOWED_FILE_EXTENSIONS[2]		= "png";
+$_Module_Upload_ALLOWED_FILE_EXTENSIONS[3]		= "bmp";
+$_Module_Upload_ALLOWED_FILE_EXTENSIONS[4]		= "pdf";
+$_Module_Upload_ALLOWED_FILE_EXTENSIONS[5]		= "zip";
+$_Module_Upload_ALLOWED_FILE_EXTENSIONS[6]		= "rar";
+$_Module_Upload_ALLOWED_FILE_EXTENSIONS[7]		= "wmv";
+$_Module_Upload_ALLOWED_FILE_EXTENSIONS[8]		= "swf";
+$_Module_Upload_ALLOWED_FILE_EXTENSIONS[9]		= "wav";
+$_Module_Upload_ALLOWED_FILE_EXTENSIONS[10]		= "mp3";
+$_Module_Upload_ALLOWED_FILE_EXTENSIONS[11]		= "mov";
+$_Module_Upload_ALLOWED_FILE_EXTENSIONS[12]		= "wma";
+
+/*
+ ===========================
+ + File Data Specifications
+ ===========================
+*/
+
+$_Module_Upload_FILE_PATHINFO_FILE 			= pathinfo($_FILES['post_upload_file']['name']);
+$_Module_Upload_FILE_PATHINFO_IMAGE 			= pathinfo($_FILES['post_upload_image']['name']);
+$_Module_Upload_EXTENSION_FILE 				= $_Module_Upload_FILE_PATHINFO_FILE['extension'];
+$_Module_Upload_EXTENSION_IMAGE 				= $_Module_Upload_FILE_PATHINFO_IMAGE['extension'];
+$_Module_Upload_BASENAME_FILE 				= $_Module_Upload_FILE_PATHINFO_FILE['basename'];
+$_Module_Upload_BASENAME_IMAGE 				= $_Module_Upload_FILE_PATHINFO_IMAGE['basename'];
+
+/*
+ ===========================
+ + Post File Details
+ ===========================
+*/
+
+$_Module_Upload_POST_AUTHOR				= $_POST['post_upload_file_author'];
+$_Module_Upload_POST_TITLE				= $_POST['post_upload_file_title'];
+$_Module_Upload_POST_CATEGORY				= $_POST['post_upload_file_category'];
+$_Module_Upload_POST_FILE_DATA				= $_POST['post_upload_file_data'];
+$_Module_Upload_POST_FILE				= $_POST['post_upload_file'];
+$_Module_Upload_POST_IMAGE				= $_POST['post_upload_image'];
+
+/*
+ ===========================
+ + Character Replace
+ ===========================
+*/
+
+$_Module_Upload_POST_FILE				= stripslashes($_Module_Upload_POST_FILE);
+$_Module_Upload_POST_IMAGE				= stripslashes($_Module_Upload_POST_IMAGE);
+$_Module_Upload_POST_AUTHOR				= str_replace("<", "&lt;", $_Module_Upload_POST_AUTHOR);
+$_Module_Upload_POST_AUTHOR				= str_replace("'", "&#39;", $_Module_Upload_POST_AUTHOR);
+$_Module_Upload_POST_TITLE				= str_replace("<", "&lt;", $_Module_Upload_POST_TITLE);
+$_Module_Upload_POST_TITLE				= str_replace("'", "&#39;", $_Module_Upload_POST_TITLE);
+
+/*
+ ===========================
+ + SafeHTMl Code && Smileys
+ ===========================
+*/
+
+$_Module_Upload_POST_FILE_DATA				= str_replace($_GLOBAL_SAFEHTML_CODE, $_GLOBAL_SAFEHTML_CODE_REPLACE, $_Module_Upload_POST_FILE_DATA);
+$_Module_Upload_POST_FILE_DATA				= str_replace($_GLOBAL_SAFEHTML_SMILEYS, $_GLOBAL_SAFEHTML_SMILEYS_REPLACE, $_Module_Upload_POST_FILE_DATA);
+
+/*
+ ===========================
+ +
+ + Upload File Form
+ +
+ ===========================
+*/
+
+if ((!$_Module_Upload_POST_AUTHOR)) {
+
+echo ("
+											<FORM ACTION=\"?$_INTERNAL_USER_MODULE&#61;Upload\" METHOD=\"post\" ENCTYPE=\"multipart/form-data\">
+												* File Author:<BR>
+													<INPUT TYPE=\"text\" NAME=\"post_upload_file_author\" MAXLENGTH=\"60\"><BR>
+												* File Title:<BR>
+													<INPUT TYPE=\"text\" NAME=\"post_upload_file_title\" MAXLENGTH=\"50\"><BR>
+												* File Category:<BR>
+													<SELECT NAME=\"post_upload_file_category\">
+");
+
+/*
+ ===========================
+ +
+ + List File Category Entries
+ +
+ ===========================
+*/
+
+while ($_Module_Upload_DB_Query_SELECT_CATEGORIES_Fetch_Array = $DB->fetch_array($_Module_Upload_DB_Query_SELECT_CATEGORIES)) {
+
+$_Module_Upload_LIST_FILE_CATEGORY_ID			= $_Module_Upload_DB_Query_SELECT_CATEGORIES_Fetch_Array['id'];
+$_Module_Upload_LIST_FILE_CATEGORY_TITLE			= $_Module_Upload_DB_Query_SELECT_CATEGORIES_Fetch_Array['category_title'];
+
+											echo ("<OPTION VALUE=\"$_Module_Upload_LIST_FILE_CATEGORY_ID\">$_Module_Upload_LIST_FILE_CATEGORY_TITLE</OPTION>");
+
+} // [ + ] WHILE_CATEGORY
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_Upload_DB_Query_SELECT_CATEGORIES);
+
+echo ("
+													</SELECT><BR>
+												* File Description:<BR>
+													<TEXTAREA ROWS=\"15\" COLS=\"75\" MAXLENGTH=\"2000\" NAME=\"post_upload_file_data\">description of this file...</TEXTAREA><BR>
+												* File: [ Maximum File Name Length: 50 Characters ]<BR>
+													<INPUT TYPE=\"file\" name=\"post_upload_file\"><BR>
+												* Image: [ Maximum File Name Length: 50 Characters ]<BR>
+													<INPUT TYPE=\"file\" name=\"post_upload_image\"><BR>
+												<INPUT TYPE=\"submit\" VALUE=\"Upload\">
+											</FORM><BR>
+											[ Maximum File Size: $_Module_Upload_MAXIMUM_UPLOAD_LIMIT KB ]<BR>
+											[ Maximum Image File Size: 150 KB ]
+");
+
+} else {
+
+/*
+ ===========================
+ + Move Files To Temporary Directory
+ ===========================
+*/
+
+if (move_uploaded_file($_FILES['post_upload_image']['tmp_name'], $_Module_Upload_SPECIFY_UPLOAD_IMAGE) && move_uploaded_file($_FILES['post_upload_file']['tmp_name'], $_Module_Upload_SPECIFY_UPLOAD_FILE)) {
+
+											echo ($_Message_Upload_FILE_TEMPORARY);
+
+} else {
+
+											echo ($_Message_Upload_FILE_TEMPORARY_ERROR);
+
+} // [ + ] IF_UPLOAD
+
+/*
+ ===========================
+ + Check && Prepare Files
+ ===========================
+*/
+
+if (in_array($_Module_Upload_EXTENSION_FILE, $_Module_Upload_ALLOWED_FILE_EXTENSIONS)) {
+
+$_Module_Upload_PREPARE_FILE				= "1";
+
+} // [ + ] IF_FILE_ALLOWED
+
+											echo ($_Message_Upload_FILE_CHECK);
+
+/*
+ ===========================
+ + If Files Are Allowed
+ ===========================
+*/
+
+if ($_Module_Upload_PREPARE_FILE == "1") {
+
+/*
+ ===========================
+ + Check For Existing File Names
+ ===========================
+*/
+
+if (file_exists("Upload/$_Module_Upload_BASENAME_FILE") || file_exists("Upload/$_Module_Upload_BASENAME_IMAGE")) {
+
+											echo ($_Message_Upload_FILE_EXISTS_ERROR);
+
+											unlink("Temporary/$_Module_Upload_BASENAME_FILE");
+											unlink("Temporary/$_Module_Upload_BASENAME_IMAGE");
+
+} else {
+
+/*
+ ===========================
+ + Check For File Sizes
+ ===========================
+*/
+
+if (filesize($_Module_Upload_SPECIFY_UPLOAD_FILE) > $_GLOBAL_UPLOAD_SIZE_PUBLIC || filesize($_Module_Upload_SPECIFY_UPLOAD_IMAGE) > 160000) {
+
+											unlink("Temporary/$_Module_Upload_BASENAME_FILE");
+											unlink("Temporary/$_Module_Upload_BASENAME_IMAGE");
+
+											echo ($_Message_Upload_FILE_TOO_LARGE);
+
+} else {
+
+/*
+ ===========================
+ + Files Are Cleared, Move Permanently
+ ===========================
+*/
+
+											copy("Temporary/$_Module_Upload_BASENAME_FILE","Upload/$_Module_Upload_BASENAME_FILE");
+											copy("Temporary/$_Module_Upload_BASENAME_IMAGE","Upload/$_Module_Upload_BASENAME_IMAGE");
+
+											unlink("Temporary/$_Module_Upload_BASENAME_FILE");
+											unlink("Temporary/$_Module_Upload_BASENAME_IMAGE");
+
+$_Module_Upload_DB_Query_INSERT_FILE			= $DB->query("INSERT INTO {$_ACCESS_DATABASE_PREFIX}_files(file_author,file_category,file_description,file_image,file_location,file_number_of_downloads,file_time,file_title,file_uploader)VALUES('$_Module_Upload_POST_AUTHOR','$_Module_Upload_POST_CATEGORY','$_Module_Upload_POST_FILE_DATA','$_Module_Upload_BASENAME_IMAGE','$_Module_Upload_BASENAME_FILE','0','$_GLOBAL_DATE','$_Module_Upload_POST_TITLE','$_GLOBAL_USERNAME')");
+
+/*
+ ===========================
+ + Update Member Details
+ ===========================
+*/
+
+$_Module_Upload_UPDATE_MEMBER_EXPERIENCE_AMOUNT		= $_GLOBAL_MEMBER_EXPERIENCE_AMOUNT + 50;
+$_Module_Upload_UPDATE_MEMBER_NUMBER_OF_POSTS		= $_GLOBAL_MEMBER_NUMBER_OF_POSTS + 1;
+
+$_Module_Upload_DB_Query_UPDATE_MEMBER			= $DB->query("UPDATE {$_ACCESS_DATABASE_PREFIX}_members SET member_experience_amount='$_Module_Upload_UPDATE_MEMBER_EXPERIENCE_AMOUNT',member_number_of_posts='$_Module_Upload_UPDATE_MEMBER_NUMBER_OF_POSTS' WHERE member_username='$_GLOBAL_USERNAME'");
+
+if ($_Module_Upload_DB_Query_UPDATE_MEMBER) {
+
+											//echo ($_Message_Upload_MEMBER_EXPERIENCE_AMOUNT_SUCCESSFUL);
+
+} else {
+
+											echo ($_Message_Upload_MEMBER_EXPERIENCE_AMOUNT_ERROR);
+
+} // [ + ] IF_DB_Query_UPDATE_MEMBER
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_Upload_DB_Query_UPDATE_MEMBER);
+
+/*
+ ===========================
+ + If File Information Inserted
+ ===========================
+*/
+
+if ($_Module_Upload_DB_Query_INSERT_FILE) {
+
+											echo ($_Message_Upload_FILE_UPLOAD_SUCCESSFUL);
+
+} else {
+
+											echo ($_Message_Upload_FILE_UPLOAD_ERROR);
+
+} // [ + ] IF_DB_Query_INSERT_FILE
+
+} // [ + ] IF_FILE_EXISTS
+
+} // [ + ] IF_FILE_SIZE
+
+} else {
+
+											unlink("Temporary/$_Module_Upload_BASENAME_FILE");
+											unlink("Temporary/$_Module_Upload_BASENAME_IMAGE");
+
+											echo ($_Message_Upload_FILE_EXTENSION_ERROR);
+} // [ + ] IF_PREPARED_FILES
+
+} // [ + ] NULL_UPLOAD
+?>

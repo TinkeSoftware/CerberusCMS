@@ -1,0 +1,104 @@
+<?php
+/*
+ ===========================================================================================
+ + Cerberus Content Management System.
+ + ---
+ + - Author : Gary Christopher Johnson
+ + - E-Mail : TinkeSoftware@Protonmail.com // GCJohnsonChevalier@Protonmail.com
+ + - Company: Tinke Software
+ + - Notes  : View this file in a non-formatting text editor for correct indentation display
+ + ---
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ + ---
+ + - File Location: root->Module->User->Submit_News
+ + - File Version:  0.4 - Sunday, September, 08, 2019.
+ + ---
+ +%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ +%%%()()%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()()()%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%/-\%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%|4|%  ~ Wyn ~
+ +%%%()()%%()()()%%()%%()%%()()()%%()()()%%()%%()%%()()()%%()()()%%%%%%%%%%%%\-/% Build 0.6
+ ===========================================================================================
+*/
+
+/*
+ ===========================
+ +
+ +
+ + Submit News
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ +
+ + Form Post Variables
+ +
+ ===========================
+*/
+
+$_Module_Submit_News_POST_NEWS_MESSAGE				= $_POST['Post_News_Message'];
+$_Module_Submit_News_POST_NEWS_MESSAGE				= preg_replace("/'/","&#39;", $_Module_Submit_News_POST_NEWS_MESSAGE);
+$_Module_Submit_News_POST_NEWS_MESSAGE				= preg_replace("/</","&lt;", $_Module_Submit_News_POST_NEWS_MESSAGE);
+
+/*
+ ===========================
+ +
+ + Submit News Form
+ +
+ ===========================
+*/
+
+												echo ($_Message_Submit_News_Header);
+
+if (!$_Module_Submit_News_POST_NEWS_MESSAGE) {
+
+echo ("
+												<FORM ACTION=\"?$_INTERNAL_USER_MODULE&#61;Submit_News\" METHOD=\"post\">
+													Submit News:<BR>
+														<TEXTAREA ROWS=\"15\" COLS=\"75\" NAME=\"Post_News_Message\"></TEXTAREA><BR>
+													<INPUT TYPE=\"submit\" VALUE=\"Submit News\">
+												</FORM>
+");
+
+} else {
+
+$_Module_Submit_News_DB_Query_INSERT_SUBMISSION			= $DB->query("INSERT INTO {$_ACCESS_DATABASE_PREFIX}_news_submissions(submission_author,submission_data,submission_time)VALUES('$_GLOBAL_USERNAME','$_Module_Submit_News_POST_NEWS_MESSAGE','$_GLOBAL_DATE')");
+
+if ($_Module_Submit_News_DB_Query_INSERT_SUBMISSION) {
+
+											echo ($_Message_Submit_News_SUBMISSION_SUCCESSFUL);
+
+} else {
+
+											echo ($_Message_Submit_News_SUBMISSION_ERROR);
+
+} // [ + ] IF_DB_Query_INSERT_SUBMISSION
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_Submit_News_DB_Query_INSERT_SUBMISSION);
+
+} // [ + ] IF_NULL
+?>

@@ -1,0 +1,102 @@
+<?php
+/*
+ ===========================================================================================
+ + Cerberus Content Management System.
+ + ---
+ + - Author : Gary Christopher Johnson
+ + - E-Mail : TinkeSoftware@Protonmail.com // GCJohnsonChevalier@Protonmail.com
+ + - Company: Tinke Software
+ + - Notes  : View this file in a non-formatting text editor for correct indentation display
+ + ---
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ + ---
+ + - File Location: root->Module->User->System_Message
+ + - File Version:  0.4 - Sunday, September, 08, 2019.
+ + ---
+ +%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ +%%%()()%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()()()%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%/-\%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%|4|%  ~ Wyn ~
+ +%%%()()%%()()()%%()%%()%%()()()%%()()()%%()%%()%%()()()%%()()()%%%%%%%%%%%%\-/% Build 0.6
+ ===========================================================================================
+*/
+
+/*
+ ===========================
+ +
+ +
+ + System Message
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ +
+ + Get Variables
+ +
+ ===========================
+*/
+
+$_Module_System_Message_ADMINISTRATOR_NOTIFICATION			= $_GET['MessageContents'];
+
+											echo ($_Message_System_Message_Header);
+
+/*
+ ===========================
+ +
+ + Change Language Notification
+ +
+ ===========================
+*/
+
+if ($_GET["Message"] == "Language") {
+
+											echo ("<CENTER>Cerberus: I Have Changed Your Language To: <I>$_GLOBAL_LANGUAGE_COOKIE</I></CENTER>");
+
+} // [ + ] IF_Message_Language
+
+/*
+ ===========================
+ +
+ + System Message Notification
+ +
+ ===========================
+*/
+
+if ($_GET["Message"] == "AdministratorNotification") {
+
+											echo ("<CENTER>$_Module_System_Message_ADMINISTRATOR_NOTIFICATION</CENTER>");
+
+} // [ +] IF_Message_AdministratorNotification
+
+/*
+ ===========================
+ +
+ + System Message Default
+ +
+ ===========================
+*/
+
+if ($_GET["Message"] == "Default") {
+
+											echo ("<CENTER>$_Message_System_Message_DEFAULT_MESSAGE</CENTER>");
+
+} // [ + ] IF_Message_Default
+?>

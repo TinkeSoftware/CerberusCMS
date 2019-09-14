@@ -1,0 +1,210 @@
+<?php
+/*
+ ===========================================================================================
+ + Cerberus Content Management System.
+ + ---
+ + - Author : Gary Christopher Johnson
+ + - E-Mail : TinkeSoftware@Protonmail.com // GCJohnsonChevalier@Protonmail.com
+ + - Company: Tinke Software
+ + - Notes  : View this file in a non-formatting text editor for correct indentation display
+ + ---
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ + ---
+ + - File Location: root->Module->User->Comment
+ + - File Version:  0.4 - Sunday, September, 08, 2019.
+ + ---
+ +%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ +%%%()()%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()()()%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%/-\%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%|4|%  ~ Wyn ~
+ +%%%()()%%()()()%%()%%()%%()()()%%()()()%%()%%()%%()()()%%()()()%%%%%%%%%%%%\-/% Build 0.6
+ ===========================================================================================
+*/
+
+/*
+ ===========================
+ +
+ +
+ + Comment
+ +
+ +
+ ===========================
+*/
+
+									echo ($_Message_Comment_Header);
+
+/*
+ ===========================
+ +
+ + Comment Grab Post Variables
+ +
+ ===========================
+*/
+
+$_Module_Comment_POST_APPLICATION_ID					= $_POST['post_application_id'];
+$_Module_Comment_POST_APPLICATION_NAME					= $_POST['post_application_name'];
+$_Module_Comment_POST_COMMENT_DATA					= $_POST['post_comment_data'];
+
+$_Module_Comment_POST_COMMENT_DATA					= str_replace($_GLOBAL_SAFEHTML_CODE, $_GLOBAL_SAFEHTML_CODE_REPLACE, $_Module_Comment_POST_COMMENT_DATA);
+$_Module_Comment_POST_COMMENT_DATA					= str_replace($_GLOBAL_SAFEHTML_SMILEYS, $_GLOBAL_SAFEHTML_SMILEYS_REPLACE, $_Module_Comment_POST_COMMENT_DATA);
+
+if ((!$_Module_Comment_POST_APPLICATION_NAME) || (!$_Module_Comment_POST_APPLICATION_ID) || (!$_Module_Comment_POST_COMMENT_DATA)) {
+/**
+ * Do Nothing
+**/
+} else {
+
+$_Module_Comment_DB_Query_INSERT_COMMENT				= $DB->query("INSERT INTO {$_ACCESS_DATABASE_PREFIX}_comments(comment_author,comment_data,comment_application_id,comment_application_name,comment_time)VALUES('$_GLOBAL_USERNAME','$_Module_Comment_POST_COMMENT_DATA','$_Module_Comment_POST_APPLICATION_ID','$_Module_Comment_POST_APPLICATION_NAME','$_GLOBAL_DATE')");
+
+if ($_Module_Comment_DB_Query_INSERT_COMMENT) {
+											echo ($_Message_Comment_ADD);
+} else {
+											echo ($_Message_Comment_ADD_ERROR);
+} // [ + ]  IF_DB_Query_INSERT_COMMENT
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_Comment_DB_Query_INSERT_COMMENT);
+
+} // [ + ] IF_FAKE_POSTS
+
+/*
+ ===========================
+ +
+ + List Comment Entries
+ +
+ ===========================
+*/
+
+$_Module_Comment_DB_Query_SELECT_COMMENT 				= $DB->query("SELECT * FROM {$_ACCESS_DATABASE_PREFIX}_comments WHERE comment_author='$_GLOBAL_USERNAME'");
+
+while ($_Module_Comment_DB_Query_SELECT_COMMENT_Fetch_Array = $DB->fetch_array($_Module_Comment_DB_Query_SELECT_COMMENT)) {
+
+$_Module_Comment_LIST_COMMENT_ID					= $_Module_Comment_DB_Query_SELECT_COMMENT_Fetch_Array['id'];
+$_Module_Comment_LIST_COMMENT_AUTHOR					= $_Module_Comment_DB_Query_SELECT_COMMENT_Fetch_Array['comment_author'];
+$_Module_Comment_LIST_COMMENT_DATA					= $_Module_Comment_DB_Query_SELECT_COMMENT_Fetch_Array['comment_data'];
+
+$_Module_Comment_LIST_COMMENT_DATA					= str_replace($_GLOBAL_SAFEHTML_CODE_BACK, $_GLOBAL_SAFEHTML_CODE_BACK_REPLACE, $_Module_Comment_LIST_COMMENT_DATA);
+$_Module_Comment_LIST_COMMENT_DATA					= str_replace($_GLOBAL_SAFEHTML_SMILEYS_BACK, $_GLOBAL_SAFEHTML_SMILEYS_BACK_REPLACE, $_Module_Comment_LIST_COMMENT_DATA);
+
+/*
+ ===========================
+ +
+ + Update Selected Comment ID
+ +
+ ===========================
+*/
+
+if ($_GET["ModifyCommentID"] == "$_Module_Comment_LIST_COMMENT_ID") {
+
+/*
+ ===========================
+ +
+ + Update Comment Post Variables
+ +
+ ===========================
+*/
+
+$_Module_Comment_POST_UPDATE_COMMENT_DATA				= $_POST['post_update_comment_data'];
+$_Module_Comment_POST_UPDATE_COMMENT_DATA				= str_replace($_GLOBAL_SAFEHTML_CODE, $_GLOBAL_SAFEHTML_CODE_REPLACE, $_Module_Comment_POST_UPDATE_COMMENT_DATA);
+$_Module_Comment_POST_UPDATE_COMMENT_DATA				= str_replace($_GLOBAL_SAFEHTML_SMILEYS, $_GLOBAL_SAFEHTML_SMILEYS_REPLACE, $_Module_Comment_POST_UPDATE_COMMENT_DATA);
+
+/*
+ ===========================
+ +
+ + Update Comment Form
+ +
+ ===========================
+*/
+
+if (!$_Module_Comment_POST_UPDATE_COMMENT_DATA) {
+
+echo ("
+											<CENTER><B>Update Comment</B></CENTER><HR>
+												$_GLOBAL_TEXTEDITOR_BUTTONS
+												<BR><BR>Comment:<BR>
+													<FORM ACTION=\"?$_INTERNAL_USER_MODULE&#61;Comment&amp;ModifyCommentID&#61;$_Module_Comment_LIST_COMMENT_ID\" METHOD=\"post\">
+														<TEXTAREA ROWS=\"15\" COLS=\"75\" NAME=\"post_update_comment_data\" ID=\"WYSIWYG\">$_Module_Comment_LIST_COMMENT_DATA</TEXTAREA><BR>
+														<INPUT TYPE=\"submit\" VALUE=\"Save Changes\">
+													</FORM>
+");
+
+} else {
+
+$_Module_Comment_DB_Query_UPDATE_COMMENT				= $DB->query("UPDATE {$_ACCESS_DATABASE_PREFIX}_comments SET comment_data='$_Module_Comment_POST_UPDATE_COMMENT_DATA' WHERE id='$_Module_Comment_LIST_COMMENT_ID'");
+
+if ($_Module_Comment_DB_Query_UPDATE_COMMENT) {
+											echo ($_Message_Comment_UPDATE);
+} else {
+											echo ($_Message_Comment_UPDATE_ERROR);
+} // [ + ] IF_QUERY
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_Comment_DB_Query_UPDATE_COMMENT);
+
+} // [ + ] NULL_POST
+
+} // [ + ] IF_ModifyCommentID
+
+/*
+ ===========================
+ +
+ + Delete Selected Comment ID
+ +
+ ===========================
+*/
+
+if ($_GET["DeleteCommentID"] == "$_Module_Comment_LIST_COMMENT_ID") {
+
+$_Module_Comment_DB_Query_DELETE_COMMENT				= $DB->query("DELETE FROM {$_ACCESS_DATABASE_PREFIX}_comments WHERE id='$_Module_Comment_LIST_COMMENT_ID' AND comment_author='$_GLOBAL_USERNAME'");
+
+if ($_Module_Comment_DB_Query_DELETE_COMMENT) {
+											echo ($_Message_Comment_DELETE);
+} else {
+											echo ($_Message_Comment_DELETE_ERROR);
+} // [ + ] IF_DB_Query_DELETE
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_Comment_DB_Query_DELETE_COMMENT);
+
+} // [ + ] DELETE_ID
+
+} // [ + ] WHILE_ARRAY
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_Comment_DB_Query_SELECT_COMMENT);
+?>

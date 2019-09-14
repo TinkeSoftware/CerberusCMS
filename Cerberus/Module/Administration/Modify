@@ -1,0 +1,752 @@
+<?php
+/*
+ ===========================================================================================
+ + Cerberus Content Management System.
+ + ---
+ + - Author : Gary Christopher Johnson
+ + - E-Mail : TinkeSoftware@Protonmail.com // GCJohnsonChevalier@Protonmail.com
+ + - Company: Tinke Software
+ + - Notes  : View this file in a non-formatting text editor for correct indentation display
+ + ---
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ + ---
+ + - File Location: root->Module->Administration->Modify
+ + - File Version:  0.4 - Sunday, September, 08, 2019.
+ + ---
+ +%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ +%%%()()%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()()()%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%/-\%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%|4|%  ~ Wyn ~
+ +%%%()()%%()()()%%()%%()%%()()()%%()()()%%()%%()%%()()()%%()()()%%%%%%%%%%%%\-/% Build 0.6
+ ===========================================================================================
+*/
+
+/*
+ ===========================
+ +
+ +
+ + Update / Delete Articles
+ +
+ +
+ ===========================
+*/
+
+if ($_GET["Data"] == "Articles") {
+
+$_Module_Modify_DB_Query_SELECT_ARTICLES			= $DB->query("SELECT * FROM {$_ACCESS_DATABASE_PREFIX}_articles");
+
+while ($_Module_Modify_DB_Query_SELECT_ARTICLES_Fetch_Array = $DB->fetch_array($_Module_Modify_DB_Query_SELECT_ARTICLES)) {
+
+/*
+ ===========================
+ +
+ + List Selected Article Entries
+ +
+ ===========================
+*/
+
+$_Module_Modify_LIST_ARTICLE_ID				= $_Module_Modify_DB_Query_SELECT_ARTICLES_Fetch_Array['id'];
+$_Module_Modify_LIST_ARTICLE_AUTHOR			= $_Module_Modify_DB_Query_SELECT_ARTICLES_Fetch_Array['article_author'];
+$_Module_Modify_LIST_ARTICLE_DATA				= $_Module_Modify_DB_Query_SELECT_ARTICLES_Fetch_Array['article_data'];
+$_Module_Modify_LIST_ARTICLE_TIME				= $_Module_Modify_DB_Query_SELECT_ARTICLES_Fetch_Array['article_time'];
+$_Module_Modify_LIST_ARTICLE_TITLE			= $_Module_Modify_DB_Query_SELECT_ARTICLES_Fetch_Array['article_title'];
+
+/*
+ ===========================
+ + Safe-HTML Code, Replace
+ ===========================
+*/
+
+$_Module_Modify_LIST_ARTICLE_DATA				= str_replace($_GLOBAL_SAFEHTML_CODE_BACK, $_GLOBAL_SAFEHTML_CODE_BACK_REPLACE, $_Module_Modify_LIST_ARTICLE_DATA);
+$_Module_Modify_LIST_ARTICLE_DATA				= str_replace($_GLOBAL_SAFEHTML_SMILEYS_BACK, $_GLOBAL_SAFEHTML_SMILEYS_BACK_REPLACE, $_Module_Modify_LIST_ARTICLE_DATA);
+
+/*
+ ===========================
+ +
+ + Delete Selected Article ID
+ +
+ ===========================
+*/
+
+if ($_GET["DeleteArticleID"] == "$_Module_Modify_LIST_ARTICLE_ID") {
+
+$_Module_Modify_DB_Query_DELETE_ARTICLE			= $DB->query("DELETE FROM {$_ACCESS_DATABASE_PREFIX}_articles WHERE id='$_Module_Modify_LIST_ARTICLE_ID'");
+$_Module_Modify_DELETE_ARTICLE_FILE			= unlink("System/Printable/Article/$_Module_Modify_LIST_ARTICLE_TITLE.html");
+
+if (($_Module_Modify_DB_Query_DELETE_ARTICLE) && ($_Module_Modify_DELETE_ARTICLE_FILE)) {
+													echo ($_Message_Modify_ARTICLE_DELETED_SUCCESSFULLY);
+} else {
+													echo ($_Message_ERROR_ACTION_UNIVERSAL);
+} // [ + ] IF_DELETE_QUERY
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_Modify_DB_Query_DELETE_ARTICLE);
+
+} // [ + ] IF_DELETE_ARTICLE_ID
+
+/*
+ ===========================
+ +
+ + Update Selected Article ID
+ +
+ ===========================
+*/
+
+if ($_GET["ModifyArticleID"] == "$_Module_Modify_LIST_ARTICLE_ID") {
+
+/*
+ ===========================
+ +
+ + Update Article Post Variables
+ +
+ ===========================
+*/
+
+$_Module_Modify_POST_UPDATE_ARTICLE_AUTHOR		= $_POST['post_update_article_author'];
+$_Module_Modify_POST_UPDATE_ARTICLE_TIME			= $_POST['post_update_article_time'];
+$_Module_Modify_POST_UPDATE_ARTICLE_TITLE			= $_POST['post_update_article_title'];
+$_Module_Modify_POST_UPDATE_ARTICLE_DATA			= $_POST['post_update_article_data'];
+
+/*
+ ===========================
+ + Sanitize Data
+ ===========================
+*/
+
+$_Module_Modify_POST_UPDATE_ARTICLE_AUTHOR		= preg_replace("/'/","&#39;", $_Module_Modify_POST_UPDATE_ARTICLE_AUTHOR);
+$_Module_Modify_POST_UPDATE_ARTICLE_TIME			= preg_replace("/'/","&#39;", $_Module_Modify_POST_UPDATE_ARTICLE_TIME);
+$_Module_Modify_POST_UPDATE_ARTICLE_TITLE			= preg_replace("/'/","&#39;", $_Module_Modify_POST_UPDATE_ARTICLE_TITLE);
+
+/*
+ ===========================
+ + Safe-HTML Code, Replace
+ ===========================
+*/
+
+$_Module_Modify_POST_UPDATE_ARTICLE_DATA			= str_replace($_GLOBAL_SAFEHTML_CODE, $_GLOBAL_SAFEHTML_CODE_REPLACE, $_Module_Modify_POST_UPDATE_ARTICLE_DATA);
+$_Module_Modify_POST_UPDATE_ARTICLE_DATA			= str_replace($_GLOBAL_SAFEHTML_SMILEYS, $_GLOBAL_SAFEHTML_SMILEYS_REPLACE, $_Module_Modify_POST_UPDATE_ARTICLE_DATA);
+
+/*
+ ===========================
+ +
+ + Update Article Form
+ +
+ ===========================
+*/
+
+if (!$_Module_Modify_POST_UPDATE_ARTICLE_AUTHOR) {
+
+echo ("
+													<CENTER><B>Currently Modifying Article: <I>$_Module_Modify_LIST_ARTICLE_TITLE</I></B></CENTER><HR>
+														<FORM ACTION=\"?$_INTERNAL_ADMINISTRATOR_MODULE&#61;cPanel&amp;Action&#61;Modify&amp;Data&#61;Articles&amp;ModifyArticleID&#61;$_Module_Modify_LIST_ARTICLE_ID\" METHOD=\"post\">
+															Article Author:<BR>
+																<INPUT TYPE=\"text\" NAME=\"post_update_article_author\" VALUE=\"$_Module_Modify_LIST_ARTICLE_AUTHOR\" MAXLENGTH=\"50\"><BR>
+															Article Title:<BR>
+																<INPUT TYPE=\"text\" NAME=\"post_update_article_title\" VALUE=\"$_Module_Modify_LIST_ARTICLE_TITLE\" MAXLENGTH=\"50\"><BR>
+															Article Submission Date:<BR>
+																<INPUT TYPE=\"text\" NAME=\"post_update_article_time\" VALUE=\"$_Module_Modify_LIST_ARTICLE_TIME\" MAXLENGTH=\"50\"><BR>
+															Article Data:<BR>
+																<TEXTAREA ROWS=\"15\" COLS=\"75\" NAME=\"post_update_article_data\">$_Module_Modify_LIST_ARTICLE_DATA</TEXTAREA><BR>
+															<INPUT TYPE=\"submit\" VALUE=\"Update Article Entry\">
+														</FORM>
+");
+
+} else {
+
+/*
+ ===========================
+ + Update Article ID SQL Row
+ ===========================
+*/
+
+$_Module_Modify_DB_Query_UPDATE_ARTICLE			= $DB->query("UPDATE {$_ACCESS_DATABASE_PREFIX}_articles SET article_author='$_Module_Modify_POST_UPDATE_ARTICLE_AUTHOR',article_data='$_Module_Modify_POST_UPDATE_ARTICLE_DATA',article_time='$_Module_Modify_POST_UPDATE_ARTICLE_TIME',article_title='$_Module_Modify_POST_UPDATE_ARTICLE_TITLE' WHERE id='$_Module_Modify_LIST_ARTICLE_ID'");
+
+if ($_Module_Modify_DB_Query_UPDATE_ARTICLE) {
+
+/*
+ ===========================
+ + If SQL Row Updated, Update Printable Article
+ ===========================
+*/
+
+$_Module_Modify_SPECIFY_ARTICLE_FILE			= "System/Printable/Article/$_Module_Modify_POST_UPDATE_TITLE.html";
+$_Module_Modify_SPECIFY_ARTICLE_DATA = "
+Title: $_Module_Modify_POST_UPDATE_TITLE<HR>
+$_Module_Modify_POST_UPDATE_DATA
+<HR>
+Written by: $_Module_Modify_POST_UPDATE_AUTHOR On: $_GLOBAL_DATE<BR>
+[ <A HREF=\"javascript:print();\">Print Page</A> ]";
+
+$_Module_Modify_SPECIFY_ARTICLE_DATA			= stripslashes($_Module_Modify_SPECIFY_ARTICLE_DATA);
+$_Module_Modify_OPEN_ARTICLE_FILE				= fopen($_Module_Modify_SPECIFY_ARTICLE_FILE, "w");
+
+fwrite($_Module_Modify_OPEN_ARTICLE_FILE, "$_Module_Modify_SPECIFY_ARTICLE_DATA");
+
+/*
+ ===========================
+ + Close Selected Article File
+ ===========================
+*/
+
+fclose($_Module_Modify_OPEN_ARTICLE_FILE);
+
+													echo ($_Message_Modify_ARTICLE_UPDATED_SUCCESSFULLY);
+} else {
+													echo ($_Message_ERROR_ACTION_UNIVERSAL);
+} // [ + ] IF_QUERY
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_Modify_DB_Query_UPDATE_ARTICLE);
+
+} // [ + ] IF_NULL
+
+} // [ + ] IF_ID
+
+} // [ + ] WHILE_ARRAY
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_Modify_DB_Query_SELECT_ARTICLES);
+
+} // [ + ] IF_MODIFY_ARTICLES
+
+/*
+ ===========================
+ +
+ +
+ + Update / Delete Links
+ +
+ +
+ ===========================
+*/
+
+if ($_GET["Data"] == "Links") {
+
+$_Module_Modify_DB_Query_SELECT_LINKS			= $DB->query("SELECT * FROM {$_ACCESS_DATABASE_PREFIX}_links");
+
+while ($_Module_Modify_DB_Query_SELECT_LINKS_Fetch_Array = $DB->fetch_array($_Module_Modify_DB_Query_SELECT_LINKS)) {
+
+/*
+ ===========================
+ +
+ + List Selected Link Entries
+ +
+ ===========================
+*/
+
+$_Module_Modify_LIST_LINK_ID				= $_Module_Modify_DB_Query_SELECT_LINKS_Fetch_Array['id'];
+$_Module_Modify_LIST_LINK_AUTHOR				= $_Module_Modify_DB_Query_SELECT_LINKS_Fetch_Array['link_author'];
+$_Module_Modify_LIST_LINK_DESCRIPTION			= $_Module_Modify_DB_Query_SELECT_LINKS_Fetch_Array['link_description'];
+$_Module_Modify_LIST_LINK_TIME				= $_Module_Modify_DB_Query_SELECT_LINKS_Fetch_Array['link_time'];
+$_Module_Modify_LIST_LINK_TITLE				= $_Module_Modify_DB_Query_SELECT_LINKS_Fetch_Array['link_title'];
+$_Module_Modify_LIST_LINK_URL				= $_Module_Modify_DB_Query_SELECT_LINKS_Fetch_Array['link_url'];
+$_Module_Modify_LIST_LINK_DESCRIPTION			= str_replace($_GLOBAL_SAFEHTML_CODE_BACK, $_GLOBAL_SAFEHTML_CODE_BACK_REPLACE, $_Module_Modify_LIST_LINK_DESCRIPTION);
+$_Module_Modify_LIST_LINK_DESCRIPTION			= str_replace($_GLOBAL_SAFEHTML_SMILEYS_BACK, $_GLOBAL_SAFEHTML_SMILEYS_BACK_REPLACE, $_Module_Modify_LIST_LINK_DESCRIPTION);
+
+/*
+ ===========================
+ +
+ + Delete Selected Link ID
+ +
+ ===========================
+*/
+
+if ($_GET["DeleteLinkID"] == "$_Module_Modify_LIST_LINK_ID") {
+
+$_Module_Modify_DB_Query_DELETE_LINK			= $DB->query("DELETE FROM {$_ACCESS_DATABASE_PREFIX}_links WHERE id='$_Module_Modify_LIST_LINK_ID'");
+
+if ($_Module_Modify_DB_Query_DELETE_LINK) {
+													echo ($_Message_Modify_LINK_DELETED_SUCCESSFULLY);
+} else {
+													echo ($_Message_ERROR_ACTION_UNIVERSAL);
+} // [ + ] IF_DELETE_QUERY
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_Modify_DB_Query_DELETE_LINK);
+
+} // [ + ] IF_DELETE
+
+/*
+ ===========================
+ +
+ +
+ + Update Selected Link ID
+ +
+ +
+ ===========================
+*/
+
+if ($_GET["ModifyLinkID"] == "$_Module_Modify_LIST_LINK_ID") {
+
+/*
+ ===========================
+ +
+ + Update Link Post Variables
+ +
+ ===========================
+*/
+
+$_Module_Modify_POST_UPDATE_LINK_AUTHOR			= $_POST['update_link_author'];
+$_Module_Modify_POST_UPDATE_LINK_AUTHOR			= preg_replace("/'/","&#39;", $_Module_Modify_POST_UPDATE_LINK_AUTHOR);
+$_Module_Modify_POST_UPDATE_LINK_DESCRIPTION		= $_POST['update_link_description'];
+$_Module_Modify_POST_UPDATE_LINK_DESCRIPTION		= str_replace($_GLOBAL_SAFEHTML_CODE, $_GLOBAL_SAFEHTML_CODE_REPLACE, $_Module_Modify_POST_UPDATE_LINK_DESCRIPTION);
+$_Module_Modify_POST_UPDATE_LINK_DESCRIPTION		= str_replace($_GLOBAL_SAFEHTML_SMILEYS, $_GLOBAL_SAFEHTML_SMILEYS_REP, $_Module_Modify_POST_UPDATE_LINK_DESCRIPTION);
+$_Module_Modify_POST_UPDATE_LINK_TIME			= $_POST['update_link_time'];
+$_Module_Modify_POST_UPDATE_LINK_TIME			= preg_replace("/'/","&#39;", $_Module_Modify_POST_UPDATE_LINK_TIME);
+$_Module_Modify_POST_UPDATE_LINK_TITLE			= $_POST['update_link_title'];
+$_Module_Modify_POST_UPDATE_LINK_TITLE			= preg_replace("/'/","&#39;", $_Module_Modify_POST_UPDATE_LINK_TITLE);
+$_Module_Modify_POST_UPDATE_LINK_URL			= $_POST['update_link_url'];
+$_Module_Modify_POST_UPDATE_LINK_URL			= preg_replace("/'/","&#39;", $_Module_Modify_POST_UPDATE_LINK_URL);
+
+/*
+ ===========================
+ +
+ + Update Link Form
+ +
+ ===========================
+*/
+
+if ((!$_Module_Modify_POST_UPDATE_LINK_AUTHOR) || (!$_Module_Modify_POST_UPDATE_LINK_DESCRIPTION) || (!$_Module_Modify_POST_UPDATE_LINK_TIME) || (!$_Module_Modify_POST_UPDATE_LINK_TITLE) || (!$_Module_Modify_POST_UPDATE_LINK_URL)) {
+
+echo ("
+													<CENTER><B>Currently Modifying Link: <I>$_Module_Modify_LIST_LINK_TITLE</I></B></CENTER><HR>
+														<FORM ACTION=\"?$_INTERNAL_ADMINISTRATOR_MODULE&#61;cPanel&amp;Action&#61;Modify&amp;Data&#61;Links&amp;ModifyLinkID&#61;$_Module_Modify_LIST_LINK_ID\" METHOD=\"post\">
+															Link Author:<BR>
+																<INPUT TYPE=\"text\" NAME=\"update_link_author\" VALUE=\"$_Module_Modify_LIST_LINK_AUTHOR\" MAXLENGTH=\"50\"><BR>
+															Link Title:<BR>
+																<INPUT TYPE=\"text\" NAME=\"update_link_title\" VALUE=\"$_Module_Modify_LIST_LINK_TITLE\" MAXLENGTH=\"50\"><BR>
+															Link Uniform Resource Locator:<BR>
+																<INPUT TYPE=\"text\" NAME=\"update_link_url\" VALUE=\"$_Module_Modify_LIST_LINK_URL\" MAXLENGTH=\"250\"><BR>
+															Link Submission Date:<BR>
+																<INPUT TYPE=\"text\" NAME=\"update_link_time\" VALUE=\"$_Module_Modify_LIST_LINK_TIME\" MAXLENGTH=\"50\"><BR>
+															Link Description:<BR>
+																<TEXTAREA ROWS=\"15\" COLS=\"75\" NAME=\"update_link_description\">$_Module_Modify_LIST_LINK_DESCRIPTION</TEXTAREA><BR>
+															<INPUT TYPE=\"submit\" VALUE=\"Update Link\">
+														</FORM>
+");
+
+} else {
+
+$_Module_Modify_DB_Query_UPDATE_LINK			= $DB->query("UPDATE {$_ACCESS_DATABASE_PREFIX}_links SET link_author='$_Module_Modify_POST_UPDATE_LINK_AUTHOR',link_description='$_Module_Modify_POST_UPDATE_LINK_DESCRIPTION',link_time='$_Module_Modify_POST_UPDATE_LINK_TIME',link_title='$_Module_Modify_POST_UPDATE_LINK_TITLE',link_url='$_Module_Modify_POST_UPDATE_LINK_URL' WHERE id='$_Module_Modify_LIST_LINK_ID'");
+
+if ($_Module_Modify_DB_Query_UPDATE_LINK) {
+													echo ($_Message_Modify_LINK_UPDATED_SUCCESSFULLY);
+} else {
+													echo ($_Message_ERROR_ACTION_UNIVERSAL);
+} // [ + ] IF_LINK_QUERY
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_Modify_DB_Query_UPDATE_LINK);
+
+} // [ + ] IF_NULL
+
+} // [ + ] IF_MODIFY
+
+} // [ + ] WHILE_ARRAY
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_Modify_DB_Query_SELECT_LINKS);
+
+} // [ + ] IF_MODIFY_LINKS
+
+/*
+ ===========================
+ +
+ +
+ + Update / Delete News
+ +
+ +
+ ===========================
+*/
+
+if ($_GET["Data"] == "News") {
+
+$_Module_Modify_DB_Query_SELECT_NEWS			= $DB->query("SELECT * FROM {$_ACCESS_DATABASE_PREFIX}_news");
+
+while ($_Module_Modify_DB_Query_SELECT_NEWS_Fetch_Array = $DB->fetch_array($_Module_Modify_DB_Query_SELECT_NEWS)) {
+
+/*
+ ===========================
+ +
+ + List Selected News Entries
+ +
+ ===========================
+*/
+
+$_Module_Modify_LIST_NEWS_ID				= $_Module_Modify_DB_Query_SELECT_NEWS_Fetch_Array['id'];
+$_Module_Modify_LIST_NEWS_AUTHOR				= $_Module_Modify_DB_Query_SELECT_NEWS_Fetch_Array['news_author'];
+$_Module_Modify_LIST_NEWS_AVATAR				= $_Module_Modify_DB_Query_SELECT_NEWS_Fetch_Array['news_avatar'];
+$_Module_Modify_LIST_NEWS_DATA				= $_Module_Modify_DB_Query_SELECT_NEWS_Fetch_Array['news_data'];
+$_Module_Modify_LIST_NEWS_DATA				= str_replace($_GLOBAL_SAFEHTML_CODE_BACK, $_GLOBAL_SAFEHTML_CODE_BACK_REPLACE, $_Module_Modify_LIST_NEWS_DATA);
+$_Module_Modify_LIST_NEWS_DATA				= str_replace($_GLOBAL_SAFEHTML_SMILEYS_BACK, $_GLOBAL_SAFEHTML_SMILEYS_BACK_REPLACE, $_Module_Modify_LIST_NEWS_DATA);
+$_Module_Modify_LIST_NEWS_MOOD				= $_Module_Modify_DB_Query_SELECT_NEWS_Fetch_Array['news_mood'];
+$_Module_Modify_LIST_NEWS_MUSIC				= $_Module_Modify_DB_Query_SELECT_NEWS_Fetch_Array['news_music'];
+$_Module_Modify_LIST_NEWS_TIME				= $_Module_Modify_DB_Query_SELECT_NEWS_Fetch_Array['news_time'];
+$_Module_Modify_LIST_NEWS_TITLE				= $_Module_Modify_DB_Query_SELECT_NEWS_Fetch_Array['news_title'];
+
+/*
+ ===========================
+ +
+ + Update Selected News ID
+ +
+ ===========================
+*/
+
+if ($_GET["ModifyNewsID"] == "$_Module_Modify_LIST_NEWS_ID") {
+
+/*
+ ===========================
+ +
+ + Update News Post Variables
+ +
+ ===========================
+*/
+
+$_Module_Modify_POST_UPDATE_NEWS_AUTHOR			= $_POST['update_news_author'];
+$_Module_Modify_POST_UPDATE_NEWS_AUTHOR			= preg_replace("/'/","&#39;", $_Module_Modify_POST_UPDATE_NEWS_AUTHOR);
+$_Module_Modify_POST_UPDATE_NEWS_AVATAR			= $_POST['update_news_avatar'];
+$_Module_Modify_POST_UPDATE_NEWS_AVATAR			= preg_replace("/'/","&#39;", $_Module_Modify_POST_UPDATE_NEWS_AVATAR);
+$_Module_Modify_POST_UPDATE_NEWS_DATA			= $_POST['update_news_data'];
+$_Module_Modify_POST_UPDATE_NEWS_DATA			= str_replace($_GLOBAL_SAFEHTML_CODE, $_GLOBAL_SAFEHTML_CODE_REPLACE, $_Module_Modify_POST_UPDATE_NEWS_DATA);
+$_Module_Modify_POST_UPDATE_NEWS_DATA			= str_replace($_GLOBAL_SAFEHTML_SMILEYS, $_GLOBAL_SAFEHTML_SMILEYS_REP, $_Module_Modify_POST_UPDATE_NEWS_DATA);
+$_Module_Modify_POST_UPDATE_NEWS_MOOD			= $_POST['update_news_mood'];
+$_Module_Modify_POST_UPDATE_NEWS_MOOD			= preg_replace("/'/","&#39;", $_Module_Modify_POST_UPDATE_NEWS_MOOD);
+$_Module_Modify_POST_UPDATE_NEWS_MUSIC			= $_POST['update_news_music'];
+$_Module_Modify_POST_UPDATE_NEWS_MUSIC			= preg_replace("/'/","&#39;", $_Module_Modify_POST_UPDATE_NEWS_MUSIC);
+$_Module_Modify_POST_UPDATE_NEWS_TIME			= $_POST['update_news_time'];
+$_Module_Modify_POST_UPDATE_NEWS_TIME			= preg_replace("/'/","&#39;", $_Module_Modify_POST_UPDATE_NEWS_TIME);
+$_Module_Modify_POST_UPDATE_NEWS_TITLE			= $_POST['update_news_title'];
+$_Module_Modify_POST_UPDATE_NEWS_TITLE			= preg_replace("/'/","&#39;", $_Module_Modify_POST_UPDATE_NEWS_TITLE);
+
+/*
+ ===========================
+ +
+ + Update News Form
+ +
+ ===========================
+*/
+
+if ((!$_Module_Modify_POST_UPDATE_NEWS_AUTHOR)) {
+
+echo ("
+													<CENTER><B>Currently Modifying News Item: <I>$_Module_Modify_LIST_NEWS_TITLE</I></B></CENTER><HR>
+														<FORM ACTION=\"?$_INTERNAL_ADMINISTRATOR_MODULE&#61;cPanel&amp;Action&#61;Modify&amp;Data&#61;News&amp;ModifyNewsID&#61;$_Module_Modify_LIST_NEWS_ID\" METHOD=\"post\">
+															News Author:<BR>
+																<INPUT TYPE=\"text\" NAME=\"update_news_author\" VALUE=\"$_Module_Modify_LIST_NEWS_AUTHOR\" MAXLENGTH=\"50\"><BR>
+															News Avatar:<BR>
+																<INPUT TYPE=\"text\" NAME=\"update_news_avatar\" VALUE=\"$_Module_Modify_LIST_NEWS_AVATAR\" MAXLENGTH=\"50\"><BR>
+															Mood:<BR>
+																<INPUT TYPE=\"text\" NAME=\"update_news_mood\" VALUE=\"$_Module_Modify_LIST_NEWS_MOOD\" MAXLENGTH=\"250\"><BR>
+															Music:<BR>
+																<INPUT TYPE=\"text\" NAME=\"update_news_music\" VALUE=\"$_Module_Modify_LIST_NEWS_MUSIC\" MAXLENGTH=\"250\"><BR>
+															Time Submitted:<BR>
+																<INPUT TYPE=\"text\" NAME=\"update_news_time\" VALUE=\"$_Module_Modify_LIST_NEWS_TIME\" MAXLENGTH=\"50\"><BR>
+															News Title:<BR>
+																<INPUT TYPE=\"text\" NAME=\"update_news_title\" VALUE=\"$_Module_Modify_LIST_NEWS_TITLE\" MAXLENGTH=\"50\"><BR>
+															News Data:<BR>
+																<TEXTAREA ROWS=\"15\" COLS=\"75\" NAME=\"update_news_data\">$_Module_Modify_LIST_NEWS_DATA</TEXTAREA><BR>
+															<INPUT TYPE=\"submit\" VALUE=\"Update News Entry\">
+														</FORM>
+");
+
+} else {
+
+$_Module_Modify_DB_Query_UPDATE_NEWS			= $DB->query("UPDATE {$_ACCESS_DATABASE_PREFIX}_news SET news_author='$_Module_Modify_POST_UPDATE_NEWS_AUTHOR',news_avatar='$_Module_Modify_POST_UPDATE_NEWS_AVATAR',news_data='$_Module_Modify_POST_UPDATE_NEWS_DATA',news_mood='$_Module_Modify_POST_UPDATE_NEWS_MOOD',news_music='$_Module_Modify_POST_UPDATE_NEWS_MUSIC',news_time='$_Module_Modify_POST_UPDATE_NEWS_TIME',news_title='$_Module_Modify_POST_UPDATE_NEWS_TITLE' WHERE id='$_Module_Modify_LIST_NEWS_ID'");
+
+if ($_Module_Modify_DB_Query_UPDATE_NEWS) {
+
+$_SPECIFY_NEWS_FILE					= "System/Printable/News/$_Module_Modify_POST_UPDATE_NEWS_TITLE.html";
+$_SPECIFY_NEWS_DATA	= "
+Title: $_Module_Modify_POST_UPDATE_NEWS_TITLE<HR>
+$_Module_Modify_POST_UPDATE_NEWS_DATA
+<HR>
+Written by: $_Module_Modify_POST_UPDATE_NEWS_AUTHOR On: $_GLOBAL_DATE<BR>
+[ <A HREF=\"javascript:print();\">Print Page</A> ]";
+
+$_SPECIFY_NEWS_DATA					= stripslashes($_SPECIFY_NEWS_DATA);
+$_OPEN_NEWS_FILE						= fopen($_SPECIFY_NEWS_FILE, "w");
+
+fwrite($_OPEN_NEWS_FILE, "$_SPECIFY_NEWS_DATA");
+fclose($_OPEN_NEWS_FILE);
+
+													echo ($_Message_Modify_NEWS_UPDATED_SUCCESSFULLY);
+} else {
+													echo ($_Message_ERROR_ACTION_UNIVERSAL);
+} // [ + ] IF_UPDATE_QUERY
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_Modify_DB_Query_UPDATE_NEWS);
+
+} // [ + ] IF_NULL
+
+} // [ + ] IF_MODIFY
+
+/*
+ ===========================
+ +
+ + Delete Selected News ID
+ +
+ ===========================
+*/
+
+if ($_GET["DeleteNewsID"] == "$_Module_Modify_LIST_NEWS_ID") {
+
+$_Module_Modify_DB_Query_DELETE_NEWS			= $DB->query("DELETE FROM {$_ACCESS_DATABASE_PREFIX}_news WHERE id='$_Module_Modify_LIST_NEWS_ID'");
+$_Module_Modify_DELETE_NEWS_FILE				= unlink("System/Printable/News/$_Module_Modify_LIST_NEWS_TITLE.html");
+
+if (($_Module_Modify_DB_Query_DELETE_NEWS) && ($_Module_Modify_DELETE_NEWS_FILE)) {
+													echo ($_Message_Modify_NEWS_DELETED_SUCCESSFULLY);
+} else {
+													echo ($_Message_ERROR_ACTION_UNIVERSAL);
+} // [ + ] IF_DELETE_QUERY
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_Modify_DB_Query_DELETE_NEWS);
+
+} // [ + ] IF_DELETE
+
+} // [ + ] WHILE_ARRAY
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_Modify_DB_Query_SELECT_NEWS);
+
+} // [ + ] IF_MODIFY_NEWS
+
+/*
+ ===========================
+ +
+ +
+ + Update / Delete Files
+ +
+ +
+ ===========================
+*/
+
+if ($_GET["Data"] == "Files") {
+
+$_Module_Modify_DB_Query_SELECT_FILES			= $DB->query("SELECT * FROM {$_ACCESS_DATABASE_PREFIX}_files");
+
+while ($_Module_Modify_DB_Query_SELECT_FILES_Fetch_Array = $DB->fetch_array($_Module_Modify_DB_Query_SELECT_FILES)) {
+
+/*
+ ===========================
+ +
+ + List Selected File Entries
+ +
+ ===========================
+*/
+
+$_Module_Modify_LIST_FILE_ID				= $_Module_Modify_DB_Query_SELECT_FILES_Fetch_Array['id'];
+$_Module_Modify_LIST_FILE_AUTHOR				= $_Module_Modify_DB_Query_SELECT_FILES_Fetch_Array['file_author'];
+$_Module_Modify_LIST_FILE_CATEGORY			= $_Module_Modify_DB_Query_SELECT_FILES_Fetch_Array['file_category'];
+$_Module_Modify_LIST_FILE_DESCRIPTION			= $_Module_Modify_DB_Query_SELECT_FILES_Fetch_Array['file_description'];
+$_Module_Modify_LIST_FILE_DESCRIPTION			= str_replace($_GLOBAL_SAFEHTML_CODE_BACK, $_GLOBAL_SAFEHTML_CODE_BACK_REPLACE, $_Module_Modify_LIST_FILE_DESCRIPTION);
+$_Module_Modify_LIST_FILE_DESCRIPTION			= str_replace($_GLOBAL_SAFEHTML_SMILEYS_BACK, $_GLOBAL_SAFEHTML_SMILEYS_BACK_REPLACE, $_Module_Modify_LIST_FILE_DESCRIPTION);
+$_Module_Modify_LIST_FILE_IMAGE				= $_Module_Modify_DB_Query_SELECT_FILES_Fetch_Array['file_image'];
+$_Module_Modify_LIST_FILE_LOCATION			= $_Module_Modify_DB_Query_SELECT_FILES_Fetch_Array['file_location'];
+$_Module_Modify_LIST_FILE_NUMBER_OF_DOWNLOADS		= $_Module_Modify_DB_Query_SELECT_FILES_Fetch_Array['file_number_of_downloads'];
+$_Module_Modify_LIST_FILE_TIME				= $_Module_Modify_DB_Query_SELECT_FILES_Fetch_Array['file_time'];
+$_Module_Modify_LIST_FILE_TITLE				= $_Module_Modify_DB_Query_SELECT_FILES_Fetch_Array['file_title'];
+$_Module_Modify_LIST_FILE_UPLOADER			= $_Module_Modify_DB_Query_SELECT_FILES_Fetch_Array['file_uploader'];
+
+/*
+ ===========================
+ +
+ + Delete Selected File ID
+ +
+ ===========================
+*/
+
+if ($_GET["DeleteFileID"] == "$_Module_Modify_LIST_FILE_ID") {
+
+$_Module_Modify_DB_Query_DELETE_FILE			= $DB->query("DELETE FROM {$_ACCESS_DATABASE_PREFIX}_files WHERE id='$_Module_Modify_LIST_FILE_ID'");
+
+$_Module_Modify_DELETE_FILE				= unlink("Upload/$_Module_Modify_LIST_FILE_LOCATION");
+$_Module_Modify_DELETE_FILE_IMAGE				= unlink("Upload/$_Module_Modify_LIST_FILE_IMAGE");
+
+if (($_Module_Modify_DB_Query_DELETE_FILE) && ($_Module_Modify_DELETE_FILE) && ($_Module_Modify_DELETE_FILE_IMAGE)) {
+
+													echo ($_Message_Modify_FILE_DELETED_SUCCESSFULLY);
+
+} else {
+
+													echo ($_Message_ERROR_ACTION_UNIVERSAL);
+
+} // [ + ] IF_DELETE_QUERY
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_Modify_DB_Query_DELETE_FILE);
+
+} // [ + ] IF_DELETE
+
+/*
+ ===========================
+ +
+ + Update Selected File ID
+ +
+ ===========================
+*/
+
+if ($_GET["ModifyFileID"] == "$_Module_Modify_LIST_FILE_ID") {
+
+/*
+ ===========================
+ +
+ + Update File Post Variables
+ +
+ ===========================
+*/
+
+$_Module_Modify_POST_UPDATE_FILE_AUTHOR			= $_POST['update_file_author'];
+$_Module_Modify_POST_UPDATE_FILE_CATEGORY			= $_POST['update_file_category'];
+$_Module_Modify_POST_UPDATE_FILE_DESCRIPTION		= $_POST['update_file_description'];
+$_Module_Modify_POST_UPDATE_FILE_IMAGE			= $_POST['update_file_image'];
+$_Module_Modify_POST_UPDATE_FILE_LOCATION			= $_POST['update_file_location'];
+$_Module_Modify_POST_UPDATE_FILE_NUMBER_OF_DOWNLOADS	= $_POST['update_file_downloads'];
+$_Module_Modify_POST_UPDATE_FILE_TIME			= $_POST['update_file_time'];
+$_Module_Modify_POST_UPDATE_FILE_TITLE			= $_POST['update_file_title'];
+$_Module_Modify_POST_UPDATE_FILE_UPLOADER			= $_POST['update_file_uploader'];
+$_Module_Modify_POST_UPDATE_FILE_AUTHOR			= preg_replace("/'/","&#39;", $_Module_Modify_POST_UPDATE_FILE_AUTHOR);
+$_Module_Modify_POST_UPDATE_FILE_CATEGORY			= preg_replace("/'/","&#39;", $_Module_Modify_POST_UPDATE_FILE_CATEGORY);
+$_Module_Modify_POST_UPDATE_FILE_DESCRIPTION		= str_replace($_GLOBAL_SAFEHTML_CODE, $_GLOBAL_SAFEHTML_CODE_REPLACE, $_Module_Modify_POST_UPDATE_FILE_DESCRIPTION);
+$_Module_Modify_POST_UPDATE_FILE_DESCRIPTION		= str_replace($_GLOBAL_SAFEHTML_SMILEYS, $_GLOBAL_SAFEHTML_SMILEYS_REP, $_Module_Modify_POST_UPDATE_FILE_DESCRIPTION);
+$_Module_Modify_POST_UPDATE_FILE_IMAGE			= preg_replace("/'/","&#39;", $_Module_Modify_POST_UPDATE_FILE_IMAGE);
+$_Module_Modify_POST_UPDATE_FILE_LOCATION			= preg_replace("/'/","&#39;", $_Module_Modify_POST_UPDATE_FILE_LOCATION);
+$_Module_Modify_POST_UPDATE_FILE_NUMBER_OF_DOWNLOADS	= preg_replace("/'/","&#39;", $_Module_Modify_POST_UPDATE_FILE_NUMBER_OF_DOWNLOADS);
+$_Module_Modify_POST_UPDATE_FILE_TIME			= preg_replace("/'/","&#39;", $_Module_Modify_POST_UPDATE_FILE_TIME);
+$_Module_Modify_POST_UPDATE_FILE_TITLE			= preg_replace("/'/","&#39;", $_Module_Modify_POST_UPDATE_FILE_TITLE);
+$_Module_Modify_POST_UPDATE_FILE_UPLOADER			= preg_replace("/'/","&#39;", $_Module_Modify_POST_UPDATE_FILE_UPLOADER);
+
+/*
+ ===========================
+ +
+ + Update File Form
+ +
+ ===========================
+*/
+
+if ((!$_Module_Modify_POST_UPDATE_FILE_AUTHOR)) {
+
+echo ("
+													<CENTER><B>Currently Modifying File: <I>$_Module_Modify_LIST_FILE_TITLE</I></B></CENTER><HR>
+														<FORM ACTION=\"?$_INTERNAL_ADMINISTRATOR_MODULE&#61;cPanel&amp;Action&#61;Modify&amp;Data&#61;Files&amp;ModifyFileID&#61;$_Module_Modify_LIST_FILE_ID\" METHOD=\"post\">
+															File Author:<BR>
+																<INPUT TYPE=\"text\" NAME=\"update_file_author\" VALUE=\"$_Module_Modify_LIST_FILE_AUTHOR\" MAXLENGTH=\"50\"><BR>
+															File Category:<BR>
+																<INPUT TYPE=\"text\" NAME=\"update_file_category\" VALUE=\"$_Module_Modify_LIST_FILE_CATEGORY\" MAXLENGTH=\"250\"><BR>
+															File Description:<BR>
+																<TEXTAREA ROWS=\"15\" COLS=\"75\" NAME=\"update_file_description\">$_Module_Modify_LIST_FILE_DESCRIPTION</TEXTAREA><BR>
+															File Image:<BR>
+																<INPUT TYPE=\"text\" NAME=\"update_file_image\" VALUE=\"$_Module_Modify_LIST_FILE_IMAGE\" MAXLENGTH=\"50\"><BR>
+															File Location:<BR>
+																<INPUT TYPE=\"text\" NAME=\"update_file_location\" VALUE=\"$_Module_Modify_LIST_FILE_LOCATION\" MAXLENGTH=\"50\"><BR>
+															Number of Downloads:<BR>
+																<INPUT TYPE=\"text\" NAME=\"update_file_downloads\" VALUE=\"$_Module_Modify_LIST_FILE_NUMBER_OF_DOWNLOADS\" MAXLENGTH=\"15\"><BR>
+															Time Submitted:<BR>
+																<INPUT TYPE=\"text\" NAME=\"update_file_time\" VALUE=\"$_Module_Modify_LIST_FILE_TIME\" MAXLENGTH=\"50\"><BR>
+															File Title:<BR>
+																<INPUT TYPE=\"text\" NAME=\"update_file_title\" VALUE=\"$_Module_Modify_LIST_FILE_TITLE\" MAXLENGTH=\"50\"><BR>
+															File Uploader:<BR>
+																<INPUT TYPE=\"text\" NAME=\"update_file_uploader\" VALUE=\"$_Module_Modify_LIST_FILE_UPLOADER\" MAXLENGTH=\"50\"><BR>
+															<INPUT TYPE=\"submit\" VALUE=\"Update File Entry\">
+														</FORM>
+");
+
+} else {
+
+$_Module_Modify_DB_Query_UPDATE_FILE			= $DB->query("UPDATE {$_ACCESS_DATABASE_PREFIX}_files SET file_author='$_Module_Modify_POST_UPDATE_FILE_AUTHOR',file_category='$_Module_Modify_POST_UPDATE_FILE_CATEGORY',file_description='$_Module_Modify_POST_UPDATE_FILE_DESCRIPTION',file_image='$_Module_Modify_POST_UPDATE_FILE_IMAGE',file_location='$_Module_Modify_POST_UPDATE_FILE_LOCATION',file_number_of_downloads='$_Module_Modify_POST_UPDATE_FILE_NUMBER_OF_DOWNLOADS',file_title='$_Module_Modify_POST_UPDATE_FILE_TITLE',file_time='$_Module_Modify_POST_UPDATE_FILE_TIME',file_uploader='$_Module_Modify_POST_UPDATE_FILE_UPLOADER' WHERE id='$_Module_Modify_LIST_FILE_ID'");
+
+if ($_Module_Modify_DB_Query_UPDATE_FILE) {
+													echo ($_Message_Modify_FILE_UPDATED_SUCCESSFULLY);
+} else {
+													echo ($_Message_ERROR_ACTION_UNIVERSAL);
+} // [ + ] IF_UPDATE_QUERY
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_Modify_DB_Query_UPDATE_FILE);
+
+} // [ + ] IF_NULL
+
+} // [ + ] IF_MODIFY
+
+} // [ + ] WHILE_ARRAY
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_Modify_DB_Query_SELECT_FILES);
+
+} // [ + ] IF_MODIFY
+?>

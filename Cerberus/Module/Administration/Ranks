@@ -1,0 +1,163 @@
+<?php
+/*
+ ===========================================================================================
+ + Cerberus Content Management System.
+ + ---
+ + - Author : Gary Christopher Johnson
+ + - E-Mail : TinkeSoftware@Protonmail.com // GCJohnsonChevalier@Protonmail.com
+ + - Company: Tinke Software
+ + - Notes  : View this file in a non-formatting text editor for correct indentation display
+ + ---
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ + ---
+ + - File Location: root->Module->Administration->Ranks
+ + - File Version:  0.4 - Sunday, September, 08, 2019.
+ + ---
+ +%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ +%%%()()%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()()()%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%/-\%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%|4|%  ~ Wyn ~
+ +%%%()()%%()()()%%()%%()%%()()()%%()()()%%()%%()%%()()()%%()()()%%%%%%%%%%%%\-/% Build 0.6
+ ===========================================================================================
+*/
+
+/*
+ ===========================
+ +
+ +
+ + Update Rank
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ +
+ + Select Ranks
+ +
+ ===========================
+*/
+
+$_Module_Ranks_DB_Query_SELECT_RANKS				= $DB->query("SELECT * FROM {$_ACCESS_DATABASE_PREFIX}_ranks ORDER BY id ASC LIMIT 1");
+
+while ($_Module_Ranks_DB_Query_SELECT_RANKS_Fetch_Array = $DB->fetch_array($_Module_Ranks_DB_Query_SELECT_RANKS)) {
+
+/*
+ ===========================
+ +
+ + List Ranks
+ +
+ ===========================
+*/
+
+$_Module_Ranks_LIST_RANK_1					= $_Module_Ranks_DB_Query_SELECT_RANKS_Fetch_Array['rank_1'];
+$_Module_Ranks_LIST_RANK_2					= $_Module_Ranks_DB_Query_SELECT_RANKS_Fetch_Array['rank_2'];
+$_Module_Ranks_LIST_RANK_3					= $_Module_Ranks_DB_Query_SELECT_RANKS_Fetch_Array['rank_3'];
+$_Module_Ranks_LIST_RANK_4					= $_Module_Ranks_DB_Query_SELECT_RANKS_Fetch_Array['rank_4'];
+$_Module_Ranks_LIST_RANK_5					= $_Module_Ranks_DB_Query_SELECT_RANKS_Fetch_Array['rank_5'];
+
+/*
+ ===========================
+ +
+ + Update Ranks Form Post Variables
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Form Post Variables
+ ===========================
+*/
+
+$_Module_Ranks_POST_UPDATE_RANK_1				= $_POST['Module_Ranks_Update_Rank_1'];
+$_Module_Ranks_POST_UPDATE_RANK_2				= $_POST['Module_Ranks_Update_Rank_2'];
+$_Module_Ranks_POST_UPDATE_RANK_3				= $_POST['Module_Ranks_Update_Rank_3'];
+$_Module_Ranks_POST_UPDATE_RANK_4				= $_POST['Module_Ranks_Update_Rank_4'];
+$_Module_Ranks_POST_UPDATE_RANK_5				= $_POST['Module_Ranks_Update_Rank_5'];
+
+/*
+ ===========================
+ + Character Replace
+ ===========================
+*/
+
+$_Module_Ranks_POST_UPDATE_RANK_1				= preg_replace("/'/","&#39;", $_Module_Ranks_POST_UPDATE_RANK_1);
+$_Module_Ranks_POST_UPDATE_RANK_2				= preg_replace("/'/","&#39;", $_Module_Ranks_POST_UPDATE_RANK_2);
+$_Module_Ranks_POST_UPDATE_RANK_3				= preg_replace("/'/","&#39;", $_Module_Ranks_POST_UPDATE_RANK_3);
+$_Module_Ranks_POST_UPDATE_RANK_4				= preg_replace("/'/","&#39;", $_Module_Ranks_POST_UPDATE_RANK_4);
+$_Module_Ranks_POST_UPDATE_RANK_5				= preg_replace("/'/","&#39;", $_Module_Ranks_POST_UPDATE_RANK_5);
+
+/*
+ ===========================
+ +
+ + Update Ranks Form
+ +
+ ===========================
+*/
+
+if ((!$_Module_Ranks_POST_UPDATE_RANK_1) || (!$_Module_Ranks_POST_UPDATE_RANK_2) || (!$_Module_Ranks_POST_UPDATE_RANK_3) || (!$_Module_Ranks_POST_UPDATE_RANK_4) || (!$_Module_Ranks_POST_UPDATE_RANK_5)) {
+
+echo ("
+													<CENTER><B>Ranks</B></CENTER><HR>
+														<FORM ACTION=\"?$_INTERNAL_ADMINISTRATOR_MODULE&#61;cPanel&amp;Action&#61;Ranks\" METHOD=\"post\">
+															Rank Title #1:<BR>
+																<INPUT TYPE=\"text\" NAME=\"Module_Ranks_Update_Rank_1\" VALUE=\"$_Module_Ranks_LIST_RANK_1\" MAXLENGTH=\"100\"><BR>
+															Rank Title #2:<BR>
+																<INPUT TYPE=\"text\" NAME=\"Module_Ranks_Update_Rank_2\" VALUE=\"$_Module_Ranks_LIST_RANK_2\" MAXLENGTH=\"100\"><BR>
+															Rank Title #3:<BR>
+																<INPUT TYPE=\"text\" NAME=\"Module_Ranks_Update_Rank_3\" VALUE=\"$_Module_Ranks_LIST_RANK_3\" MAXLENGTH=\"100\"><BR>
+															Rank Title #4:<BR>
+																<INPUT TYPE=\"text\" NAME=\"Module_Ranks_Update_Rank_4\" VALUE=\"$_Module_Ranks_LIST_RANK_4\" MAXLENGTH=\"100\"><BR>
+															Rank Title #5:<BR>
+																<INPUT TYPE=\"text\" NAME=\"Module_Ranks_Update_Rank_5\" VALUE=\"$_Module_Ranks_LIST_RANK_5\" MAXLENGTH=\"100\"><BR>
+															<INPUT TYPE=\"submit\" VALUE=\"Update Ranks\">
+														</FORM><BR><BR>
+");
+
+} else {
+
+$_Module_Ranks_DB_Query_UPDATE_RANKS				= $DB->query("UPDATE {$_ACCESS_DATABASE_PREFIX}_ranks SET rank_1='$_Module_Ranks_POST_UPDATE_RANK_1',rank_2='$_Module_Ranks_POST_UPDATE_RANK_2',rank_3='$_Module_Ranks_POST_UPDATE_RANK_3',rank_4='$_Module_Ranks_POST_UPDATE_RANK_4',rank_5='$_Module_Ranks_POST_UPDATE_RANK_5' WHERE id='1'");
+
+if ($_Module_Ranks_DB_Query_UPDATE_RANKS) {
+													echo ($_Message_Ranks_RANKS_UPDATED_SUCCESSFULLY);
+} else {
+													echo ($_Message_ERROR_ACTION_UNIVERSAL);
+} // [ + ] IF_UPDATE_RANK_DB_QUERY
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_Ranks_DB_Query_UPDATE_RANKS);
+
+} // [ + ] IF_NULL
+
+} // [ + ] WHILE_ARRAY
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_Ranks_DB_Query_SELECT_RANKS);
+?>

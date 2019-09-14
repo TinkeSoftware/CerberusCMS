@@ -1,0 +1,147 @@
+<?php
+/*
+ ===========================================================================================
+ + Cerberus Content Management System.
+ + ---
+ + - Author : Gary Christopher Johnson
+ + - E-Mail : TinkeSoftware@Protonmail.com // GCJohnsonChevalier@Protonmail.com
+ + - Company: Tinke Software
+ + - Notes  : View this file in a non-formatting text editor for correct indentation display
+ + ---
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ + ---
+ + - File Location: root->Module->Block->Members.blk
+ + - File Version:  0.4 - Sunday, September, 08, 2019.
+ + ---
+ +%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ +%%%()()%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()()()%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%/-\%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%|4|%  ~ Wyn ~
+ +%%%()()%%()()()%%()%%()%%()()()%%()()()%%()%%()%%()()()%%()()()%%%%%%%%%%%%\-/% Build 0.6
+ ===========================================================================================
+*/
+
+/*
+ ===========================
+ +
+ +
+ + Members Block
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Retrieve Private Messsages
+ ===========================
+*/
+
+if ($_GLOBAL_USERNAME && $_GLOBAL_PASSWORD != null) {
+
+$_Block_Members_DB_Query_SELECT_PRIVATE_MESSAGES			= $DB->query("SELECT * FROM {$_ACCESS_DATABASE_PREFIX}_private_messages WHERE private_message_recipient='$_GLOBAL_USERNAME'");
+$_Block_Members_DB_Query_SELECT_PRIVATE_MESSAGES_Number_Rows		= $DB->num_rows($_Block_Members_DB_Query_SELECT_PRIVATE_MESSAGES);
+
+if ($_Block_Members_DB_Query_SELECT_PRIVATE_MESSAGES_Number_Rows == "") {
+
+$_Block_Members_DB_Query_SELECT_PRIVATE_MESSAGES_Number_Rows 		= "0";
+
+} // [ + ] IF_NUMBER_OF_ROWS
+
+/*
+ ===========================
+ + Retrieve System Messages
+ ===========================
+*/
+
+$_Block_Members_DB_Query_SELECT_SYSTEM_MESSAGE				= $DB->query("SELECT * FROM {$_ACCESS_DATABASE_PREFIX}_system_message WHERE system_message_member='$_GLOBAL_USERNAME' ORDER BY id DESC LIMIT 1");
+$_Block_Members_DB_Query_SELECT_SYSTEM_MESSAGE_Number_Rows		= $DB->num_rows($_Block_Members_DB_Query_SELECT_SYSTEM_MESSAGE);
+$_Block_Members_DB_Query_SELECT_SYSTEM_MESSAGE_Fetch_Array		= $DB->fetch_array($_Block_Members_DB_Query_SELECT_SYSTEM_MESSAGE);
+
+$_Block_Members_LIST_SYSTEM_MESSAGE_DATA				= $_Block_Members_DB_Query_SELECT_SYSTEM_MESSAGE_Fetch_Array['system_message_data'];
+
+if ($_Block_Members_DB_Query_SELECT_SYSTEM_MESSAGE_Number_Rows == "") {
+
+$_Block_Members_DB_Query_SELECT_SYSTEM_MESSAGE_Number_Rows		= "0";
+
+} // [ + ] IF_NUMBER_OF_ROWS_0
+
+if ($_Block_Members_LIST_SYSTEM_MESSAGE_DATA == "") {
+
+$_Block_Members_LIST_SYSTEM_MESSAGE_DATA 				= "This is the default message: This Panel receives messages from the Administrators for you - Right now you do not have any messages from any Administrator.";
+
+} // [ + ] IF_Message_Data_Empty
+
+/*
+ ===========================
+ +
+ + Member Details & Links
+ +
+ ===========================
+*/
+
+echo ("
+											<IMG SRC=\"Theme/$_GLOBAL_THEME_DIRECTORY/Image/Icon_Avatar/$_GLOBAL_MEMBER_AVATAR\" TITLE=\"$_GLOBAL_USERNAME :: $_GLOBAL_MEMBER_AVATAR\"></IMG>
+											<HR>
+												<A HREF=\"?$_INTERNAL_USER_MODULE&#61;cPanel\" TITLE=\"cPanel :: $_GLOBAL_USERNAME\">cPanel</A><BR>
+												<A HREF=\"?$_INTERNAL_USER_MODULE&#61;Profile&amp;Name&#61;$_GLOBAL_USERNAME\" TITLE=\"Profile :: $_GLOBAL_USERNAME\">Experience: $_GLOBAL_MEMBER_EXPERIENCE_AMOUNT</A><BR>
+												<A HREF=\"?$_INTERNAL_USER_MODULE&#61;Profile&amp;Name&#61;$_GLOBAL_USERNAME\" TITLE=\"Profile :: $_GLOBAL_USERNAME\">Posts: $_GLOBAL_MEMBER_NUMBER_OF_POSTS</A><BR>
+												Rank: <B>$_GLOBAL_MEMBER_RANK_DISPLAY</B>
+											<HR>
+												[ $_Block_Members_DB_Query_SELECT_PRIVATE_MESSAGES_Number_Rows ] <A HREF=\"?$_INTERNAL_USER_MODULE&#61;Private_Message&amp;PrivateMessageID&#61;All\" TITLE=\"Private Messages\">Private Messages</A><BR>
+												[ $_Block_Members_DB_Query_SELECT_SYSTEM_MESSAGE_Number_Rows ] <A HREF=\"?$_INTERNAL_USER_MODULE&#61;System_Message&amp;Message&#61;AdministratorNotification&amp;MessageContents&#61;$_Block_Members_LIST_SYSTEM_MESSAGE_DATA\" TITLE=\"System Notification: $_Block_Members_LIST_SYSTEM_MESSAGE_DATA\">System Messages</A>
+											<HR>
+												<A HREF=\"?$_INTERNAL_USER_MODULE=List&amp;Display&#61;Avatars\" TITLE=\"View :: Avatar List\">Avatars</A><BR>
+												<A HREF=\"?$_INTERNAL_USER_MODULE=List&amp;Display&#61;Ranks\" TITLE=\"View :: Rank List\">Ranks</A><BR>
+												<A HREF=\"?$_INTERNAL_USER_MODULE=List&amp;Display&#61;SafeHTML\" TITLE=\"View :: Cerberus Safe-HTML Code For Use With Posts\">BB Codes</A><BR>
+												<A HREF=\"?$_INTERNAL_USER_MODULE=List&amp;Display&#61;Smileys\" TITLE=\"View :: Smiley List\">Smileys</A><BR>
+												<A HREF=\"?$_INTERNAL_USER_MODULE=List&amp;Display&#61;MyFiles\" TITLE=\"View :: My Files\">Webspace</A>
+");
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Block_Members_DB_Query_SELECT_SYSTEM_MESSAGE);
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Block_Members_DB_Query_SELECT_PRIVATE_MESSAGES);
+
+} else {
+
+echo ("
+											<FORM ACTION=\"?InternalApplication&#61;Login\" METHOD=\"post\">
+												Member Username:<BR>
+													<INPUT TYPE=\"text\" NAME=\"post_login_username\" MAXLENGTH=\"50\"><BR>
+												Member Password:<BR>
+													<INPUT TYPE=\"password\" NAME=\"post_login_password\" MAXLENGTH=\"32\"><BR>
+													<INPUT TYPE=\"submit\" VALUE=\"Login\">
+											</FORM>
+											<BR>
+											<CENTER>[ <A HREF=\"?$_INTERNAL_USER_MODULE&#61;Login\" TITLE=\"Login Options\">Login Options</A> ]</CENTER>
+");
+
+} // [ + ] IF_NULL
+?>

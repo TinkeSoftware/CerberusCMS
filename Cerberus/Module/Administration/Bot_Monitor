@@ -1,0 +1,247 @@
+<?php
+/*
+ ===========================================================================================
+ + Cerberus Content Management System.
+ + ---
+ + - Author : Gary Christopher Johnson
+ + - E-Mail : TinkeSoftware@Protonmail.com // GCJohnsonChevalier@Protonmail.com
+ + - Company: Tinke Software
+ + - Notes  : View this file in a non-formatting text editor for correct indentation display
+ + ---
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ + ---
+ + - File Location: root->Module->Administration->Bot_Monitor
+ + - File Version:  0.4 - Sunday, September, 08, 2019.
+ + ---
+ +%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ +%%%()()%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()()()%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%/-\%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%|4|%  ~ Wyn ~
+ +%%%()()%%()()()%%()%%()%%()()()%%()()()%%()%%()%%()()()%%()()()%%%%%%%%%%%%\-/% Build 0.6
+ ===========================================================================================
+*/
+
+/*
+ ===========================
+ +
+ +
+ + List Non-Activated Accounts
+ +
+ +
+ ===========================
+*/
+
+$_Module_BotMonitor_DB_Query_SELECT_MEMBERS			= $DB->query("SELECT * FROM {$_ACCESS_DATABASE_PREFIX}_members WHERE member_t_logged='0' ORDER BY id DESC");
+
+echo ("
+													<CENTER><B>Spam-Bot Monitor</B></CENTER><HR>
+														If any member has not Logged-in after 24 hours of registering, Delete.<BR>
+														[ <|= 0 Logins & Register Date = 24 Hours > Todays Date = Immediate Account Deletion ]<BR><BR>
+													<CENTER>
+														<TABLE WIDTH=\"100%\" BORDER=\"1\" CELLPADDING=\"0\" CELLSPACING=\"0\">
+															<TR>
+																<TD WIDTH=\"33%\" BORDER=\"1\"><CENTER><B>Member ID# & Name</B></CENTER></TD>
+																<TD WIDTH=\"33%\" BORDER=\"1\"><CENTER><B>Member E-Mail Address</B></CENTER></TD>
+																<TD WIDTH=\"33%\" BORDER=\"1\"><CENTER><B>Member Join Date</B></CENTER></TD>
+																</TD>
+															</TR>
+														</TABLE>
+													</CENTER>
+");
+
+if ($DB->num_rows($_Module_BotMonitor_DB_Query_SELECT_MEMBERS) <= "0") {
+													echo ($_Message_Bot_Monitor_NO_BOTS_FOUND);
+} else {
+
+while ($_Module_BotMonitor_DB_Query_SELECT_MEMBERS_Fetch_Array = $DB->fetch_array($_Module_BotMonitor_DB_Query_SELECT_MEMBERS)) {
+
+$_Module_BotMonitor_LIST_MEMBER_ID				= $_Module_BotMonitor_DB_Query_SELECT_MEMBERS_Fetch_Array['id'];
+$_Module_BotMonitor_LIST_MEMBER_USERNAME				= $_Module_BotMonitor_DB_Query_SELECT_MEMBERS_Fetch_Array['member_username'];
+$_Module_BotMonitor_LIST_MEMBER_EMAIL_ADDRESS			= $_Module_BotMonitor_DB_Query_SELECT_MEMBERS_Fetch_Array['member_email_address'];
+$_Module_BotMonitor_LIST_MEMBER_JOIN_DATE				= $_Module_BotMonitor_DB_Query_SELECT_MEMBERS_Fetch_Array['member_join_date'];
+$_Module_BotMonitor_LIST_MEMBER_LOGGED				= $_Module_BotMonitor_DB_Query_SELECT_MEMBERS_Fetch_Array['member_t_logged'];
+
+echo ("
+													<CENTER>
+														<TABLE WIDTH=\"100%\" BORDER=\"1\" CELLPADDING=\"0\" CELLSPACING=\"0\">
+															<TR>
+																<TD WIDTH=\"33%\" BORDER=\"1\">[ $_Module_BotMonitor_LIST_MEMBER_ID ] - <A HREF=\"?$_INTERNAL_USER_MODULE&#61;Profile&amp;Name&#61;$_Module_BotMonitor_LIST_MEMBER_USERNAME\" TITLE=\"View Profile :: $_Module_BotMonitor_LIST_MEMBER_USERNAME\">$_Module_BotMonitor_LIST_MEMBER_USERNAME</A> - [ <A HREF=\"?$_INTERNAL_ADMINISTRATOR_MODULE&#61;cPanel&amp;Action&#61;Bot_Monitor&amp;DeleteID&#61;$_Module_BotMonitor_LIST_MEMBER_ID\" TITLE=\"Delete :: $_Module_BotMonitor_LIST_MEMBER_USERNAME\">x</A> ]</TD>
+																<TD WIDTH=\"33%\" BORDER=\"1\">$_Module_BotMonitor_LIST_MEMBER_EMAIL_ADDRESS</TD>
+																<TD WIDTH=\"33%\" BORDER=\"1\">$_Module_BotMonitor_LIST_MEMBER_JOIN_DATE</TD>
+																</TD>
+															</TR>
+														</TABLE>
+													</CENTER>
+");
+
+/*
+ ===========================
+ +
+ +
+ + Delete Non-Activated Account
+ +
+ +
+ ===========================
+*/
+
+if ($_GET["DeleteID"] == "$_Module_BotMonitor_LIST_MEMBER_ID") {
+
+$_Module_BotMonitor_DB_Query_Delete_Account			= $DB->query("DELETE FROM {$_ACCESS_DATABASE_PREFIX}_members WHERE id='$_Module_BotMonitor_LIST_MEMBER_ID' AND member_t_logged='0'");
+
+if ($_Module_BotMonitor_DB_Query_Delete_Account) {
+													echo ($_Message_Bot_Monitor_DELETE_ACCOUNT_1);
+
+$_Module_BotMonitor_SPECIFY_ACCOUNT_DIRECTORY			= "Member/$_Module_BotMonitor_LIST_MEMBER_USERNAME";
+$_Module_BotMonitor_OPEN_ACCOUNT_DIRECTORY			= opendir($_Module_BotMonitor_SPECIFY_ACCOUNT_DIRECTORY);
+
+while (($_Module_BotMonitor_READ_ACCOUNT_DIRECTORY = readdir($_Module_BotMonitor_OPEN_ACCOUNT_DIRECTORY))) {
+
+if ($_Module_BotMonitor_READ_ACCOUNT_DIRECTORY == "." || $_Module_BotMonitor_READ_ACCOUNT_DIRECTORY == "..") {
+/**
+ * Do Nothing
+**/
+} else {
+
+if (unlink("Member/$_Module_BotMonitor_LIST_MEMBER_USERNAME/$_Module_BotMonitor_READ_ACCOUNT_DIRECTORY")) {
+													echo ($_Message_Bot_Monitor_DELETE_ACCOUNT_2);
+} else {
+													echo ($_Message_Bot_Monitor_DELETE_ACCOUNT_3);
+} // [ + ] IF_DELETE_FILES
+
+if (rmdir("Member/$_Module_BotMonitor_LIST_MEMBER_USERNAME/Friend")) {
+													echo ($_Message_Bot_Monitor_DELETE_ACCOUNT_4);
+} else {
+													echo ($_Message_Bot_Monitor_DELETE_ACCOUNT_5);
+} // [ + ] IF_REMOVE_SUB_DIRECTORY
+
+} // [ + ] IF_NOT_DIR/FILE
+
+} // [ + ] WHILE_DIR
+
+closedir($_Module_BotMonitor_OPEN_ACCOUNT_DIRECTORY);
+
+/*
+ ===========================
+ +
+ +
+ + Delete Non-Activated Account Directory
+ +
+ +
+ ===========================
+*/
+
+if (rmdir("Member/$_Module_BotMonitor_LIST_MEMBER_USERNAME")) {
+													echo ($_Message_Bot_Monitor_DELETE_ACCOUNT_6);
+} else {
+													echo ($_Message_Bot_Monitor_DELETE_ACCOUNT_7);
+} // [ + ] IF_DELETE_ID_DIR
+
+} // [ + ] IF_DELETE_ID_QUERY
+
+$DB->free($_Module_BotMonitor_DB_Query_Delete_Account);
+
+} // [ + ] IF_PAGE_DELETE_ID
+
+/*
+ ===========================
+ +
+ +
+ + Delete Account SQL Entry
+ +
+ +
+ ===========================
+*/
+
+if ($_GET["DeleteID"] == "All") {
+
+$_Module_BotMonitor_DB_Query_DELETE_ALL				= $DB->query("DELETE FROM {$_ACCESS_DATABASE_PREFIX}_members WHERE member_t_logged='0'");
+
+if ($_Module_BotMonitor_DB_Query_DELETE_ALL) {
+													echo ($_Message_Bot_Monitor_DELETE_ACCOUNT_8);
+
+/*
+ ===========================
+ +
+ +
+ + Delete Account Files
+ +
+ +
+ ===========================
+*/
+
+$_Module_BotMonitor_SPECIFY_ACCOUNT_DIRECTORY_2			= "Member/$_Module_BotMonitor_LIST_MEMBER_USERNAME";
+$_Module_BotMonitor_OPEN_ACCOUNT_DIRECTORY_2			= opendir($_Module_BotMonitor_SPECIFY_ACCOUNT_DIRECTORY_2);
+
+while (($_Module_BotMonitor_READ_ACCOUNT_DIRECTORY_2 = readdir($_Module_BotMonitor_OPEN_ACCOUNT_DIRECTORY_2))) {
+
+if ($_Module_BotMonitor_READ_ACCOUNT_DIRECTORY_2 == "." || $_Module_BotMonitor_READ_ACCOUNT_DIRECTORY_2 == "..") {
+/**
+ * Do Nothing
+**/
+} else {
+
+if (unlink("Member/$_Module_BotMonitor_LIST_MEMBER_USERNAME/$_Module_BotMonitor_READ_ACCOUNT_DIRECTORY_2")) {
+													echo ($_Message_Bot_Monitor_DELETE_ACCOUNT_9);
+} else {
+													echo ($_Message_Bot_Monitor_DELETE_ACCOUNT_10);
+} // [ + ] IF_DELETE_FILES
+
+if (rmdir("Member/$_Module_BotMonitor_LIST_MEMBER_USERNAME/Friend")) {
+													echo ($_Message_Bot_Monitor_DELETE_ACCOUNT_11);
+} else {
+													echo ($_Message_Bot_Monitor_DELETE_ACCOUNT_12);
+} // [ + ] IF_REMOVE_SUB_DIRECTORY
+
+} // [ + ] IF_NOT_DIR/FILE
+
+} // [ + ] WHILE_DIR
+
+closedir($_Module_BotMonitor_OPEN_ACCOUNT_DIRECTORY_2);
+
+/*
+ ===========================
+ +
+ +
+ + Delete All Account Directories
+ +
+ +
+ ===========================
+*/
+
+if (rmdir("Member/$_Module_BotMonitor_LIST_MEMBER_USERNAME")) {
+													echo ($_Message_Bot_Monitor_DELETE_ACCOUNT_13);
+} else {
+													echo ($_Message_Bot_Monitor_DELETE_ACCOUNT_14);
+} // [ + ] IF_REMOVE_DIRECTORY
+
+} else {
+													echo ($_Message_Bot_Monitor_DELETE_ACCOUNT_15);
+} // [ + ] IF_DELETEALL_QUERY
+
+$DB->free($_Module_BotMonitor_DB_Query_DELETE_ALL);
+
+} // [ + ] IF_PAGE_DELETE_ALL
+
+} // [ + ] WHILE_CLEANERSQL
+
+} // [ + ] IF_NUM_ROWS
+
+													echo ("<BR><BR>[ <A HREF=\"?$_INTERNAL_ADMINISTRATOR_MODULE&#61;cPanel&amp;Action&#61;Bot_Monitor&amp;DeleteID&#61;All\" TITLE=\"Delete All Potential Spam-Bot Accounts\">Delete All</A> ]<BR>");
+
+$DB->free($_Module_BotMonitor_DB_Query_SELECT_MEMBERS);
+?>

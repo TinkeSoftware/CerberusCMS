@@ -1,0 +1,481 @@
+<?php
+/*
+ ===========================================================================================
+ + Cerberus Content Management System.
+ + ---
+ + - Author : Gary Christopher Johnson
+ + - E-Mail : TinkeSoftware@Protonmail.com // GCJohnsonChevalier@Protonmail.com
+ + - Company: Tinke Software
+ + - Notes  : View this file in a non-formatting text editor for correct indentation display
+ + ---
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ + ---
+ + - File Location: root->Module->Administration->Web_Pages
+ + - File Version:  0.4 - Sunday, September, 08, 2019.
+ + ---
+ +%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ +%%%()()%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()()()%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%/-\%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%|4|%  ~ Wyn ~
+ +%%%()()%%()()()%%()%%()%%()()()%%()()()%%()%%()%%()()()%%()()()%%%%%%%%%%%%\-/% Build 0.6
+ ===========================================================================================
+*/
+
+/*
+ ===========================
+ +
+ +
+ + Install / Update Links
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ +
+ + Install Link Post Variables
+ +
+ ===========================
+*/
+
+$_Module_Web_Pages_POST_LINK_NAME				= $_POST['post_link_name'];
+$_Module_Web_Pages_POST_LINK_NAME				= preg_replace("/'/","&#39;", $_Module_Web_Pages_POST_LINK_NAME);
+$_Module_Web_Pages_POST_LINK_URL				= $_POST['post_link_url'];
+$_Module_Web_Pages_POST_LINK_URL				= preg_replace("/'/", "&#39;", $_Module_Web_Pages_POST_LINK_URL);
+$_Module_Web_Pages_POST_LINK_TYPE				= $_POST['post_link_type'];
+
+/*
+ ===========================
+ +
+ + Install Link Form
+ +
+ ===========================
+*/
+
+if ((!$_Module_Web_Pages_POST_LINK_NAME)) {
+
+echo ("
+											<CENTER><B>Install Link</B></CENTER><HR>
+												<FORM ACTION=\"?$_INTERNAL_ADMINISTRATOR_MODULE&#61;cPanel&amp;Action&#61;Web_Pages\" METHOD=\"post\">
+													Link Name:<BR>
+														<INPUT TYPE=\"text\" NAME=\"post_link_name\" MAXLENGTH=\"250\"><BR>
+													Link URL:<BR>
+													Where are you linking this Link to? Example: <I>My_Pictures.html</I> or <I>My_Pictures.php</I><BR>
+														<INPUT TYPE=\"text\" NAME=\"post_link_url\" MAXLENGTH=\"250\"><BR>
+													Link Type:<BR>
+														<SELECT NAME=\"post_link_type\">
+															<OPTION VALUE=\"1\">Custom Text / HTML Document</OPTION>
+															<OPTION VALUE=\"2\">Uploaded Application</OPTION>
+														</SELECT><BR>
+													<INPUT TYPE=\"submit\" VALUE=\"Install Link\">
+												</FORM><BR>
+");
+
+} else {
+
+if ($_Module_Web_Pages_POST_LINK_TYPE == 1) {
+
+$_Module_Web_Pages_DB_Query_INSTALL_LINK			= $DB->query("INSERT INTO {$_ACCESS_DATABASE_PREFIX}_ahref(ahref_name,ahref_row,ahref_url)VALUES('$_Module_Web_Pages_POST_LINK_NAME','1','?$_INTERNAL_CUSTOM_MODULE=$_Module_Web_Pages_POST_LINK_URL')");
+
+} // [ + ] IF_LINK_TYPE_1
+
+if ($_Module_Web_Pages_POST_LINK_TYPE == 2) {
+
+$_Module_Web_Pages_DB_Query_INSTALL_LINK			= $DB->query("INSERT INTO {$_ACCESS_DATABASE_PREFIX}_ahref(ahref_name,ahref_row,ahref_url)VALUES('$_Module_Web_Pages_POST_LINK_NAME','1','?$_INTERNAL_USER_MODULE=$_Module_Web_Pages_POST_LINK_URL')");
+
+} // [ + ] IF_LINK_TYPE_2
+
+if ($_Module_Web_Pages_DB_Query_INSTALL_LINK) {
+											echo ($_Message_Web_Pages_LINK_INSTALLED_SUCCESSFULLY);
+} else {
+											echo ($_Message_ERROR_ACTION_UNIVERSAL);
+} // [ + ] IF_INSTALL_LINK_DB_QUERY
+
+} // [ + ] IF_NULL
+
+/*
+ ===========================
+ +
+ +
+ + List Links
+ +
+ +
+ ===========================
+*/
+
+$_Module_Web_Pages_DB_Query_SELECT_LINKS			= $DB->query("SELECT * FROM {$_ACCESS_DATABASE_PREFIX}_ahref ORDER BY ahref_row ASC");
+
+if ($DB->num_rows($_Module_Web_Pages_DB_Query_SELECT_LINKS) <= 0) {
+											echo ($_Message_Web_Pages_NO_LINKS_EXIST);
+} else {
+
+											echo ("<HR><CENTER><B>Existing Link(s)</B></CENTER><HR>");
+
+while ($_Module_Web_Pages_DB_Query_SELECT_LINKS_Fetch_Array = $DB->fetch_array($_Module_Web_Pages_DB_Query_SELECT_LINKS)) {
+
+/*
+ ===========================
+ +
+ + List Link Entries
+ +
+ ===========================
+*/
+
+$_Module_Web_Pages_LIST_LINK_ID				= $_Module_Web_Pages_DB_Query_SELECT_LINKS_Fetch_Array['id'];
+$_Module_Web_Pages_LIST_LINK_NAME				= $_Module_Web_Pages_DB_Query_SELECT_LINKS_Fetch_Array['ahref_name'];
+$_Module_Web_Pages_LIST_LINK_ROW				= $_Module_Web_Pages_DB_Query_SELECT_LINKS_Fetch_Array['ahref_row'];
+$_Module_Web_Pages_LIST_LINK_URL				= $_Module_Web_Pages_DB_Query_SELECT_LINKS_Fetch_Array['ahref_url'];
+
+/*
+ ===========================
+ +
+ + List Links For Selection
+ +
+ ===========================
+*/
+
+echo ("
+											<CENTER><TABLE BORDER=\"1\" CELLPADDING=\"0\" CELLSPACING=\"0\" WIDTH=\"100%\"><TR>
+											<TD WIDTH=\"100%\">Link Name: <B>$_Module_Web_Pages_LIST_LINK_NAME</B></TD>
+												<TD><A HREF=\"?$_INTERNAL_ADMINISTRATOR_MODULE&#61;cPanel&amp;Action&#61;Web_Pages&amp;DeleteLinkID&#61;$_Module_Web_Pages_LIST_LINK_ID\" TITLE=\"Delete :: $_Module_Web_Pages_LIST_LINK_NAME\">Delete</A></TD>
+												<TD><A HREF=\"?$_INTERNAL_ADMINISTRATOR_MODULE&#61;cPanel&amp;Action&#61;Web_Pages&amp;ModifyLinkID&#61;$_Module_Web_Pages_LIST_LINK_ID\" TITLE=\"Modify :: $_Module_Web_Pages_LIST_LINK_NAME\">Modify</A></TD>
+											</TR></TABLE></CENTER>
+");
+
+/*
+ ===========================
+ +
+ +
+ + Delete Selected Link ID
+ +
+ +
+ ===========================
+*/
+
+if ($_GET["DeleteLinkID"] == "$_Module_Web_Pages_LIST_LINK_ID") {
+
+$_Module_Web_Pages_DB_Query_DELETE_LINK			= $DB->query("DELETE FROM {$_ACCESS_DATABASE_PREFIX}_ahref WHERE id='$_Module_Web_Pages_LIST_LINK_ID'");
+
+if ($_Module_Web_Pages_DB_Query_DELETE_LINK) {
+											echo ($_Message_Web_Pages_LINK_DELETED_SUCCESSFULLY);
+} else {
+											echo ($_Message_ERROR_ACTION_UNIVERSAL);
+} // [ + ] IF_DELETE_LINK_SQL_QUERY
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_Web_Pages_DB_Query_DELETE_LINK);
+
+} // [ + ] IF_DELETE_LINK_ID
+
+/*
+ ===========================
+ +
+ +
+ + Update Selected Link ID
+ +
+ +
+ ===========================
+*/
+
+if ($_GET["ModifyLinkID"] == "$_Module_Web_Pages_LIST_LINK_ID") {
+
+/*
+ ===========================
+ +
+ + Update Link Post Variables
+ +
+ ===========================
+*/
+
+$_Module_Web_Pages_POST_UPDATE_LINK_NAME			= $_POST['post_update_link_name'];
+$_Module_Web_Pages_POST_UPDATE_LINK_ROW			= $_POST['post_update_link_row'];
+$_Module_Web_Pages_POST_UPDATE_LINK_URL			= $_POST['post_update_link_url'];
+
+/*
+ ===========================
+ +
+ + Update Link Form
+ +
+ ===========================
+*/
+
+if ((!$_Module_Web_Pages_POST_UPDATE_LINK_NAME) || (!$_Module_Web_Pages_POST_UPDATE_LINK_ROW) || (!$_Module_Web_Pages_POST_UPDATE_LINK_URL)) {
+
+echo ("
+											<BR><BR><HR><CENTER><B>Currently Modifying Link: <I>$_Module_Web_Pages_LIST_LINK_NAME</I></B></CENTER><HR>
+												<FORM ACTION=\"?$_INTERNAL_ADMINISTRATOR_MODULE&#61;cPanel&amp;Action&#61;Web_Pages&amp;ModifyLinkID&#61;$_Module_Web_Pages_LIST_LINK_ID\" METHOD=\"post\">
+													Link Name:<BR>
+														<INPUT TYPE=\"text\" NAME=\"post_update_link_name\" VALUE=\"$_Module_Web_Pages_LIST_LINK_NAME\" MAXLENGTH=\"250\"><BR>
+													Link Row:<BR>
+													Which Row? 1-X Example: 1 would place this Link to the top of the Links list<BR>
+														<INPUT TYPE=\"text\" NAME=\"post_update_link_row\" VALUE=\"$_Module_Web_Pages_LIST_LINK_ROW\" MAXLENGTH=\"3\"><BR>
+													Link URL:<BR>
+													Where are you linking this Link to? Example: <I>My_Pictures.html</I> or <I>My_Pictures.php</I><BR>
+														<INPUT TYPE=\"text\" NAME=\"post_update_link_url\" VALUE=\"$_Module_Web_Pages_LIST_LINK_URL\" MAXLENGTH=\"250\"><BR>
+													<INPUT TYPE=\"submit\" VALUE=\"Update Link\">
+												</FORM><HR><BR><BR>
+");
+
+} else {
+
+$_Module_Web_Pages_DB_Query_UPDATE_LINK			= $DB->query("UPDATE {$_ACCESS_DATABASE_PREFIX}_ahref SET ahref_name='$_Module_Web_Pages_POST_UPDATE_LINK_NAME',ahref_row='$_Module_Web_Pages_POST_UPDATE_LINK_ROW',ahref_url='$_Module_Web_Pages_POST_UPDATE_LINK_URL' WHERE id='$_Module_Web_Pages_LIST_LINK_ID'");
+
+if ($_Module_Web_Pages_DB_Query_UPDATE_LINK) {
+											echo ($_Message_Web_Pages_LINK_UPDATED_SUCCESSFULLY);
+} else {
+											echo ($_Message_ERROR_ACTION_UNIVERSAL);
+} // [ + ] IF_UPDATE_LINK_DB_QUERY
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_Web_Pages_DB_Query_UPDATE_LINK);
+
+} // [ + ] IF_NULL
+
+} // [ + ] IF_MODIFY_DISPLAY
+
+} // [ + ] WHILE_AHREF_ARRAY
+
+} // [ + ] IF_NUM_ROWS
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_Web_Pages_DB_Query_SELECT_LINKS);
+
+/*
+ ===========================
+ +
+ +
+ + Install / Update Custom Web Page
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ +
+ + Form Post Variables
+ +
+ ===========================
+*/
+
+$_Module_Web_Pages_POST_INSTALL_PAGE_NAME 		= $_POST['install_page_name'];
+$_Module_Web_Pages_POST_INSTALL_PAGE_NAME 		= preg_replace("/'/","&#39;", $_Module_Web_Pages_POST_INSTALL_PAGE_NAME);
+
+$_Module_Web_Pages_POST_INSTALL_PAGE_DATE 		= $_POST['install_page_data'];
+
+$_Module_Web_Pages_POST_INSTALL_PAGE_DATA 		= str_replace($_GLOBAL_SAFEHTML_CODE, $_GLOBAL_SAFEHTML_CODE_REPLACE, $_Module_Web_Pages_POST_INSTALL_PAGE_DATA);
+$_Module_Web_Pages_POST_INSTALL_PAGE_DATA 		= str_replace($_GLOBAL_SAFEHTML_SMILEYS, $_GLOBAL_SAFEHTML_SMILEYS_REPLACE, $_Module_Web_Pages_POST_INSTALL_PAGE_DATA);
+
+/*
+ ===========================
+ +
+ + Install Web Page Form
+ +
+ ===========================
+*/
+
+if ((!$_Module_Web_Pages_POST_INSTALL_PAGE_NAME) || (!$_Module_Web_Pages_POST_INSTALL_PAGE_DATA)) {
+
+echo ("
+											<BR><BR><HR><CENTER><B>Install Web Page</B></CENTER><HR>
+												<FORM ACTION=\"?$_INTERNAL_ADMINISTRATOR_MODULE&#61;cPanel&amp;Action&#61;Web_Pages\" METHOD=\"post\">
+													Web Page Name:<BR>
+														<INPUT TYPE=\"text\" NAME=\"install_page_name\" MAXLENGTH=\"250\"><BR>
+													Web Page Data:<BR>
+														<TEXTAREA ROWS=\"15\" COLS=\"75\" NAME=\"install_page_data\"></TEXTAREA><BR>
+													<INPUT TYPE=\"submit\" VALUE=\"Install Web Page\">
+												</FORM>
+");
+
+} else {
+
+$_Module_Web_Pages_DB_Query_INSTALL_PAGE		= $DB->query("INSERT INTO {$_ACCESS_DATABASE_PREFIX}_pages(page_data,page_name,page_time)VALUES('$_Module_Web_Pages_POST_INSTALL_PAGE_DATA','$_Module_Web_Pages_POST_INSTALL_PAGE_NAME','$_GLOBAL_DATE')");
+
+if ($_Module_Web_Pages_DB_Query_INSTALL_PAGE) {
+											echo ($_Message_Web_Pages_WEB_PAGE_INSTALLED_SUCCESSFULLY);
+} else {
+											echo ($_Message_ERROR_ACTION_UNIVERSAL);
+} // [ + ] IF_PAGE_QUERY
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_Web_Pages_DB_Query_INSTALL_PAGE);
+
+} // [ + ] IF_NULL
+
+/*
+ ===========================
+ +
+ + List Web Pages
+ +
+ ===========================
+*/
+
+$_Module_Web_Pages_DB_Query_SELECT_PAGES		= $DB->query("SELECT * FROM {$_ACCESS_DATABASE_PREFIX}_custom_pages ORDER BY custom_page_name ASC");
+
+echo ("											<BR><HR><CENTER><B>Existing Web Page(s)</B></CENTER><HR>");
+
+while ($_Module_Web_Pages_DB_Query_SELECT_PAGES_Fetch_Array = $DB->fetch_array($_Module_Web_Pages_DB_Query_SELECT_PAGES)) {
+
+/*
+ ===========================
+ +
+ + List Web Page Entries
+ +
+ ===========================
+*/
+
+$_Module_Web_Pages_LIST_PAGE_ID				= $_Module_Web_Pages_DB_Query_SELECT_PAGES_Fetch_Array['id'];
+$_Module_Web_Pages_LIST_PAGE_DATA				= $_Module_Web_Pages_DB_Query_SELECT_PAGES_Fetch_Array['custom_page_data'];
+$_Module_Web_Pages_LIST_PAGE_NAME				= $_Module_Web_Pages_DB_Query_SELECT_PAGES_Fetch_Array['custom_page_name'];
+$_Module_Web_Pages_LIST_PAGE_TIME				= $_Module_Web_Pages_DB_Query_SELECT_PAGES_Fetch_Array['custom_page_time'];
+
+$_Module_Web_Pages_LIST_PAGE_DATA				= str_replace($_GLOBAL_SAFEHTML_CODE_BACK, $_GLOBAL_SAFEHTML_CODE_BACK_REPLACE, $_Module_Web_Pages_LIST_PAGE_DATA);
+$_Module_Web_Pages_LIST_PAGE_DATA				= str_replace($_GLOBAL_SAFEHTML_SMILEYS_BACK, $_GLOBAL_SAFEHTML_SMILEYS_BACK_REPLACE, $_Module_Web_Pages_LIST_PAGE_DATA);
+
+echo ("
+											<CENTER><TABLE BORDER=\"1\" CELLPADDING=\"0\" CELLSPACING=\"0\" WIDTH=\"100%\"><TR>
+												<TD WIDTH=\"100%\">Web Page Name: <A HREF=\"?$_INTERNAL_CUSTOM_MODULE&#61;$_Module_Web_Pages_LIST_PAGE_ID\" TITLE=\"View :: $_Module_Web_Pages_LIST_PAGE_NAME\">$_Module_Web_Pages_LIST_PAGE_NAME</A></TD>
+													<TD><A HREF=\"?$_INTERNAL_ADMINISTRATOR_MODULE&#61;cPanel&amp;Action&#61;Web_Pages&amp;DeletePageID&#61;$_Module_Web_Pages_LIST_PAGE_ID\" TITLE=\"Delete :: $_Module_Web_Pages_LIST_PAGE_NAME\">Delete</A></TD>
+													<TD><A HREF=\"?$_INTERNAL_ADMINISTRATOR_MODULE&#61;cPanel&amp;Action&#61;Web_Pages&amp;ModifyPageID&#61;$_Module_Web_Pages_LIST_PAGE_ID\" TITLE=\"Modify :: $_Module_Web_Pages_LIST_PAGE_NAME\">Modify</A></TD>
+												</TR></TABLE></CENTER>
+");
+
+/*
+ ===========================
+ +
+ + Delete Selected Web Page
+ +
+ ===========================
+*/
+
+if ($_GET["DeletePageID"] == "$_Module_Web_Pages_LIST_PAGE_ID") {
+
+$_Module_Web_Pages_DB_Query_DELETE_PAGE			= $DB->query("DELETE FROM {$_ACCESS_DATABASE_PREFIX}_custom_pages WHERE id='$_Module_Web_Pages_LIST_PAGE_ID'");
+
+if ($_Module_Web_Pages_DB_Query_DELETE_PAGE) {
+											echo ($_Message_Web_Pages_WEB_PAGE_DELETED_SUCCESSFULLY);
+} else {
+											echo ($_Message_ERROR_ACTION_UNIVERSAL);
+} // [ + ] IF_DELETE_QUERY
+
+$DB->free($_Module_Web_Pages_DB_Query_DELETE_PAGE);
+
+} // [ + ] IF_DELETE
+
+/*
+ ===========================
+ +
+ +
+ + Update Custom Web Pages
+ +
+ +
+ ===========================
+*/
+
+if ($_GET["ModifyPageID"] == "$_Module_Web_Pages_LIST_PAGE_ID") {
+
+/*
+ ===========================
+ +
+ + Update Web Page Post Variables
+ +
+ ===========================
+*/
+
+$_Module_Web_Pages_POST_UPDATE_PAGE_NAME			= $_POST['save_page_name'];
+$_Module_Web_Pages_POST_UPDATE_PAGE_NAME			= preg_replace("/'/","&#39;", $_Module_Web_Pages_POST_UPDATE_PAGE_NAME);
+
+$_Module_Web_Pages_POST_UPDATE_PAGE_DATA			= $_POST['save_page_data'];
+
+$_Module_Web_Pages_POST_UPDATE_PAGE_DATA			= str_replace($_GLOBAL_SAFEHTML_CODE, $_GLOBAL_SAFEHTML_CODE_REPLACE, $_Module_Web_Pages_POST_UPDATE_PAGE_DATA);
+$_Module_Web_Pages_POST_UPDATE_PAGE_DATA			= str_replace($_GLOBAL_SAFEHTML_SMILEYS, $_GLOBAL_SAFEHTML_SMILEYS_REPLACE, $_Module_Web_Pages_POST_UPDATE_PAGE_DATA);
+
+/*
+ ===========================
+ +
+ + Update Web Page Form
+ +
+ ===========================
+*/
+
+if ((!$_Module_Web_Pages_POST_UPDATE_PAGE_NAME) || (!$_Module_Web_Pages_POST_UPDATE_PAGE_DATA)) {
+
+echo ("
+											<BR><BR><HR><CENTER><B>Currently Modifying Web Page: <I>$_Module_Web_Pages_LIST_PAGE_NAME</I></B></CENTER><HR>
+												<FORM ACTION=\"?$_INTERNAL_ADMINISTRATOR_MODULE&#61;cPanel&amp;Action&#61;Web_Pages&amp;ModifyPageID&#61;$_Module_Web_Pages_LIST_PAGE_ID\" METHOD=\"post\">
+													Web Page Name:<BR>
+														<INPUT TYPE=\"text\" NAME=\"save_page_name\" VALUE=\"$_Module_Web_Pages_LIST_PAGE_NAME\" MAXLENGTH=\"250\"><BR>
+													Web Page Data:<BR>
+														<TEXTAREA ROWS=\"15\" COLS=\"75\" NAME=\"save_page_data\">$_Module_Web_Pages_LIST_PAGE_DATA</TEXTAREA><BR>
+													<INPUT TYPE=\"submit\" VALUE=\"Update Web Page\">
+												</FORM><HR><BR><BR>
+");
+
+} else {
+
+$_Module_Web_Pages_DB_Query_UPDATE_PAGE			= $DB->query("UPDATE {$_ACCESS_DATABASE_PREFIX}_custom_pages SET custom_page_name='$_Module_Web_Pages_POST_UPDATE_PAGE_NAME',custom_page_data='$_Module_Web_Pages_POST_UPDATE_PAGE_DATA' WHERE id='$_Module_Web_Pages_LIST_PAGE_ID'");
+
+if ($_Module_Web_Pages_DB_Query_UPDATE_PAGE) {
+											echo ($_Message_Web_Pages_WEB_PAGE_UPDATED_SUCCESSFULLY);
+} else {
+											echo ($_Message_ERROR_ACTION_UNIVERSAL);
+} // [ + ] IF_UPDATE_QUERY
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_Web_Pages_DB_Query_UPDATE_PAGE);
+
+} // [ + ] IF_NULL
+
+} // [ + ] IF_MODIFY
+
+} // [ + ] WHILE_PAGES
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_Web_Pages_DB_Query_SELECT_PAGES);
+?>

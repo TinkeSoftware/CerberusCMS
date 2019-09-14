@@ -1,0 +1,176 @@
+<?php
+/*
+ ===========================================================================================
+ + Cerberus Content Management System.
+ + ---
+ + - Author : Gary Christopher Johnson
+ + - E-Mail : TinkeSoftware@Protonmail.com // GCJohnsonChevalier@Protonmail.com
+ + - Company: Tinke Software
+ + - Notes  : View this file in a non-formatting text editor for correct indentation display
+ + ---
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ + ---
+ + - File Location: root->Module->Administration->Banish
+ + - File Version:  0.4 - Sunday, September, 08, 2019.
+ + ---
+ +%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ +%%%()()%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()()()%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%/-\%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%|4|%  ~ Wyn ~
+ +%%%()()%%()()()%%()%%()%%()()()%%()()()%%()%%()%%()()()%%()()()%%%%%%%%%%%%\-/% Build 0.6
+ ===========================================================================================
+*/
+
+/*
+ ===========================
+ +
+ +
+ + Banish I.P. Addresses
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ +
+ + Form Post Variables
+ +
+ ===========================
+*/
+
+$_Module_Banish_POST_BANISH_IP_ADDRESS				= $_POST['Module_Banish_Form_IP_Address'];
+$_Module_Banish_POST_BANISH_IP_ADDRESS				= preg_replace("/'/","&#39;", $_Module_Banish_POST_BANISH_IP_ADDRESS);
+
+/*
+ ===========================
+ +
+ + If No Post-Data, Show Form
+ +
+ ===========================
+*/
+
+echo ("
+													<CENTER><B>Banish Internet Protocol Address</B></CENTER><HR>
+														<FORM ACTION=\"?$_INTERNAL_ADMINISTRATOR_MODULE&#61;cPanel&amp;Action&#61;Banish\" METHOD=\"post\">
+															Example: IPV4 <I>123.456.789.012</I> OR IPV6 <I>1234:5678:aa0:9012:44fe:df64:cfde:2990</I><BR>
+																<INPUT TYPE=\"text\" NAME=\"Module_Banish_Form_IP_Address\" MAXLENGTH=\"128\"><BR>
+																<INPUT TYPE=\"submit\" VALUE=\"Banish Selected Address\">
+														</FORM><BR><BR>
+");
+
+if ($_Module_Banish_POST_BANISH_IP_ADDRESS) {
+
+/*
+ ===========================
+ +
+ + If Post-Data, Insert S.Q.L. Data
+ +
+ ===========================
+*/
+
+$_Module_Banish_DB_Query_Banish_IP				= $DB->query("INSERT INTO {$_ACCESS_DATABASE_PREFIX}_banned_ip_addresses(ip_address)VALUES('$_Module_Banish_POST_BANISH_IP_ADDRESS')");
+
+if ($_Module_Banish_DB_Query_Banish_IP) {
+													echo ($_Message_Banish_BANISH_SUCCESSFUL);
+} else {
+													echo ($_Message_ERROR_ACTION_UNIVERSAL);
+} // [ + ] IF_BANISH_QUERY
+
+/*
+ ===========================
+ + Kill Database Connection
+ ===========================
+*/
+
+$DB->free($_Module_Banish_DB_Query_Banish_IP);
+
+} // [ + ] IF_NULL
+
+/*
+ ===========================
+ +
+ + List Existing Banishments
+ +
+ ===========================
+*/
+
+$_Module_Banish_DB_Query_LIST_IP				= $DB->query("SELECT * FROM {$_ACCESS_DATABASE_PREFIX}_banned_ip_addresses ORDER BY id ASC");
+
+													echo ("<HR><CENTER><B>Existing Banished Internet Protocol Address(es)</B></CENTER><HR>");
+
+if ($DB->num_rows($_Module_Banish_DB_Query_LIST_IP) <= 0) {
+													echo ($_Message_Banish_NULL_ENTRIES);
+} else {
+
+while ($_Module_Banish_DB_Query_LIST_IP_Fetch_Array = $DB->fetch_array($_Module_Banish_DB_Query_LIST_IP)) {
+
+$_Module_Banish_LIST_BANISHED_ID	= $_Module_Banish_DB_Query_LIST_IP_Fetch_Array['id'];
+$_Module_Banish_LIST_BANISHED_IP	= $_Module_Banish_DB_Query_LIST_IP_Fetch_Array['ip_address'];
+
+echo ("
+													<CENTER>
+														<TABLE BORDER=\"1\" CELLSPACING=\"0\" CELLPADDING=\"0\" WIDTH=\"100%\">
+															<TR>
+																<TD WIDTH=\"70%\">Banished Internet Protocol Address: <A HREF=\"https://www.WhoIs.sc/$_Module_Banish_LIST_BANISHED_IP\" TITLE=\"Who-Is Lookup Information On Internet Protocol Address: $_Module_Banish_LIST_BANISHED_IP\" TARGET=\"_NEW\">$_Module_Banish_LIST_BANISHED_IP</A></TD>
+																<TD WIDTH=\"30%\"><A HREF=\"?$_INTERNAL_ADMINISTRATOR_MODULE&#61;cPanel&amp;Action&#61;Banish&amp;Remove&#61;$_Module_Banish_LIST_BANISHED_ID\" TITLE=\"Remove Banishment From Internet Protocol Address :: $_Module_Banish_LIST_BANISHED_IP\">Remove Banishment</A></TD>
+															</TR>
+														</TABLE>
+													</CENTER>
+");
+
+/*
+ ===========================
+ +
+ + Remove Banished I.P. Address
+ +
+ ===========================
+*/
+
+if ($_GET["Remove"] == "$_Module_Banish_LIST_BANISHED_ID") {
+
+$_Module_Banish_DB_Query_DELETE_IP				= $DB->query("DELETE FROM {$_ACCESS_DATABASE_PREFIX}_banned_ip_addresses WHERE id='$_Module_Banish_LIST_BANISHED_ID'");
+
+if ($_Module_Banish_DB_Query_DELETE_IP) {
+													echo ($_Message_Banish_REMOVE_SUCCESSFUL);
+} else {
+													echo ($_Message_ERROR_ACTION_UNIVERSAL);
+} // [ + ] IF_DELETE_QUERY
+
+/*
+ ===========================
+ + Kill Database Connection
+ ===========================
+*/
+
+$DB->free($_Module_Banish_DB_Query_DELETE_IP);
+
+} // [ + ] IF_DELETE
+
+} // [ + ] WHILE_BANISH_ARRAY
+
+} // [ + ] IF_NUM_ROWS
+
+/*
+ ===========================
+ + Kill Database Connection
+ ===========================
+*/
+
+$DB->free($_Module_Banish_DB_Query_LIST_IP);
+?>

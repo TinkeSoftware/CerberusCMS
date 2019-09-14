@@ -1,0 +1,95 @@
+<?php
+/*
+ ===========================================================================================
+ + Cerberus Content Management System.
+ + ---
+ + - Author : Gary Christopher Johnson
+ + - E-Mail : TinkeSoftware@Protonmail.com // GCJohnsonChevalier@Protonmail.com
+ + - Company: Tinke Software
+ + - Notes  : View this file in a non-formatting text editor for correct indentation display
+ + ---
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ + ---
+ + - File Location: root->Module->User->Application_List
+ + - File Version:  0.4 - Sunday, September, 08, 2019.
+ + ---
+ +%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ +%%%()()%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()()()%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%/-\%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%|4|%  ~ Wyn ~
+ +%%%()()%%()()()%%()%%()%%()()()%%()()()%%()%%()%%()()()%%()()()%%%%%%%%%%%%\-/% Build 0.6
+ ===========================================================================================
+*/
+
+/*
+ ===========================
+ +
+ +
+ + Application List
+ +
+ +
+ ===========================
+*/
+
+											echo ($_Message_Application_List_Header);
+											echo ("Application File Permissions: Public: 0, Registered Member: 1, Administrator & Moderator: 2, Services Root Administrator: 3<BR><BR>");
+/*
+ ===========================
+ + Select Applications Table
+ ===========================
+*/
+
+$_Module_Application_List_DB_Query_List_Applications					= $DB->query("SELECT * FROM {$_ACCESS_DATABASE_PREFIX}_applications");
+
+/*
+ ===========================
+ + List All Applications Rows
+ ===========================
+*/
+
+while ($_Module_Application_List_DB_Query_List_Applications_Fetch_Array = $DB->fetch_array($_Module_Application_List_DB_Query_List_Applications)) {
+
+$_Module_Application_List_LIST_APPLICATION_ID						= $_Module_Application_List_DB_Query_List_Applications_Fetch_Array['id'];
+$_Module_Application_List_LIST_APPLICATION_FILE_NAME					= $_Module_Application_List_DB_Query_List_Applications_Fetch_Array['application_file_name'];
+$_Module_Application_List_LIST_APPLICATION_FILE_PERMISSION				= $_Module_Application_List_DB_Query_List_Applications_Fetch_Array['application_file_permission'];
+$_Module_Application_List_LIST_APPLICATION_FILE_STATUS					= $_Module_Application_List_DB_Query_List_Applications_Fetch_Array['application_file_status'];
+
+echo ("
+											<CENTER>
+												<TABLE WIDTH=\"100%\" BORDER=\"0\" CELLPADDING=\"0\" CELLSPACING=\"0\">
+													<TR>
+														<TD WIDTH=\"5%\"><B>ID</B>: $_Module_Application_List_LIST_APPLICATION_ID</TD>
+														<TD WIDTH=\"10%\"><B>Permissions</B>: $_Module_Application_List_LIST_APPLICATION_FILE_PERMISSION</TD>
+														<TD WIDTH=\"45%\"><B>Application File Name</B>: <A HREF=\"?$_INTERNAL_USER_MODULE&#61;$_Module_Application_List_LIST_APPLICATION_FILE_NAME\" TITLE=\"Open Application Module :: $_Module_Application_List_LIST_APPLICATION_FILE_NAME\">$_Module_Application_List_LIST_APPLICATION_FILE_NAME</A></TD>
+														<TD WIDTH=\"10%\"><A HREF=\"./Module/User/$_Module_Application_List_LIST_APPLICATION_FILE_NAME\" TITLE=\"View Source Code For Application Module :: $_Module_Application_List_LIST_APPLICATION_FILE_NAME\">Source</A></TD>
+													</TR>
+												</TABLE>
+											</CENTER>
+");
+
+} // [ + ] WHILE_FETCH_ARRAY
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_Application_List_DB_Query_List_Applications);
+
+?>

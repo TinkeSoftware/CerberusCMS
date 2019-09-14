@@ -1,0 +1,363 @@
+<?php
+/*
+ ===========================================================================================
+ + Cerberus Content Management System.
+ + ---
+ + - Author : Gary Christopher Johnson
+ + - E-Mail : TinkeSoftware@Protonmail.com // GCJohnsonChevalier@Protonmail.com
+ + - Company: Tinke Software
+ + - Notes  : View this file in a non-formatting text editor for correct indentation display
+ + ---
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ + ---
+ + - File Location: root->Module->User->Register
+ + - File Version:  0.4 - Sunday, September, 08, 2019.
+ + ---
+ +%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ +%%%()()%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()()()%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%/-\%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%|4|%  ~ Wyn ~
+ +%%%()()%%()()()%%()%%()%%()()()%%()()()%%()%%()%%()()()%%()()()%%%%%%%%%%%%\-/% Build 0.6
+ ===========================================================================================
+*/
+
+/*
+ ===========================
+ +
+ +
+ + Register
+ +
+ +
+ ===========================
+*/
+
+											echo ($_Message_Register_Header);
+
+/*
+ ===========================
+ + If Valid Credentials Exist, Print Deny Registration Message
+ ===========================
+*/
+
+if ($_GLOBAL_USERNAME && $_GLOBAL_PASSWORD != null) {
+											echo ($_Message_Register_REGISTRATION_DENIED);
+} else { // [ + ] [ 1 ] IF USERNAME && PASSWORD DO NOT EXIST IN COOKIES, DISPLAY REGISTRATION FORM
+
+/*
+ ===========================
+ +
+ + Register Form Variables
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Random Keys
+ ===========================
+*/
+
+$_Module_Register_RANDOM_KEY 				= rand(1, 9999999999999);
+$_Module_Register_RANDOM_KEY_MD5 				= md5($_Module_Register_RANDOM_KEY);
+
+/*
+ ===========================
+ + Form Post Variables
+ ===========================
+*/
+
+$_Module_Register_POST_FIRST_NAME				= $_POST['post_first_name'];
+$_Module_Register_POST_LAST_NAME				= $_POST['post_last_name'];
+$_Module_Register_POST_EMAIL_ADDRESS			= $_POST['post_email_address'];
+$_Module_Register_POST_MEMBER_ID				= $_POST['post_member_id'];
+$_Module_Register_POST_RANDOM_KEY				= $_POST['post_random_key'];
+$_Module_Register_POST_RANDOM_KEY_CHECK			= $_POST['post_random_key_check'];
+
+/*
+ ===========================
+ + Replace Characters
+ ===========================
+*/
+
+$_Module_Register_POST_FIRST_NAME				= preg_replace("/'/","&#39;", $_Module_Register_POST_FIRST_NAME);
+$_Module_Register_POST_FIRST_NAME				= preg_replace("/</","&lt;", $_Module_Register_POST_FIRST_NAME);
+$_Module_Register_POST_FIRST_NAME				= stripslashes($_Module_Register_POST_FIRST_NAME);
+
+$_Module_Register_POST_LAST_NAME				= preg_replace("/'/","&#39;", $_Module_Register_POST_LAST_NAME);
+$_Module_Register_POST_LAST_NAME				= preg_replace("/</","&lt;", $_Module_Register_POST_LAST_NAME);
+$_Module_Register_POST_LAST_NAME				= stripslashes($_Module_Register_POST_LAST_NAME);
+
+$_Module_Register_POST_EMAIL_ADDRESS			= preg_replace("/'/","&#39;", $_Module_Register_POST_EMAIL_ADDRESS);
+$_Module_Register_POST_EMAIL_ADDRESS			= preg_replace("/</","&lt;", $_Module_Register_POST_EMAIL_ADDRESS);
+$_Module_Register_POST_EMAIL_ADDRESS			= stripslashes($_Module_Register_POST_EMAIL_ADDRESS);
+$_Module_Register_POST_EMAIL_ADDRESS			= strtolower($_Module_Register_POST_EMAIL_ADDRESS);
+
+$_Module_Register_POST_MEMBER_ID				= preg_replace("/'/","&#39;", $_Module_Register_POST_MEMBER_ID);
+$_Module_Register_POST_MEMBER_ID				= preg_replace("/</","&lt;", $_Module_Register_POST_MEMBER_ID);
+$_Module_Register_POST_MEMBER_ID				= str_replace(".", "[dot]", $_Module_Register_POST_MEMBER_ID);
+$_Module_Register_POST_MEMBER_ID				= stripslashes($_Module_Register_POST_MEMBER_ID);
+$_Module_Register_POST_MEMBER_ID				= strtolower($_Module_Register_POST_MEMBER_ID);
+$_Module_Register_GET_STRING_LENGTH_MEMBER_ID		= strlen($_Module_Register_POST_MEMBER_ID);
+
+/*
+ ===========================
+ + Random Password Generation
+ ===========================
+*/
+
+$_Module_Register_RANDOM_DIGITS 				= rand(1,1000000000);
+$_Module_Register_POST_PASSWORD 				= password_hash($_Module_Register_RANDOM_DIGITS, PASSWORD_BCRYPT);
+
+/*
+ ===========================
+ +
+ + Registration Form
+ +
+ ===========================
+*/
+
+if ((!$_Module_Register_POST_FIRST_NAME) || (!$_Module_Register_POST_LAST_NAME) || (!$_Module_Register_POST_EMAIL_ADDRESS) || (!$_Module_Register_POST_MEMBER_ID)) {
+
+echo ("
+											<BIG><B>How will you benefit from Registering?</B></BIG>
+											<HR>
+											<BIG><B>&middot;</B></BIG>&nbsp;You will be given access to restricted areas.<BR>
+											<BIG><B>&middot;</B></BIG>&nbsp;You will be given personal webspace.<BR>
+											<BIG><B>&middot;</B></BIG>&nbsp;You will be given your very own avatar, profile, rank and more!<BR>
+											<HR>
+											<BIG><B>Registration is free!</B></BIG><BR><BR>
+
+											<FORM ACTION=\"?$_INTERNAL_USER_MODULE&#61;Register\" METHOD=\"post\">
+												[ Your password will be sent to your Electronic Mail Address. ]
+											<HR>
+												First Name:<BR>
+													<INPUT TYPE=\"text\" NAME=\"post_first_name\" MAXLENGTH=\"50\"><BR>
+												Last Name:<BR>
+													<INPUT TYPE=\"text\" NAME=\"post_last_name\" MAXLENGTH=\"50\"><BR>
+												Electronic Mail Address:<BR>
+													<INPUT TYPE=\"text\" NAME=\"post_email_address\" MAXLENGTH=\"250\"><BR>
+												Desired Login Username:<BR>
+												-> Cannot contain the following characters: [ ] { } ! @ # $ % ^ & * ( ) | \ ; : ' '' < > , . ? /<BR>
+													<INPUT TYPE=\"text\" NAME=\"post_member_id\" MAXLENGTH=\"50\"><BR>
+												Please prove that you are not a Spam-Bot by placing this String of Numbers into the next text field<BR>
+												Key: <B><I>$_Module_Register_RANDOM_KEY</I></B><BR>
+													<INPUT TYPE=\"text\" NAME=\"post_random_key\" MAXLENGTH=\"13\"><BR>
+													<INPUT TYPE=\"hidden\" NAME=\"post_random_key_check\" VALUE=\"$_Module_Register_RANDOM_KEY\">
+													<INPUT TYPE=\"submit\" VALUE=\"Register\">
+											</FORM><BR>
+											<CENTER>By clicking `Register` you agree to this site's <A HREF=\"TOS-PP.txt\" TITLE=\"View :: Terms of Service &amp; Privacy Policy\">Terms of Service and Privacy Policy.</A></CENTER>
+");
+
+} else { // [ + ] [ 2 ] FORM DATA HAS POSTED, CHECK RANDOM KEY
+
+/*
+ ===========================
+ + Compare Random Key
+ ===========================
+*/
+
+if ($_Module_Register_POST_RANDOM_KEY != $_Module_Register_POST_RANDOM_KEY_CHECK) {
+
+											echo ($_Message_Register_REGISTRATION_KEY_ERROR);
+
+} else { // [ + ] [ 3 ] RANDOM KEY IS THE SAME, STRIP CHARACTERS FROM POST DATA
+
+/*
+ ===========================
+ + Strip Characters From Post Data
+ ===========================
+*/
+
+$_Module_Register_POST_STRIP_CHARACTERS[0]			= "!";
+$_Module_Register_POST_STRIP_CHARACTERS[1]			= "@";
+$_Module_Register_POST_STRIP_CHARACTERS[2]			= "#";
+$_Module_Register_POST_STRIP_CHARACTERS[3]			= "$";
+$_Module_Register_POST_STRIP_CHARACTERS[4]			= "%";
+$_Module_Register_POST_STRIP_CHARACTERS[5]			= "^";
+$_Module_Register_POST_STRIP_CHARACTERS[6]			= "&";
+$_Module_Register_POST_STRIP_CHARACTERS[7]			= "*";
+$_Module_Register_POST_STRIP_CHARACTERS[8]			= "(";
+$_Module_Register_POST_STRIP_CHARACTERS[9]			= ")";
+$_Module_Register_POST_STRIP_CHARACTERS[10]			= "=";
+$_Module_Register_POST_STRIP_CHARACTERS[11]			= "{";
+$_Module_Register_POST_STRIP_CHARACTERS[12]			= "}";
+$_Module_Register_POST_STRIP_CHARACTERS[13]			= "[";
+$_Module_Register_POST_STRIP_CHARACTERS[14]			= "]";
+$_Module_Register_POST_STRIP_CHARACTERS[15]			= "|";
+$_Module_Register_POST_STRIP_CHARACTERS[16]			= "?";
+$_Module_Register_POST_STRIP_CHARACTERS[17]			= "<";
+$_Module_Register_POST_STRIP_CHARACTERS[18]			= ">";
+$_Module_Register_POST_STRIP_CHARACTERS[19]			= "'";
+$_Module_Register_POST_STRIP_CHARACTERS[20]			= "\"";
+$_Module_Register_POST_STRIP_CHARACTERS[21]			= "/";
+$_Module_Register_POST_STRIP_CHARACTERS[22]			= ".";
+$_Module_Register_POST_STRIP_CHARACTERS[23]			= ",";
+$_Module_Register_POST_STRIP_CHARACTERS[24]			= "+";
+$_Module_Register_POST_STRIP_CHARACTERS[25]			= " ";
+
+/*
+ ===========================
+ + If E-Mail Address Invalid
+ ===========================
+*/
+
+if (substr_count($_Module_Register_POST_EMAIL_ADDRESS,"@") != 1) {
+
+											echo ($_Message_Register_REGISTRATION_INVALID_EMAIL);
+
+} else { // [ + ] [ 4 ] EMAIL ADDRESS IS VALID, CHECK FOR DISALLOWED CHARACTERS
+
+/*
+ ===========================
+ + If Post Data Contains Disallowed Characters
+ ===========================
+*/
+
+if (substr_count($_Module_Register_POST_MEMBER_ID, $_Module_Register_POST_STRIP_CHARACTERS) != 0) {
+
+											echo ($_Message_Register_REGISTRATION_MEMBER_NAME_ERROR);
+
+} else { // [ + ] [ 5 ] CHARACTERS ARE VALID, CHECK FOR USERNAME LENGTH
+
+/*
+ ===========================
+ + If Username Is Less Than 4 Characters
+ ===========================
+*/
+
+if ($_Module_Register_GET_STRING_LENGTH_MEMBER_ID < 4) {
+
+											echo ($_Message_Register_REGISTRATION_MEMBER_NAME_LENGTH_ERROR);
+
+} else { // [ + ] [ 6 ] USERNAME IS GREATER THAN 4 CHARACTERS, CHECK FOR EXISTING USER
+
+/*
+ ===========================
+ + If User Directory Does Not Exist In Directory, Check For Electronic Mail File
+ ===========================
+*/
+
+if (file_exists("./Member/$_Module_Register_POST_MEMBER_ID/index.html")) {
+
+											echo ($_Message_Register_REGISTRATION_MEMBER_EXISTS);
+
+} else { // [ + ] [ 7 ] USERNAME EXISTS IN MEMBER FILE SYSTEM
+
+if (file_exists("./Member/E-Mail_Addresses/$_Module_Register_POST_EMAIL_ADDRESS")) {
+
+											echo ($_Message_Register_REGISTRATION_MEMBER_EXISTS);
+
+} else { // [ + ] [ 8 ] USERNAME EXISTS IN E-Mail_Addresses DIRECTORY
+
+/*
+ ===========================
+ +
+ + Send E-Mail To Registrar
+ +
+ ===========================
+*/
+
+if (mail($_Module_Register_POST_EMAIL_ADDRESS,"Thanks for Registering :: $_GLOBAL_SITE_TITLE","
+Dear $_Module_Register_POST_FIRST_NAME $_Module_Register_POST_LAST_NAME :: [ $_Module_Register_POST_EMAIL_ADDRESS ],
+============================================================================
+Thank you for Registering with ~ $_GLOBAL_SITE_TITLE.
+
+This is your account information:
+
+Member Login: $_Module_Register_POST_MEMBER_ID
+Member Password: $_Module_Register_RANDOM_DIGITS
+Activation Key: $_Module_Register_RANDOM_KEY_MD5
+
+The steps for Logging into your new account are as follows:
+
+1. Visit the Web Page with the Login form.
+
+2. Input your Login information;
+Member Login, Member Password ($_Module_Register_RANDOM_DIGITS).
+
+3. Input your Account Activation Key ($_Module_Register_RANDOM_KEY_MD5).
+
+4. Click on the 'Change Password' link after logging in, and change your temporary password to a new password that only you will know and remember.
+
+If you fail to Activate your Account within 24 hours your Account will automatically be deleted because the system will think that you are a Spam-Bot.
+
+Any problems should be reported to Administration.
+============================================================================
+Have a nice day,
+		~ $_GLOBAL_SITE_TITLE
+
+[ IP: $_GLOBAL_REMOTE_ADDRESS ]")) {
+
+/*
+ ===========================
+ +
+ + Insert Registrar SQL Data
+ +
+ ===========================
+*/
+
+$_Module_Register_DB_Query_INSERT_REGISTRAR			= $DB->query("INSERT INTO {$_ACCESS_DATABASE_PREFIX}_members(member_access_level,member_avatar,member_banned_status,member_location,member_experience_amount,member_first_name,member_join_date,member_last_name,member_email_address,member_username,member_newsletter,member_password,member_number_of_posts,member_signature,member_sound,member_t_logged,member_t_random)VALUES('1','Default.$_GLOBAL_IMAGE_EXTENSION','0','Unknown','0','$_Module_Register_POST_FIRST_NAME','$_GLOBAL_DATE','$_Module_Register_POST_LAST_NAME','$_Module_Register_POST_EMAIL_ADDRESS','$_Module_Register_POST_MEMBER_ID','1','$_Module_Register_POST_PASSWORD','0','None','0','0','$_Module_Register_RANDOM_KEY_MD5')");
+
+/*
+ ===========================
+ + If DB Query Insert Registrar
+ ===========================
+*/
+
+if ($_Module_Register_DB_Query_INSERT_REGISTRAR) {
+
+											echo ($_Message_Register_REGISTRATION_SUCCESSFUL);
+
+											mkdir("Member/$_Module_Register_POST_MEMBER_ID");
+											mkdir("Member/$_Module_Register_POST_MEMBER_ID/Friend");
+											mkdir("Member/$_Module_Register_POST_MEMBER_ID/E-Mail");
+											copy("System/Default/Register/Register.html","Member/$_Module_Register_POST_MEMBER_ID/index.html");
+											copy("System/Default/Friend/Friend.cerb","Member/$_Module_Register_POST_MEMBER_ID/E-Mail/$_Module_Register_POST_EMAIL_ADDRESS");
+											copy("System/Default/Friend/Friend.cerb","Member/E-Mail_Addresses/$_Module_Register_POST_EMAIL_ADDRESS");
+											copy("System/Configuration/index.php","Member/$_Module_Register_POST_MEMBER_ID/E-Mail/index.php");
+
+} else { // [ + ] [ 8 ] IF DB QUERY WAS NOT EXECUTED
+											echo ($_Message_Register_REGISTRATION_ERROR);
+} // [ + ] IF DATABASE QUERY WAS EXECUTED
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_Register_DB_Query_INSERT_REGISTRAR);
+
+} // [ + ] IF ELECTRONIC MAIL ADDRESS EXISTS IN E-Mail_Addresses DIRECTORY [ 8 ]
+
+} // [ + ] IF FILE EXISTS ( MEMBER INDEX FILE ) || ( MEMBER E-MAIL FILE ) [ 7 ]
+
+} // [ + ] IF DATABASE NUMBER OF ROWS IS <= 0 FOR MEMBER EMAIL ADDRESS [ 6 ]
+
+} // [ + ] IF REGISTRATION FORM MEMBER USERNAME IS > 4 CHARACTERS [ 5 ]
+
+} // [ + ] IF REGISTRATION FORM MEMBER EMAIL ADDRESS IS VALID [ 4 ]
+
+} // [ + ] IF REGISTRATION FORM MEMBER USERNAME IS VALID [ 3 ]
+
+} // [ + ] IF REGISTRATION FORM KEY IS VALID [ 2 ]
+
+} // [ + ] IF REGISTRATION FORM POSTED [ 1 ]
+
+} // [ + ] IF USER CREDENTIALS ALREADY EXIST
+?>

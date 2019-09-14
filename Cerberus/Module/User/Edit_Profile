@@ -1,0 +1,496 @@
+<?php
+/*
+ ===========================================================================================
+ + Cerberus Content Management System.
+ + ---
+ + - Author : Gary Christopher Johnson
+ + - E-Mail : TinkeSoftware@Protonmail.com // GCJohnsonChevalier@Protonmail.com
+ + - Company: Tinke Software
+ + - Notes  : View this file in a non-formatting text editor for correct indentation display
+ + ---
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ + ---
+ + - File Location: root->Module->User->Edit_Profile
+ + - File Version:  0.4 - Sunday, September, 08, 2019.
+ + ---
+ +%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ +%%%()()%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()()()%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%/-\%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%|4|%  ~ Wyn ~
+ +%%%()()%%()()()%%()%%()%%()()()%%()()()%%()%%()%%()()()%%()()()%%%%%%%%%%%%\-/% Build 0.6
+ ===========================================================================================
+*/
+
+/*
+ ===========================
+ +
+ +
+ + Edit Profile
+ +
+ +
+ ===========================
+*/
+
+ 												echo ("$_Message_Edit_Profile_Header");
+
+/*
+ ===========================
+ +
+ + List Member SQL Entries
+ +
+ ===========================
+*/
+
+$_Module_Edit_Profile_DB_Query_SELECT_MEMBERS					= $DB->query("SELECT * FROM {$_ACCESS_DATABASE_PREFIX}_members WHERE member_username='$_GLOBAL_USERNAME'");
+$_Module_Edit_Profile_DB_Query_SELECT_MEMBERS_Fetch_Array				= $DB->fetch_array($_Module_Edit_Profile_DB_Query_SELECT_MEMBERS);
+
+/*
+ ===========================
+ + List Member Rows
+ ===========================
+*/
+
+$_Module_Edit_Profile_LIST_MEMBER_AVATAR						= $_Module_Edit_Profile_DB_Query_SELECT_MEMBERS_Fetch_Array['member_avatar'];
+$_Module_Edit_Profile_LIST_MEMBER_LOCATION					= $_Module_Edit_Profile_DB_Query_SELECT_MEMBERS_Fetch_Array['member_location'];
+$_Module_Edit_Profile_LIST_MEMBER_EMAIL_ADDRESS					= $_Module_Edit_Profile_DB_Query_SELECT_MEMBERS_Fetch_Array['member_email_address'];
+$_Module_Edit_Profile_LIST_MEMBER_FIRST_NAME					= $_Module_Edit_Profile_DB_Query_SELECT_MEMBERS_Fetch_Array['member_first_name'];
+$_Module_Edit_Profile_LIST_MEMBER_HOMEPAGE					= $_Module_Edit_Profile_DB_Query_SELECT_MEMBERS_Fetch_Array['member_homepage'];
+$_Module_Edit_Profile_LIST_MEMBER_LAST_NAME					= $_Module_Edit_Profile_DB_Query_SELECT_MEMBERS_Fetch_Array['member_last_name'];
+$_Module_Edit_Profile_LIST_MEMBER_MOOD						= $_Module_Edit_Profile_DB_Query_SELECT_MEMBERS_Fetch_Array['member_mood'];
+$_Module_Edit_Profile_LIST_MEMBER_MUSIC						= $_Module_Edit_Profile_DB_Query_SELECT_MEMBERS_Fetch_Array['member_music'];
+$_Module_Edit_Profile_LIST_MEMBER_NEWSLETTER					= $_Module_Edit_Profile_DB_Query_SELECT_MEMBERS_Fetch_Array['member_newsletter'];
+$_Module_Edit_Profile_LIST_MEMBER_PICTURE						= $_Module_Edit_Profile_DB_Query_SELECT_MEMBERS_Fetch_Array['member_picture'];
+$_Module_Edit_Profile_LIST_MEMBER_PROFILE_ABOUT					= $_Module_Edit_Profile_DB_Query_SELECT_MEMBERS_Fetch_Array['member_profile_about'];
+$_Module_Edit_Profile_LIST_MEMBER_SIGNATURE					= $_Module_Edit_Profile_DB_Query_SELECT_MEMBERS_Fetch_Array['member_signature'];
+$_Module_Edit_Profile_LIST_MEMBER_THEME						= $_Module_Edit_Profile_DB_Query_SELECT_MEMBERS_Fetch_Array['member_theme'];
+
+$_Module_Edit_Profile_LIST_MEMBER_ICQ						= $_Module_Edit_Profile_DB_Query_SELECT_MEMBERS_Fetch_Array['member_icq'];
+$_Module_Edit_Profile_LIST_MEMBER_FACEBOOK					= $_Module_Edit_Profile_DB_Query_SELECT_MEMBERS_Fetch_Array['member_facebook'];
+$_Module_Edit_Profile_LIST_MEMBER_TWITTER						= $_Module_Edit_Profile_DB_Query_SELECT_MEMBERS_Fetch_Array['member_twitter'];
+$_Module_Edit_Profile_LIST_MEMBER_INSTAGRAM					= $_Module_Edit_Profile_DB_Query_SELECT_MEMBERS_Fetch_Array['member_instagram'];
+$_Module_Edit_Profile_LIST_MEMBER_SKYPE						= $_Module_Edit_Profile_DB_Query_SELECT_MEMBERS_Fetch_Array['member_skype'];
+$_Module_Edit_Profile_LIST_MEMBER_SPOTIFY						= $_Module_Edit_Profile_DB_Query_SELECT_MEMBERS_Fetch_Array['member_spotify'];
+$_Module_Edit_Profile_LIST_MEMBER_LINKEDIN					= $_Module_Edit_Profile_DB_Query_SELECT_MEMBERS_Fetch_Array['member_linkedin'];
+$_Module_Edit_Profile_LIST_MEMBER_SNAPCHAT					= $_Module_Edit_Profile_DB_Query_SELECT_MEMBERS_Fetch_Array['member_snapchat'];
+$_Module_Edit_Profile_LIST_MEMBER_YOUTUBE						= $_Module_Edit_Profile_DB_Query_SELECT_MEMBERS_Fetch_Array['member_youtube'];
+$_Module_Edit_Profile_LIST_MEMBER_DISCORD						= $_Module_Edit_Profile_DB_Query_SELECT_MEMBERS_Fetch_Array['member_discord'];
+$_Module_Edit_Profile_LIST_MEMBER_PGP_KEY_BLOCK					= $_Module_Edit_Profile_DB_Query_SELECT_MEMBERS_Fetch_Array['member_pgp_key_block'];
+$_Module_Edit_Profile_LIST_MEMBER_BITCOIN_ADDRESS					= $_Module_Edit_Profile_DB_Query_SELECT_MEMBERS_Fetch_Array['member_bitcoin_address'];
+$_Module_Edit_Profile_LIST_MEMBER_KEYBASE						= $_Module_Edit_Profile_DB_Query_SELECT_MEMBERS_Fetch_Array['member_keybase'];
+
+/*
+ ===========================
+ + Safe-HTML Code & Smiley Characters
+ ===========================
+*/
+
+$_Module_Edit_Profile_LIST_MEMBER_PROFILE_ABOUT					= str_replace($_GLOBAL_SAFEHTML_CODE_BACK, $_GLOBAL_SAFEHTML_CODE_BACK_REPLACE, $_Module_Edit_Profile_LIST_MEMBER_PROFILE_ABOUT);
+$_Module_Edit_Profile_LIST_MEMBER_PROFILE_ABOUT					= str_replace($_GLOBAL_SAFEHTML_SMILEYS_BACK, $_GLOBAL_SAFEHTML_SMILEYS_BACK_REPLACE, $_Module_Edit_Profile_LIST_MEMBER_PROFILE_ABOUT);
+
+$_Module_Edit_Profile_LIST_MEMBER_SIGNATURE					= str_replace($_GLOBAL_SAFEHTML_CODE_BACK, $_GLOBAL_SAFEHTML_CODE_BACK_REPLACE, $_Module_Edit_Profile_LIST_MEMBER_SIGNATURE);
+$_Module_Edit_Profile_LIST_MEMBER_SIGNATURE					= str_replace($_GLOBAL_SAFEHTML_SMILEYS_BACK, $_GLOBAL_SAFEHTML_SMILEYS_BACK_REPLACE, $_Module_Edit_Profile_LIST_MEMBER_SIGNATURE);
+
+/*
+ ===========================
+ +
+ + Update Profile Form Variables
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Post Variables
+ ===========================
+*/
+
+$_Module_Edit_Profile_POST_UPDATE_FIRST_NAME					= $_POST['post_update_first_name'];
+$_Module_Edit_Profile_POST_UPDATE_LAST_NAME					= $_POST['post_update_last_name'];
+$_Module_Edit_Profile_POST_UPDATE_EMAIL_ADDRESS					= $_POST['post_update_email_address'];
+$_Module_Edit_Profile_POST_UPDATE_LOCATION					= $_POST['post_update_location'];
+$_Module_Edit_Profile_POST_UPDATE_HOMEPAGE					= $_POST['post_update_homepage'];
+$_Module_Edit_Profile_POST_UPDATE_MOOD						= $_POST['post_update_mood'];
+$_Module_Edit_Profile_POST_UPDATE_MUSIC						= $_POST['post_update_music'];
+$_Module_Edit_Profile_POST_UPDATE_NEWSLETTER					= $_POST['post_update_newsletter'];
+$_Module_Edit_Profile_POST_UPDATE_PROFILE_ABOUT					= $_POST['post_update_profile_about'];
+$_Module_Edit_Profile_POST_UPDATE_PROFILE_SIGNATURE				= $_POST['post_update_profile_signature'];
+$_Module_Edit_Profile_POST_UPDATE_SOUND						= $_POST['post_update_sound'];
+$_Module_Edit_Profile_POST_UPDATE_PICTURE						= $_POST['post_update_picture'];
+$_Module_Edit_Profile_POST_UPDATE_THEME						= $_POST['post_update_theme'];
+$_Module_Edit_Profile_POST_UPDATE_AVATAR						= $_POST['post_update_avatar'];
+
+$_Module_Edit_Profile_POST_UPDATE_ICQ						= $_POST['post_update_icq'];
+$_Module_Edit_Profile_POST_UPDATE_FACEBOOK					= $_POST['post_update_facebook'];
+$_Module_Edit_Profile_POST_UPDATE_TWITTER						= $_POST['post_update_twitter'];
+$_Module_Edit_Profile_POST_UPDATE_INSTAGRAM					= $_POST['post_update_instagram'];
+$_Module_Edit_Profile_POST_UPDATE_SKYPE						= $_POST['post_update_skype'];
+$_Module_Edit_Profile_POST_UPDATE_SPOTIFY						= $_POST['post_update_spotify'];
+$_Module_Edit_Profile_POST_UPDATE_LINKEDIN					= $_POST['post_update_linkedin'];
+$_Module_Edit_Profile_POST_UPDATE_SNAPCHAT					= $_POST['post_update_snapchat'];
+$_Module_Edit_Profile_POST_UPDATE_YOUTUBE						= $_POST['post_update_youtube'];
+$_Module_Edit_Profile_POST_UPDATE_DISCORD						= $_POST['post_update_discord'];
+$_Module_Edit_Profile_POST_UPDATE_PGP_KEY_BLOCK					= $_POST['post_update_pgp_key_block'];
+$_Module_Edit_Profile_POST_UPDATE_BITCOIN_ADDRESS					= $_POST['post_update_bitcoin_address'];
+$_Module_Edit_Profile_POST_UPDATE_KEYBASE						= $_POST['post_update_keybase'];
+
+/*
+ ===========================
+ + Character Replace Variables
+ ===========================
+*/
+
+$_Module_Edit_Profile_POST_UPDATE_FIRST_NAME					= str_replace("<", "&lt;", $_Module_Edit_Profile_POST_UPDATE_FIRST_NAME);
+$_Module_Edit_Profile_POST_UPDATE_LAST_NAME					= str_replace("<", "&lt;", $_Module_Edit_Profile_POST_UPDATE_LAST_NAME);
+$_Module_Edit_Profile_POST_UPDATE_EMAIL_ADDRESS					= str_replace("<", "&lt;", $_Module_Edit_Profile_POST_UPDATE_EMAIL_ADDRESS);
+$_Module_Edit_Profile_POST_UPDATE_LOCATION					= str_replace("<", "&lt;", $_Module_Edit_Profile_POST_UPDATE_LOCATION);
+$_Module_Edit_Profile_POST_UPDATE_HOMEPAGE					= str_replace("<", "&lt;", $_Module_Edit_Profile_POST_UPDATE_HOMEPAGE);
+$_Module_Edit_Profile_POST_UPDATE_MOOD						= str_replace("<", "&lt;", $_Module_Edit_Profile_POST_UPDATE_MOOD);
+$_Module_Edit_Profile_POST_UPDATE_MUSIC						= str_replace("<", "&lt;", $_Module_Edit_Profile_POST_UPDATE_MUSIC);
+$_Module_Edit_Profile_POST_UPDATE_NEWSLETTER					= str_replace("<", "&lt;", $_Module_Edit_Profile_POST_UPDATE_NEWSLETTER);
+$_Module_Edit_Profile_POST_UPDATE_SOUND						= str_replace("<", "&lt;", $_Module_Edit_Profile_POST_UPDATE_SOUND);
+
+$_Module_Edit_Profile_POST_UPDATE_ICQ						= str_replace("<", "&lt;", $_Module_Edit_Profile_POST_UPDATE_ICQ);
+$_Module_Edit_Profile_POST_UPDATE_FACEBOOK					= str_replace("<", "&lt;", $_Module_Edit_Profile_POST_UPDATE_FACEBOOK);
+$_Module_Edit_Profile_POST_UPDATE_TWITTER						= str_replace("<", "&lt;", $_Module_Edit_Profile_POST_UPDATE_TWITTER);
+$_Module_Edit_Profile_POST_UPDATE_INSTAGRAM					= str_replace("<", "&lt;", $_Module_Edit_Profile_POST_UPDATE_INSTAGRAM);
+$_Module_Edit_Profile_POST_UPDATE_SKYPE						= str_replace("<", "&lt;", $_Module_Edit_Profile_POST_UPDATE_SKYPE);
+$_Module_Edit_Profile_POST_UPDATE_SPOTIFY						= str_replace("<", "&lt;", $_Module_Edit_Profile_POST_UPDATE_SPOTIFY);
+$_Module_Edit_Profile_POST_UPDATE_LINKEDIN					= str_replace("<", "&lt;", $_Module_Edit_Profile_POST_UPDATE_LINKEDIN);
+$_Module_Edit_Profile_POST_UPDATE_SNAPCHAT					= str_replace("<", "&lt;", $_Module_Edit_Profile_POST_UPDATE_SNAPCHAT);
+$_Module_Edit_Profile_POST_UPDATE_YOUTUBE						= str_replace("<", "&lt;", $_Module_Edit_Profile_POST_UPDATE_YOUTUBE);
+$_Module_Edit_Profile_POST_UPDATE_DISCORD						= str_replace("<", "&lt;", $_Module_Edit_Profile_POST_UPDATE_DISCORD);
+$_Module_Edit_Profile_POST_UPDATE_PGP_KEY_BLOCK					= str_replace("<", "&lt;", $_Module_Edit_Profile_POST_UPDATE_PGP_KEY_BLOCK);
+$_Module_Edit_Profile_POST_UPDATE_BITCOIN_ADDRESS					= str_replace("<", "&lt;", $_Module_Edit_Profile_POST_UPDATE_BITCOIN_ADDRESS);
+$_Module_Edit_Profile_POST_UPDATE_KEYBASE						= str_replace("<", "&lt;", $_Module_Edit_Profile_POST_UPDATE_KEYBASE);
+
+$_Module_Edit_Profile_POST_UPDATE_FIRST_NAME					= str_replace("'", "&#39;", $_Module_Edit_Profile_POST_UPDATE_FIRST_NAME);
+$_Module_Edit_Profile_POST_UPDATE_LAST_NAME					= str_replace("'", "&#39;", $_Module_Edit_Profile_POST_UPDATE_LAST_NAME);
+$_Module_Edit_Profile_POST_UPDATE_EMAIL_ADDRESS					= str_replace("'", "&#39;", $_Module_Edit_Profile_POST_UPDATE_EMAIL_ADDRESS);
+$_Module_Edit_Profile_POST_UPDATE_LOCATION					= str_replace("'", "&#39;", $_Module_Edit_Profile_POST_UPDATE_LOCATION);
+$_Module_Edit_Profile_POST_UPDATE_HOMEPAGE					= str_replace("'", "&#39;", $_Module_Edit_Profile_POST_UPDATE_HOMEPAGE);
+$_Module_Edit_Profile_POST_UPDATE_MOOD						= str_replace("'", "&#39;", $_Module_Edit_Profile_POST_UPDATE_MOOD);
+$_Module_Edit_Profile_POST_UPDATE_MUSIC						= str_replace("'", "&#39;", $_Module_Edit_Profile_POST_UPDATE_MUSIC);
+$_Module_Edit_Profile_POST_UPDATE_NEWSLETTER					= str_replace("'", "&#39;", $_Module_Edit_Profile_POST_UPDATE_NEWSLETTER);
+$_Module_Edit_Profile_POST_UPDATE_SOUND						= str_replace("'", "&#39;", $_Module_Edit_Profile_POST_UPDATE_SOUND);
+
+$_Module_Edit_Profile_POST_UPDATE_ICQ						= str_replace("'", "&#39;", $_Module_Edit_Profile_POST_UPDATE_ICQ);
+$_Module_Edit_Profile_POST_UPDATE_FACEBOOK					= str_replace("'", "&#39;", $_Module_Edit_Profile_POST_UPDATE_FACEBOOK);
+$_Module_Edit_Profile_POST_UPDATE_TWITTER						= str_replace("'", "&#39;", $_Module_Edit_Profile_POST_UPDATE_TWITTER);
+$_Module_Edit_Profile_POST_UPDATE_INSTAGRAM					= str_replace("'", "&#39;", $_Module_Edit_Profile_POST_UPDATE_INSTAGRAM);
+$_Module_Edit_Profile_POST_UPDATE_SKYPE						= str_replace("'", "&#39;", $_Module_Edit_Profile_POST_UPDATE_SKYPE);
+$_Module_Edit_Profile_POST_UPDATE_SPOTIFY						= str_replace("'", "&#39;", $_Module_Edit_Profile_POST_UPDATE_SPOTIFY);
+$_Module_Edit_Profile_POST_UPDATE_LINKEDIN					= str_replace("'", "&#39;", $_Module_Edit_Profile_POST_UPDATE_LINKEDIN);
+$_Module_Edit_Profile_POST_UPDATE_SNAPCHAT					= str_replace("'", "&#39;", $_Module_Edit_Profile_POST_UPDATE_SNAPCHAT);
+$_Module_Edit_Profile_POST_UPDATE_YOUTUBE						= str_replace("'", "&#39;", $_Module_Edit_Profile_POST_UPDATE_YOUTUBE);
+$_Module_Edit_Profile_POST_UPDATE_DISCORD						= str_replace("'", "&#39;", $_Module_Edit_Profile_POST_UPDATE_DISCORD);
+$_Module_Edit_Profile_POST_UPDATE_PGP_KEY_BLOCK					= str_replace("'", "&#39;", $_Module_Edit_Profile_POST_UPDATE_PGP_KEY_BLOCK);
+$_Module_Edit_Profile_POST_UPDATE_BITCOIN_ADDRESS					= str_replace("'", "&#39;", $_Module_Edit_Profile_POST_UPDATE_BITCOIN_ADDRESS);
+$_Module_Edit_Profile_POST_UPDATE_KEYBASE						= str_replace("'", "&#39;", $_Module_Edit_Profile_POST_UPDATE_KEYBASE);
+
+/*
+ ===========================
+ + Lowercase Replace
+ ===========================
+*/
+
+$_Module_Edit_Profile_POST_UPDATE_EMAIL_ADDRESS					= strtolower($_Module_Edit_Profile_POST_UPDATE_EMAIL_ADDRESS);
+
+/*
+ ===========================
+ + Safe-HTML Code & Smiley Characters
+ ===========================
+*/
+
+$_Module_Edit_Profile_POST_UPDATE_PROFILE_ABOUT					= str_replace($_GLOBAL_SAFEHTML_CODE, $_GLOBAL_SAFEHTML_CODE_REPLACE, $_Module_Edit_Profile_POST_UPDATE_PROFILE_ABOUT);
+$_Module_Edit_Profile_POST_UPDATE_PROFILE_ABOUT					= str_replace($_GLOBAL_SAFEHTML_SMILEYS, $_GLOBAL_SAFEHTML_SMILEYS_REPLACE, $_Module_Edit_Profile_POST_UPDATE_PROFILE_ABOUT);
+
+$_Module_Edit_Profile_POST_UPDATE_PROFILE_SIGNATURE				= str_replace($_GLOBAL_SAFEHTML_CODE, $_GLOBAL_SAFEHTML_CODE_REPLACE, $_Module_Edit_Profile_POST_UPDATE_PROFILE_SIGNATURE);
+$_Module_Edit_Profile_POST_UPDATE_PROFILE_SIGNATURE				= str_replace($_GLOBAL_SAFEHTML_SMILEYS, $_GLOBAL_SAFEHTML_SMILEYS_REPLACE, $_Module_Edit_Profile_POST_UPDATE_PROFILE_SIGNATURE);
+
+/*
+ ===========================
+ +
+ + Update Profile Form
+ +
+ ===========================
+*/
+
+if (!$_Module_Edit_Profile_POST_UPDATE_PROFILE_ABOUT) {
+
+echo ("
+												<FORM ACTION=\"?$_INTERNAL_USER_MODULE&#61;Edit_Profile\" METHOD=\"post\">
+													* First Name:<BR>
+														<INPUT TYPE=\"text\" NAME=\"post_update_first_name\" VALUE=\"$_Module_Edit_Profile_LIST_MEMBER_FIRST_NAME\" MAXLENGTH=\"100\"><BR><BR>
+													* Last Name:<BR>
+														<INPUT TYPE=\"text\" NAME=\"post_update_last_name\" VALUE=\"$_Module_Edit_Profile_LIST_MEMBER_LAST_NAME\" MAXLENGTH=\"100\"><BR><BR>
+													* Electronic Mail Address:<BR>
+														<INPUT TYPE=\"text\" NAME=\"post_update_email_address\" VALUE=\"$_Module_Edit_Profile_LIST_MEMBER_EMAIL_ADDRESS\" MAXLENGTH=\"250\"><BR><BR>
+													* Location:<BR>
+														<INPUT TYPE=\"text\" NAME=\"post_update_location\" VALUE=\"$_Module_Edit_Profile_LIST_MEMBER_LOCATION\" MAXLENGTH=\"250\"><BR><BR>
+													* Homepage:<BR>
+														<INPUT TYPE=\"text\" NAME=\"post_update_homepage\" VALUE=\"$_Module_Edit_Profile_LIST_MEMBER_HOMEPAGE\" MAXLENGTH=\"250\"><BR><BR>
+													* Current Mood:<BR>
+														<INPUT TYPE=\"text\" NAME=\"post_update_mood\" VALUE=\"$_Module_Edit_Profile_LIST_MEMBER_MOOD\" MAXLENGTH=\"250\"><BR><BR>
+													* Current Music:<BR>
+														<INPUT TYPE=\"text\" NAME=\"post_update_music\" VALUE=\"$_Module_Edit_Profile_LIST_MEMBER_MUSIC\" MAXLENGTH=\"250\"><BR><BR>
+													* My ICQ:<BR>
+														<INPUT TYPE=\"text\" NAME=\"post_update_icq\" VALUE=\"$_Module_Edit_Profile_LIST_MEMBER_ICQ\" MAXLENGTH=\"250\"><BR><BR>
+													* My Facebook:<BR>
+														<INPUT TYPE=\"text\" NAME=\"post_update_facebook\" VALUE=\"$_Module_Edit_Profile_LIST_MEMBER_FACEBOOK\" MAXLENGTH=\"250\"><BR><BR>
+													* My Twitter:<BR>
+														<INPUT TYPE=\"text\" NAME=\"post_update_twitter\" VALUE=\"$_Module_Edit_Profile_LIST_MEMBER_TWITTER\" MAXLENGTH=\"250\"><BR><BR>
+													* My Instagram:<BR>
+														<INPUT TYPE=\"text\" NAME=\"post_update_instagram\" VALUE=\"$_Module_Edit_Profile_LIST_MEMBER_INSTAGRAM\" MAXLENGTH=\"250\"><BR><BR>
+													* My Skype:<BR>
+														<INPUT TYPE=\"text\" NAME=\"post_update_skype\" VALUE=\"$_Module_Edit_Profile_LIST_MEMBER_SKYPE\" MAXLENGTH=\"250\"><BR><BR>
+													* My Spotify:<BR>
+														<INPUT TYPE=\"text\" NAME=\"post_update_spotify\" VALUE=\"$_Module_Edit_Profile_LIST_MEMBER_SPOTIFY\" MAXLENGTH=\"250\"><BR><BR>
+													* My Linkedin:<BR>
+														<INPUT TYPE=\"text\" NAME=\"post_update_linkedin\" VALUE=\"$_Module_Edit_Profile_LIST_MEMBER_LINKEDIN\" MAXLENGTH=\"250\"><BR><BR>
+													* My Snapchat:<BR>
+														<INPUT TYPE=\"text\" NAME=\"post_update_snapchat\" VALUE=\"$_Module_Edit_Profile_LIST_MEMBER_SNAPCHAT\" MAXLENGTH=\"250\"><BR><BR>
+													* My YouTube:<BR>
+														<INPUT TYPE=\"text\" NAME=\"post_update_youtube\" VALUE=\"$_Module_Edit_Profile_LIST_MEMBER_YOUTUBE\" MAXLENGTH=\"250\"><BR><BR>
+													* My Discord:<BR>
+														<INPUT TYPE=\"text\" NAME=\"post_update_discord\" VALUE=\"$_Module_Edit_Profile_LIST_MEMBER_DISCORD\" MAXLENGTH=\"250\"><BR><BR>
+													* My BitCoin Address:<BR>
+														<INPUT TYPE=\"text\" NAME=\"post_update_bitcoin_address\" VALUE=\"$_Module_Edit_Profile_LIST_MEMBER_BITCOIN_ADDRESS\" MAXLENGTH=\"250\"><BR><BR>
+													* My KeyBase:<BR>
+														<INPUT TYPE=\"text\" NAME=\"post_update_keybase\" VALUE=\"$_Module_Edit_Profile_LIST_MEMBER_KEYBASE\" MAXLENGTH=\"250\"><BR><BR>
+													* Receive Newsletters ?<BR>
+														<SELECT NAME=\"post_update_newsletter\">
+															<OPTION VALUE=\"1\">Yes</OPTION>
+															<OPTION VALUE=\"0\">No</OPTION>
+														</SELECT><BR><BR>
+													* Profile About:<BR>
+														<TEXTAREA ROWS=\"15\" COLS=\"75\" MAXLENGTH=\"2000\" NAME=\"post_update_profile_about\">$_Module_Edit_Profile_LIST_MEMBER_PROFILE_ABOUT</TEXTAREA><BR><BR>
+													* Profile & Comment Signature:<BR>
+														<TEXTAREA ROWS=\"15\" COLS=\"75\" MAXLENGTH=\"2000\" NAME=\"post_update_profile_signature\">$_Module_Edit_Profile_LIST_MEMBER_SIGNATURE</TEXTAREA><BR><BR>
+													* Public PGP Encryption Key Block:<BR>
+													[ <A HREF=\"https://PGPKeyGen.com/\" TITLE=\":: Click Here To Generate Public and Private PGP Encryption Key Pairs ::\" TARGET=\"_NEW\">Generate PGP Encryption Key Pairs</A> ]<BR>
+														<TEXTAREA ROWS=\"15\" COLS=\"75\" MAXLENGTH=\"2000\" NAME=\"post_update_pgp_key_block\">$_Module_Edit_Profile_LIST_MEMBER_PGP_KEY_BLOCK</TEXTAREA><BR><BR>
+													* Play cPanel Sound ?<BR>
+														<SELECT NAME=\"post_update_sound\">
+															<OPTION VALUE=\"0\">No</OPTION>
+															<OPTION VALUE=\"1\">Yes</OPTION>
+														</SELECT><BR><BR>
+													* Profile Picture:<BR>
+													[ <A HREF=\"?$_INTERNAL_USER_MODULE&#61;Private_Files\" TITLE=\":: Upload Profile Image ::\" TARGET=\"_NEW\">Upload Profile Image</A> ] Maximum File Name Length 45 Characters<BR>
+														<SELECT NAME=\"post_update_picture\">
+");
+
+/*
+ ===========================
+ +
+ + Read Member Directory
+ +
+ ===========================
+*/
+
+$_Module_Edit_Profile_SPECIFY_MEMBER_DIRECTORY					= "Member/$_GLOBAL_USERNAME/";
+$_Module_Edit_Profile_OPEN_MEMBER_DIRECTORY					= opendir($_Module_Edit_Profile_SPECIFY_MEMBER_DIRECTORY);
+
+while (($_Module_Edit_Profile_READ_MEMBER_DIRECTORY = readdir($_Module_Edit_Profile_OPEN_MEMBER_DIRECTORY))) {
+
+if ($_Module_Edit_Profile_READ_MEMBER_DIRECTORY == "." || $_Module_Edit_Profile_READ_MEMBER_DIRECTORY == ".." || $_Module_Edit_Profile_READ_MEMBER_DIRECTORY == "index.php" || $_Module_Edit_Profile_READ_MEMBER_DIRECTORY == "index.html" || $_Module_Edit_Profile_READ_MEMBER_DIRECTORY == "Friend" || $_Module_Edit_Profile_READ_MEMBER_DIRECTORY == "E-Mail") {
+/**
+ * Do Nothing
+**/
+} else {
+
+															echo ("<OPTION VALUE=\"$_Module_Edit_Profile_READ_MEMBER_DIRECTORY\">$_Module_Edit_Profile_READ_MEMBER_DIRECTORY</OPTION>");
+
+} // [ + ] IF_NOT_DIRECTORY || FILE
+
+} // [ + ] WHILE_DIRECTORY
+
+/*
+ ===========================
+ + Close Member Directory
+ ===========================
+*/
+
+closedir($_Module_Edit_Profile_OPEN_MEMBER_DIRECTORY);
+
+echo ("
+														</SELECT><BR><BR>
+													* Theme Selection:<BR>
+														<SELECT NAME=\"post_update_theme\">
+");
+
+/*
+ ===========================
+ + Read Theme Directory
+ ===========================
+*/
+
+$_Module_Edit_Profile_SPECIFY_THEME_DIRECTORY					= "./Theme/";
+$_Module_Edit_Profile_OPEN_THEME_DIRECTORY					= opendir($_Module_Edit_Profile_SPECIFY_THEME_DIRECTORY);
+
+while (($_Module_Edit_Profile_READ_THEME_DIRECTORY = readdir($_Module_Edit_Profile_OPEN_THEME_DIRECTORY))) {
+
+if ($_Module_Edit_Profile_READ_THEME_DIRECTORY == "." || $_Module_Edit_Profile_READ_THEME_DIRECTORY == ".." || $_Module_Edit_Profile_READ_THEME_DIRECTORY == "index.php") {
+/**
+ * Do Nothing
+**/
+} else {
+
+															echo ("<OPTION VALUE=\"$_Module_Edit_Profile_READ_THEME_DIRECTORY\">$_Module_Edit_Profile_READ_THEME_DIRECTORY</OPTION>");
+
+} // [ + ] IF_NOT_DIRECTORY || File
+
+} // [ + ] WHILE_DIRECTORY
+
+/*
+ ===========================
+ + Close Theme Directory
+ ===========================
+*/
+
+closedir($_Module_Edit_Profile_OPEN_THEME_DIRECTORY);
+
+echo ("
+														</SELECT><BR><BR>
+													* Profile Avatar:<BR>
+													[ <A HREF=\"?$_INTERNAL_USER_MODULE&#61;List&amp;Display&#61;Avatars\" TITLE=\"View All Avatars\" TARGET=\"_NEW\">View All</A> ]<BR>
+														<SELECT NAME=\"post_update_avatar\">
+");
+
+/*
+ ===========================
+ + Read Member Avatar Directory
+ ===========================
+*/
+
+$_Module_Edit_Profile_SPECIFY_MEMBER_AVATAR_DIRECTORY				= "Theme/$_GLOBAL_THEME_DIRECTORY/Image/Icon_Avatar/";
+$_Module_Edit_Profile_OPEN_MEMBER_AVATAR_DIRECTORY					= opendir($_Module_Edit_Profile_SPECIFY_MEMBER_AVATAR_DIRECTORY);
+
+while (($_Module_Edit_Profile_READ_MEMBER_AVATAR_DIRECTORY = readdir($_Module_Edit_Profile_OPEN_MEMBER_AVATAR_DIRECTORY))) {
+
+if ($_Module_Edit_Profile_READ_MEMBER_AVATAR_DIRECTORY == "." || $_Module_Edit_Profile_READ_MEMBER_AVATAR_DIRECTORY == ".." || $_Module_Edit_Profile_READ_MEMBER_AVATAR_DIRECTORY == "index.php") {
+/**
+ * Do Nothing
+**/
+} else {
+
+															echo ("<OPTION VALUE=\"$_Module_Edit_Profile_READ_MEMBER_AVATAR_DIRECTORY\">$_Module_Edit_Profile_READ_MEMBER_AVATAR_DIRECTORY</OPTION>");
+
+} // [ + ] IF_NOT_DIRECTORY || File
+
+} // [ + ] WHILE_DIRECTORY
+
+/*
+ ===========================
+ + Close Member Avatar Directory
+ ===========================
+*/
+
+closedir($_Module_Edit_Profile_OPEN_MEMBER_AVATAR_DIRECTORY);
+
+echo ("
+														</SELECT><BR>
+													<INPUT TYPE=\"submit\" VALUE=\"Update Profile\">
+												</FORM>
+");
+
+} else {
+
+/*
+ ===========================
+ +
+ + Update Member Data
+ +
+ ===========================
+*/
+
+$_Module_Edit_Profile_DB_Query_UPDATE_MEMBER 					= $DB->query("UPDATE {$_ACCESS_DATABASE_PREFIX}_members SET 
+member_first_name='$_Module_Edit_Profile_POST_UPDATE_FIRST_NAME',
+member_last_name='$_Module_Edit_Profile_POST_UPDATE_LAST_NAME',
+member_email_address='$_Module_Edit_Profile_POST_UPDATE_EMAIL_ADDRESS',
+member_location='$_Module_Edit_Profile_POST_UPDATE_LOCATION',
+member_homepage='$_Module_Edit_Profile_POST_UPDATE_HOMEPAGE',
+member_mood='$_Module_Edit_Profile_POST_UPDATE_MOOD',
+member_music='$_Module_Edit_Profile_POST_UPDATE_MUSIC',
+member_newsletter='$_Module_Edit_Profile_POST_UPDATE_NEWSLETTER',
+member_profile_about='$_Module_Edit_Profile_POST_UPDATE_PROFILE_ABOUT',
+member_signature='$_Module_Edit_Profile_POST_UPDATE_PROFILE_SIGNATURE',
+member_sound='$_Module_Edit_Profile_POST_UPDATE_SOUND',
+member_picture='$_Module_Edit_Profile_POST_UPDATE_PICTURE',
+member_theme='$_Module_Edit_Profile_POST_UPDATE_THEME',
+member_avatar='$_Module_Edit_Profile_POST_UPDATE_AVATAR',
+member_icq='$_Module_Edit_Profile_POST_UPDATE_ICQ',
+member_facebook='$_Module_Edit_Profile_POST_UPDATE_FACEBOOK',
+member_instagram='$_Module_Edit_Profile_POST_UPDATE_INSTAGRAM',
+member_twitter='$_Module_Edit_Profile_POST_UPDATE_TWITTER',
+member_skype='$_Module_Edit_Profile_POST_UPDATE_SKYPE',
+member_spotify='$_Module_Edit_Profile_POST_UPDATE_SPOTIFY',
+member_linkedin='$_Module_Edit_Profile_POST_UPDATE_LINKEDIN',
+member_snapchat='$_Module_Edit_Profile_POST_UPDATE_SNAPCHAT',
+member_youtube='$_Module_Edit_Profile_POST_UPDATE_YOUTUBE',
+member_discord='$_Module_Edit_Profile_POST_UPDATE_DISCORD',
+member_pgp_key_block='$_Module_Edit_Profile_POST_UPDATE_PGP_KEY_BLOCK',
+member_bitcoin_address='$_Module_Edit_Profile_POST_UPDATE_BITCOIN_ADDRESS',
+member_keybase='$_Module_Edit_Profile_POST_UPDATE_KEYBASE'
+
+WHERE member_username='$_GLOBAL_USERNAME'");
+
+if ($_Module_Edit_Profile_DB_Query_UPDATE_MEMBER) {
+
+/*
+ ===========================
+ +
+ + Send E-Mail Notification
+ +
+ ===========================
+*/
+
+mail($_Module_Edit_Profile_POST_UPDATE_EMAIL_ADDRESS,"Profile updated :: $_GLOBAL_SITE_TITLE","
+Dear [ $_Module_Edit_Profile_POST_UPDATE_EMAIL_ADDRESS ],
+============================================================
+Your profile details have been updated at: $_GLOBAL_SITE_TITLE - On: $_GLOBAL_DATE
+
+If you did not make this change please notify a Moderator or Administrator of the System immediately. The Internet Protocol Address associated with this change is: [ $_GLOBAL_REMOTE_ADDRESS ]
+============================================================
+Have a nice day,
+		~ $_GLOBAL_SITE_TITLE
+
+[ $_GLOBAL_REMOTE_ADDRESS ]
+");
+											echo ($_Message_Edit_Profile_UPDATE);
+} else {
+											echo ($_Message_Edit_Profile_UPDATE_ERROR);
+} // [ + ] IF_QUERY
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_Edit_Profile_DB_Query_UPDATE_MEMBER);
+
+} // [ + ] IF_NULL
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_Edit_Profile_DB_Query_SELECT_MEMBERS);
+?>

@@ -1,0 +1,97 @@
+<?php
+/*
+ ===========================================================================================
+ + Cerberus Content Management System.
+ + ---
+ + - Author : Gary Christopher Johnson
+ + - E-Mail : TinkeSoftware@Protonmail.com // GCJohnsonChevalier@Protonmail.com
+ + - Company: Tinke Software
+ + - Notes  : View this file in a non-formatting text editor for correct indentation display
+ + ---
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ + ---
+ + - File Location: root->Module->User->Login
+ + - File Version:  0.4 - Sunday, September, 08, 2019.
+ + ---
+ +%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ +%%%()()%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()()()%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%/-\%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%|4|%  ~ Wyn ~
+ +%%%()()%%()()()%%()%%()%%()()()%%()()()%%()%%()%%()()()%%()()()%%%%%%%%%%%%\-/% Build 0.6
+ ===========================================================================================
+*/
+
+/*
+ ===========================
+ +
+ +
+ + Login
+ +
+ +
+ ===========================
+*/
+											echo ($_Message_Login_Header);
+/*
+ ===========================
+ +
+ + If Credentials Already Set
+ +
+ ===========================
+*/
+
+if ($_GLOBAL_USERNAME && $_GLOBAL_PASSWORD != null) {
+
+											echo ("<CENTER>Cerberus: You are already Logged-In as: <I>$_GLOBAL_USERNAME</I>.</CENTER>");
+
+} else {
+
+/*
+ ===========================
+ +
+ + Login Form
+ +
+ ===========================
+*/
+
+echo ("
+											<FORM ACTION=\"?InternalApplication&#61;Login\" METHOD=\"post\">
+													Member Username:<BR>
+														<INPUT TYPE=\"text\" NAME=\"post_login_username\" MAXLENGTH=\"50\"><BR>
+													Member Password:<BR>
+														<INPUT TYPE=\"password\" NAME=\"post_login_password\" MAXLENGTH=\"250\"><BR>
+													<INPUT TYPE=\"submit\" VALUE=\"Login\">
+												<HR>
+											</FORM>
+
+											<CENTER>[ <A HREF=\"$_ACCESS_SECURE/?$_INTERNAL_USER_MODULE&#61;Login\" TITLE=\"HTTPS Encrypted Login\">Secure Login</A>&nbsp;-&nbsp;<A HREF=\"?$_INTERNAL_USER_MODULE&#61;Register\" TITLE=\"Register With $_GLOBAL_SITE_TITLE\">Register</A>&nbsp;-&nbsp;<A HREF=\"?$_INTERNAL_USER_MODULE&#61;Reset_Password\" TITLE=\"Reset Your Password\">Reset Password</A> ]</CENTER>
+");
+
+/*
+ ===========================
+ +
+ + If Credentials Do Not Exist
+ +
+ ===========================
+*/
+
+if ($_GET["Message"] == "No_User") {
+											echo ($_Message_Login_ERROR);
+} // [ + ] IF_Message_No_User
+
+} // [ + ] IF_Credentials_Already_Set
+?>

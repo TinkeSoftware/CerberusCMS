@@ -1,0 +1,199 @@
+<?php
+/*
+ ===========================================================================================
+ + Cerberus Content Management System.
+ + ---
+ + - Author : Gary Christopher Johnson
+ + - E-Mail : TinkeSoftware@Protonmail.com // GCJohnsonChevalier@Protonmail.com
+ + - Company: Tinke Software
+ + - Notes  : View this file in a non-formatting text editor for correct indentation display
+ + ---
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ + ---
+ + - File Location: root->Module->User->All_Shouts
+ + - File Version:  0.4 - Sunday, September, 08, 2019.
+ + ---
+ +%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ +%%%()()%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()()()%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%/-\%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%|4|%  ~ Wyn ~
+ +%%%()()%%()()()%%()%%()%%()()()%%()()()%%()%%()%%()()()%%()()()%%%%%%%%%%%%\-/% Build 0.6
+ ===========================================================================================
+*/
+
+/*
+ ===========================
+ +
+ +
+ + All Shouts
+ +
+ +
+ ===========================
+*/
+
+											echo ($_Message_All_Shouts_Header);
+
+$_Module_All_Shouts_DB_Query_SELECT_SHOUTS		= $DB->query("SELECT * FROM {$_ACCESS_DATABASE_PREFIX}_shouts ORDER BY id DESC LIMIT 100");
+
+if ($DB->num_rows($_Module_All_Shouts_DB_Query_SELECT_SHOUTS) <= 0) {
+
+											echo ($_Message_All_Shouts_NO_SHOUTS);
+
+} else {
+
+while ($_Module_All_Shouts_DB_Query_SELECT_SHOUTS_Fetch_Array = $DB->fetch_array($_Module_All_Shouts_DB_Query_SELECT_SHOUTS)) {
+
+/*
+ ===========================
+ +
+ + List Shout Entries
+ +
+ ===========================
+*/
+
+$_Module_Shouts_LIST_SHOUT_ID				= $_Module_All_Shouts_DB_Query_SELECT_SHOUTS_Fetch_Array['id'];
+$_Module_Shouts_LIST_SHOUT_AUTHOR				= $_Module_All_Shouts_DB_Query_SELECT_SHOUTS_Fetch_Array['shout_author'];
+$_Module_Shouts_LIST_SHOUT_DATA				= $_Module_All_Shouts_DB_Query_SELECT_SHOUTS_Fetch_Array['shout_data'];
+$_Module_Shouts_LIST_SHOUT_TIME				= $_Module_All_Shouts_DB_Query_SELECT_SHOUTS_Fetch_Array['shout_time'];
+
+echo ("
+											<CENTER>
+												<TABLE WIDTH=\"100%\" BORDER=\"1\" CELLPADDING=\"0\" CELLSPACING=\"0\">
+													<TR>
+														<TD WIDTH=\"40%\"><B>Shout Author</B>: <A HREF=\"?$_INTERNAL_USER_MODULE&#61;Profile&amp;Name&#61;$_Module_Shouts_LIST_SHOUT_AUTHOR\" TITLE=\"Open Profile For :: $_Module_Shouts_LIST_SHOUT_AUTHOR\">$_Module_Shouts_LIST_SHOUT_AUTHOR</A></TD>
+														<TD WIDTH=\"60%\"><B>Shout Posted On</B>: <I>$_Module_Shouts_LIST_SHOUT_TIME</I></TD>
+													</TR>
+												</TABLE>
+											</CENTER>
+
+											<CENTER>
+												<TABLE WIDTH=\"100%\" BORDER=\"1\" CELLPADDING=\"0\" CELLSPACING=\"0\">
+													<TR>
+														<TD WIDTH=\"100%\"><B>Shout Message</B>: <I>$_Module_Shouts_LIST_SHOUT_DATA</I></TD>
+													</TR>
+												</TABLE>
+											</CENTER>
+
+											[ <A HREF=\"?$_INTERNAL_USER_MODULE&#61;All_Shouts&amp;DeleteID&#61;$_Module_Shouts_LIST_SHOUT_ID\" TITLE=\":: Delete This Shout Message ::\">Delete</A> ]<BR><BR>
+");
+
+/*
+ ===========================
+ +
+ + Delete Selected Shout ID
+ +
+ ===========================
+*/
+
+if ($_GET["DeleteID"] == "$_Module_Shouts_LIST_SHOUT_ID") {
+
+if ($_GLOBAL_USERNAME != $_Module_Shouts_LIST_SHOUT_AUTHOR) {
+
+											echo ($_Message_All_Shouts_DELETE_SHOUT_NOT_USER);
+
+} else {
+
+if ($DB->query("DELETE FROM {$_ACCESS_DATABASE_PREFIX}_shouts WHERE id='$_Module_Shouts_LIST_SHOUT_ID'")) {
+
+											echo ($_Message_All_Shouts_DELETE_SHOUT);
+
+} else {
+
+											echo ($_Message_All_Shouts_DELETE_SHOUT_ERROR);
+
+} // [ + ] IF_QUERY
+
+} // [ + ] IF_IS_MEMBER
+
+} // [ + ] IF_DELETE
+
+} // [ + ] WHILE_SHOUTS
+
+} // [ + ] IF_NUMBER_OF_ROWS
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_All_Shouts_DB_Query_SELECT_SHOUTS);
+
+/*
+ ===========================
+ +
+ + Post Shout
+ +
+ ===========================
+*/
+
+$_Module_All_Shouts_POST_SHOUT_MESSAGE			= $_POST['post_shout_message'];
+$_Module_All_Shouts_POST_SHOUT_MESSAGE			= str_replace($_GLOBAL_SAFEHTML_CODE, $_GLOBAL_SAFEHTML_CODE_REPLACE, $_Module_All_Shouts_POST_SHOUT_MESSAGE);
+$_Module_All_Shouts_POST_SHOUT_MESSAGE			= str_replace($_GLOBAL_SAFEHTML_SMILEYS, $_GLOBAL_SAFEHTML_SMILEYS_REPLACE, $_Module_All_Shouts_POST_SHOUT_MESSAGE);
+
+if (!$_Module_All_Shouts_POST_SHOUT_MESSAGE) {
+
+echo ("
+											<HR><FORM ACTION=\"?$_INTERNAL_USER_MODULE&#61;All_Shouts\" METHOD=\"post\">
+												Shout Message:<BR>
+												[ Maximum Shout Message Length: 250 Characters ]<BR>
+													<INPUT TYPE=\"text\" NAME=\"post_shout_message\" MAXLENGTH=\"250\"><BR>
+													<INPUT TYPE=\"submit\" VALUE=\"Post Shout Message\">
+											</FORM><HR>
+");
+
+} else {
+
+if ($_GLOBAL_USERNAME && $_GLOBAL_PASSWORD != null) {
+
+$_Module_All_Shouts_DB_Query_INSERT_SHOUT		= $DB->query("INSERT INTO {$_ACCESS_DATABASE_PREFIX}_shouts(shout_author,shout_data,shout_time)VALUES('$_GLOBAL_USERNAME','$_Module_All_Shouts_POST_SHOUT_MESSAGE','$_GLOBAL_DATE')");
+
+if (strlen($_Module_All_Shouts_POST_SHOUT_MESSAGE) > "250") {
+
+											echo ($_Message_All_Shouts_POST_LENGTH_ERROR);
+
+} else {
+
+if ($_Module_All_Shouts_DB_Query_INSERT_SHOUT) {
+
+											echo ($_Message_All_Shouts_POST_SHOUT);
+
+} else {
+
+											echo ($_Message_All_Shouts_POST_ERROR);
+
+} // [ + ] IF_STRING_LENGTH
+
+} // [ + ] IF_DB_Query
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_All_Shouts_DB_Query_INSERT_SHOUT);
+
+} else {
+
+											echo ($_Message_All_Shouts_ERROR_ACCESS_LEVEL);
+											
+} // [ + ] IF_COOKIE
+
+} // [ + ] IF_NULL
+?>

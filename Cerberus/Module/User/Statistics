@@ -1,0 +1,206 @@
+<?php
+/*
+ ===========================================================================================
+ + Cerberus Content Management System.
+ + ---
+ + - Author : Gary Christopher Johnson
+ + - E-Mail : TinkeSoftware@Protonmail.com // GCJohnsonChevalier@Protonmail.com
+ + - Company: Tinke Software
+ + - Notes  : View this file in a non-formatting text editor for correct indentation display
+ + ---
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ + ---
+ + - File Location: root->Module->User->Statistics
+ + - File Version:  0.4 - Sunday, September, 08, 2019.
+ + ---
+ +%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ +%%%()()%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()()()%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%/-\%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%|4|%  ~ Wyn ~
+ +%%%()()%%()()()%%()%%()%%()()()%%()()()%%()%%()%%()()()%%()()()%%%%%%%%%%%%\-/% Build 0.6
+ ===========================================================================================
+*/
+
+/*
+ ===========================
+ +
+ +
+ + Statistics
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ +
+ + Fetch Statistics Data
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Select SQL Entries
+ ===========================
+*/
+
+$_Module_Statistics_DB_Query_SELECT_STATISTICS				= $DB->query("SELECT * FROM {$_ACCESS_DATABASE_PREFIX}_statistics ORDER BY id ASC LIMIT 1");
+$_Module_Statistics_DB_Query_SELECT_MEMBERS				= $DB->query("SELECT * FROM {$_ACCESS_DATABASE_PREFIX}_members");
+$_Module_Statistics_DB_Query_SELECT_COMMENTS				= $DB->query("SELECT * FROM {$_ACCESS_DATABASE_PREFIX}_comments");
+$_Module_Statistics_DB_Query_SELECT_FILES					= $DB->query("SELECT * FROM {$_ACCESS_DATABASE_PREFIX}_files");
+$_Module_Statistics_DB_Query_SELECT_FORUM					= $DB->query("SELECT * FROM {$_ACCESS_DATABASE_PREFIX}_forum_forum");
+$_Module_Statistics_DB_Query_SELECT_FORUM_TOPICS				= $DB->query("SELECT * FROM {$_ACCESS_DATABASE_PREFIX}_forum_topic");
+$_Module_Statistics_DB_Query_SELECT_FORUM_POSTS				= $DB->query("SELECT * FROM {$_ACCESS_DATABASE_PREFIX}_forum_post");
+
+/*
+ ===========================
+ + Count SQL Rows
+ ===========================
+*/
+
+$_Module_Statistics_DB_Query_NUMBER_OF_ROWS_FORUM_POSTS			= $DB->num_rows($_Module_Statistics_DB_Query_SELECT_FORUM_POSTS);
+$_Module_Statistics_DB_Query_NUMBER_OF_ROWS_FORUM_TOPICS			= $DB->num_rows($_Module_Statistics_DB_Query_SELECT_FORUM_TOPICS);
+$_Module_Statistics_DB_Query_NUMBER_OF_ROWS_FORUM				= $DB->num_rows($_Module_Statistics_DB_Query_SELECT_FORUM);
+$_Module_Statistics_DB_Query_NUMBER_OF_ROWS_FILES				= $DB->num_rows($_Module_Statistics_DB_Query_SELECT_FILES);
+$_Module_Statistics_DB_Query_NUMBER_OF_ROWS_COMMENTS			= $DB->num_rows($_Module_Statistics_DB_Query_SELECT_COMMENTS);
+$_Module_Statistics_DB_Query_NUMBER_OF_ROWS_MEMBERS			= $DB->num_rows($_Module_Statistics_DB_Query_SELECT_MEMBERS);
+
+/*
+ ===========================
+ + List Statistics Entries
+ ===========================
+*/
+
+$_Module_Statistics_DB_Query_FETCH_ARRAY_STATISTICS			= $DB->fetch_array($_Module_Statistics_DB_Query_SELECT_STATISTICS);
+
+$_Module_Statistics_LIST_NUMBER_OF_HITS					= $_Module_Statistics_DB_Query_FETCH_ARRAY_STATISTICS['statistics_number_of_hits'];
+$_Module_Statistics_LIST_START_DATE					= $_Module_Statistics_DB_Query_FETCH_ARRAY_STATISTICS['statistics_start_date'];
+
+/*
+ ===========================
+ + Is GZIP Compression On or Off ?
+ ===========================
+*/
+
+if ($_GLOBAL_GZIP <= 0) {
+
+	$_Module_Statistics_GZIP_STATUS		= "Off";
+
+} else {
+
+	$_Module_Statistics_GZIP_STATUS		= "On";
+
+} // [ + ] IF_GZIP ON || OFF
+
+/*
+ ===========================
+ +
+ + List Statistics
+ +
+ ===========================
+*/
+
+echo ("
+											$_Message_Statistics_Header
+												<B>Web Site Installed On</B>:<BR>
+												<BIG><B>&middot;</B></BIG>&nbsp;$_Module_Statistics_LIST_START_DATE<BR><BR>
+												<B>Total Web Site Views</B>:<BR>
+												<BIG><B>&middot;</B></BIG>&nbsp;$_Module_Statistics_LIST_NUMBER_OF_HITS<BR><BR>
+												<B>GZIP Compression</B>:<BR>
+												<BIG><B>&middot;</B></BIG>&nbsp;$_Module_Statistics_GZIP_STATUS<BR><BR>
+												<B>Image Format</B>:<BR>
+												<BIG><B>&middot;</B></BIG>&nbsp;$_GLOBAL_IMAGE_EXTENSION<BR><BR>
+												<B>Theme Sound Format</B>:<BR>
+												<BIG><B>&middot;</B></BIG>&nbsp;$_GLOBAL_SOUND_EXTENSION<BR><BR>
+												<B>Theme Directory</B>:<BR>
+												<BIG><B>&middot;</B></BIG>&nbsp;$_GLOBAL_THEME_DIRECTORY<BR><BR>
+												<B>Current Language</B>:<BR>
+												<BIG><B>&middot;</B></BIG>&nbsp;$_GLOBAL_LANGUAGE_DIRECTORY<BR><BR>
+												<B>Number of Members</B>:<BR>
+												<BIG><B>&middot;</B></BIG>&nbsp;$_Module_Statistics_DB_Query_NUMBER_OF_ROWS_MEMBERS<BR><BR>
+												<B>Number of Comments</B>:<BR>
+												<BIG><B>&middot;</B></BIG>&nbsp;$_Module_Statistics_DB_Query_NUMBER_OF_ROWS_COMMENTS<BR><BR>
+												<B>Number of Files in File Module</B>:<BR>
+												<BIG><B>&middot;</B></BIG>&nbsp;$_Module_Statistics_DB_Query_NUMBER_OF_ROWS_FILES<BR><BR>
+												<B>Number of Forums</B>:<BR>
+												<BIG><B>&middot;</B></BIG>&nbsp;$_Module_Statistics_DB_Query_NUMBER_OF_ROWS_FORUM<BR><BR>
+												<B>Number of Topics</B>:<BR>
+												<BIG><B>&middot;</B></BIG>&nbsp;$_Module_Statistics_DB_Query_NUMBER_OF_ROWS_FORUM_TOPICS<BR><BR>
+												<B>Number of Posts</B>:<BR>
+												<BIG><B>&middot;</B></BIG>&nbsp;$_Module_Statistics_DB_Query_NUMBER_OF_ROWS_FORUM_POSTS
+											<HR>
+											<CENTER><B>[ <A HREF=\"$_TINKESOFTWARE_SERVER/Projects/CerberusCMS/Validation/Validate.php?Version&#61;$_CERBERUS_VERSION\" TITLE=\":: Validate Cerberus Content Management System ::\">$_CERBERUS_FULL_VERSION</A> ]</B></CENTER><HR>
+");
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_Statistics_DB_Query_SELECT_STATISTICS);
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_Statistics_DB_Query_SELECT_MEMBERS);
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_Statistics_DB_Query_SELECT_COMMENTS);
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_Statistics_DB_Query_SELECT_FILES);
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_Statistics_DB_Query_NUMBER_OF_ROWS_FORUM);
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_Statistics_DB_Query_NUMBER_OF_ROWS_FORUM_TOPICS);
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_Statistics_DB_Query_NUMBER_OF_ROWS_FORUM_POSTS);
+?>

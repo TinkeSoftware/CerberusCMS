@@ -1,0 +1,864 @@
+<?php
+/*
+ ===========================================================================================
+ + Cerberus Content Management System.
+ + ---
+ + - Author : Gary Christopher Johnson
+ + - E-Mail : TinkeSoftware@Protonmail.com // GCJohnsonChevalier@Protonmail.com
+ + - Company: Tinke Software
+ + - Notes  : View this file in a non-formatting text editor for correct indentation display
+ + ---
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ + ---
+ + - File Location: root->Module->User->Forum
+ + - File Version:  0.4 - Sunday, September, 08, 2019.
+ + ---
+ +%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ +%%%()()%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()()()%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%/-\%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%|4|%  ~ Wyn ~
+ +%%%()()%%()()()%%()%%()%%()()()%%()()()%%()%%()%%()()()%%()()()%%%%%%%%%%%%\-/% Build 0.6
+ ===========================================================================================
+*/
+
+/*
+ ==========================================
+ +
+ +
+ + Forum
+ +
+ +
+ ==========================================
+*/
+
+/*
+ ==========================================
+ +
+ +
+ + List Forum(s) / Topic(s) / Post(s)
+ +
+ +
+ ==========================================
+*/
+
+$_Module_Forum_DB_Query_SELECT_FORUMS				= $DB->query("SELECT * FROM {$_ACCESS_DATABASE_PREFIX}_forum_forum ORDER BY id ASC");
+
+											echo ($_Message_Forum_Header);
+
+if ($DB->num_rows($_Module_Forum_DB_Query_SELECT_FORUMS) <= 0) {
+
+											echo ($_Message_Forum_NO_FORUMS);
+
+} // [ + ] IF_NUMBER_OF_ROWS
+
+while ($_Module_Forum_DB_Query_SELECT_FORUMS_Fetch_Array = $DB->fetch_array($_Module_Forum_DB_Query_SELECT_FORUMS)) {
+
+$_Module_Forum_LIST_FORUM_ID					= $_Module_Forum_DB_Query_SELECT_FORUMS_Fetch_Array['id'];
+$_Module_Forum_LIST_FORUM_ACCESS_LEVEL				= $_Module_Forum_DB_Query_SELECT_FORUMS_Fetch_Array['forum_access_level'];
+$_Module_Forum_LIST_FORUM_DATE					= $_Module_Forum_DB_Query_SELECT_FORUMS_Fetch_Array['forum_date'];
+$_Module_Forum_LIST_FORUM_DESCRIPTION				= $_Module_Forum_DB_Query_SELECT_FORUMS_Fetch_Array['forum_description'];
+$_Module_Forum_LIST_FORUM_TITLE					= $_Module_Forum_DB_Query_SELECT_FORUMS_Fetch_Array['forum_title'];
+
+/*
+ ============================
+ +
+ + Display Forum(s)
+ +
+ ============================
+*/
+
+if ($_GET["ForumID"] == "All") {
+
+if ($_Module_Forum_LIST_FORUM_ACCESS_LEVEL >= 3) {
+
+$_Module_Forum_LIST_FORUM_ICON_TEXT	= "Forum is Closed and is only Viewable by an Administrator";
+$_Module_Forum_LIST_FORUM_ICON		= "Forum_Closed";
+
+} // [ + ] IF_ACCESS [ 3 ]
+
+if ($_Module_Forum_LIST_FORUM_ACCESS_LEVEL == 2) {
+
+$_Module_Forum_LIST_FORUM_ICON_TEXT	= "Forum is Viewable by Members, but is Locked and cannot be Modified";
+$_Module_Forum_LIST_FORUM_ICON		= "Forum_Locked";
+
+} // [ + ] IF_ACCESS [ 2 ]
+
+if ($_Module_Forum_LIST_FORUM_ACCESS_LEVEL <= 1) {
+
+$_Module_Forum_LIST_FORUM_ICON_TEXT	= "Forum is Open and is Viewable by Members";
+$_Module_Forum_LIST_FORUM_ICON		= "Forum_Open";
+
+} // [ + ] IF_ACCESS [ 1 ]
+
+/*
+ ==============================
+ + Count Topic(s) Within Forum
+ ==============================
+*/
+
+// Nothing here yet.
+
+/*
+ ==============================
+ + Display Forum(s)
+ ==============================
+*/
+
+echo ("
+											<CENTER>
+												<TABLE WIDTH=\"100%\" CELLPADDING=\"0\" CELLSPACING=\"0\" BORDER=\"1\">
+													<TR>
+														<TD WIDTH=\"1%\" VALIGN=\"TOP\"><CENTER><IMG SRC=\"Theme/$_GLOBAL_THEME_DIRECTORY/Image/Forum/$_Module_Forum_LIST_FORUM_ICON.$_GLOBAL_IMAGE_EXTENSION\" ALT=\"$_Module_Forum_LIST_FORUM_ICON_TEXT\" TITLE=\"$_Module_Forum_LIST_FORUM_ICON_TEXT\"></CENTER></TD>
+														<TD WIDTH=\"99%\" VALIGN=\"TOP\"><A HREF=\"?$_INTERNAL_USER_MODULE&#61;Forum&amp;ForumID&#61;$_Module_Forum_LIST_FORUM_ID\" TITLE=\"View Topic(s) Within Forum: $_Module_Forum_LIST_FORUM_TITLE\">&nbsp;$_Module_Forum_LIST_FORUM_TITLE</A><HR><B>Forum Description</B>: <I>$_Module_Forum_LIST_FORUM_DESCRIPTION</I><BR>_________________________<BR><B>Forum Created On</B>: $_Module_Forum_LIST_FORUM_DATE</TD>
+													</TR>
+												</TABLE>
+											</CENTER><BR>
+");
+
+} // [ + ] IF_DISPLAY_FORUM
+
+$_Module_Forum_DB_Query_SELECT_FORUM_TOPICS			= $DB->query("SELECT * FROM {$_ACCESS_DATABASE_PREFIX}_forum_topic WHERE topic_forum_id='$_Module_Forum_LIST_FORUM_ID' ORDER BY id ASC");
+
+while ($_Module_Forum_DB_Query_SELECT_FORUM_TOPICS_Fetch_Array = $DB->fetch_array($_Module_Forum_DB_Query_SELECT_FORUM_TOPICS)) {
+
+$_Module_Forum_LIST_TOPIC_ID					= $_Module_Forum_DB_Query_SELECT_FORUM_TOPICS_Fetch_Array['id'];
+$_Module_Forum_LIST_TOPIC_ACCESS_LEVEL				= $_Module_Forum_DB_Query_SELECT_FORUM_TOPICS_Fetch_Array['topic_access_level'];
+$_Module_Forum_LIST_TOPIC_DATE					= $_Module_Forum_DB_Query_SELECT_FORUM_TOPICS_Fetch_Array['topic_date'];
+$_Module_Forum_LIST_TOPIC_DESCRIPTION				= $_Module_Forum_DB_Query_SELECT_FORUM_TOPICS_Fetch_Array['topic_description'];
+$_Module_Forum_LIST_TOPIC_FORUM_ID				= $_Module_Forum_DB_Query_SELECT_FORUM_TOPICS_Fetch_Array['topic_forum_id'];
+$_Module_Forum_LIST_TOPIC_LAST_POST				= $_Module_Forum_DB_Query_SELECT_FORUM_TOPICS_Fetch_Array['topic_last_post'];
+$_Module_Forum_LIST_TOPIC_LAST_POSTER				= $_Module_Forum_DB_Query_SELECT_FORUM_TOPICS_Fetch_Array['topic_last_poster'];
+$_Module_Forum_LIST_TOPIC_TITLE					= $_Module_Forum_DB_Query_SELECT_FORUM_TOPICS_Fetch_Array['topic_title'];
+
+/*
+ ============================
+ +
+ + Display ForumID -> Topic(s)
+ +
+ ============================
+*/
+
+if ($_GET["ForumID"] == "$_Module_Forum_LIST_FORUM_ID") {
+
+if ($_Module_Forum_LIST_TOPIC_ACCESS_LEVEL >= 3) {
+
+$_Module_Forum_LIST_TOPIC_ICON_TEXT	= "Topic is Closed and is only Viewable by an Administrator";
+$_Module_Forum_LIST_TOPIC_ICON		= "Topic_Closed";
+
+} // [ + ] IF_ACCESS [ 3 ]
+
+if ($_Module_Forum_LIST_TOPIC_ACCESS_LEVEL == 2) {
+
+$_Module_Forum_LIST_TOPIC_ICON_TEXT	= "Topic is Viewable by Members, but is Locked and cannot be Modified";
+$_Module_Forum_LIST_TOPIC_ICON		= "Topic_Locked";
+
+} // [ + ] IF_ACCESS [ 2 ]
+
+if ($_Module_Forum_LIST_TOPIC_ACCESS_LEVEL <= 1) {
+
+$_Module_Forum_LIST_TOPIC_ICON_TEXT	= "Topic is Open and is Viewable by Members";
+$_Module_Forum_LIST_TOPIC_ICON		= "Topic_Open";
+
+} // [ + ] IF_ACCESS [ 2 ]
+
+echo ("
+											<CENTER>
+												<TABLE WIDTH=\"100%\" CELLPADDING=\"0\" CELLSPACING=\"0\" BORDER=\"1\">
+													<TR>
+														<TD WIDTH=\"1%\" VALIGN=\"TOP\"><CENTER><IMG SRC=\"Theme/$_GLOBAL_THEME_DIRECTORY/Image/Forum/$_Module_Forum_LIST_TOPIC_ICON.$_GLOBAL_IMAGE_EXTENSION\" ALT=\"$_Module_Forum_LIST_TOPIC_ICON_TEXT\" TITLE=\"$_Module_Forum_LIST_TOPIC_ICON_TEXT\"></CENTER></TD>
+														<TD WIDTH=\"99%\" VALIGN=\"TOP\"><A HREF=\"?$_INTERNAL_USER_MODULE&#61;Forum&amp;TopicID&#61;$_Module_Forum_LIST_TOPIC_ID\" TITLE=\"View Post(s) within Topic: $_Module_Forum_LIST_TOPIC_TITLE\">&nbsp;$_Module_Forum_LIST_TOPIC_TITLE</A><HR><B>Topic Description</B>: <I>$_Module_Forum_LIST_TOPIC_DESCRIPTION</I><BR>_________________________<BR><B>Topic Created On</B>: <A HREF=\"?$_INTERNAL_USER_MODULE&#61;Profile&amp;Name&#61;$_Module_Forum_LIST_TOPIC_LAST_POSTER\" TITLE=\"This Topic was Created by: $_Module_Forum_LIST_TOPIC_LAST_POSTER\">$_Module_Forum_LIST_TOPIC_DATE</A></TD>
+													</TR>
+												</TABLE>
+											</CENTER><BR>
+");
+
+} // [ + ] IF_FORUM_ID
+
+$_Module_Forum_DB_Query_SELECT_FORUM_POSTS			= $DB->query("SELECT * FROM {$_ACCESS_DATABASE_PREFIX}_forum_post WHERE post_topic_id='$_Module_Forum_LIST_TOPIC_ID' ORDER BY id ASC");
+
+while ($_Module_Forum_DB_Query_SELECT_FORUM_POSTS_Fetch_Array = $DB->fetch_array($_Module_Forum_DB_Query_SELECT_FORUM_POSTS)) {
+
+$_Module_Forum_LIST_POST_ID					= $_Module_Forum_DB_Query_SELECT_FORUM_POSTS_Fetch_Array['id'];
+$_Module_Forum_LIST_POST_ACCESS_LEVEL				= $_Module_Forum_DB_Query_SELECT_FORUM_POSTS_Fetch_Array['post_access_level'];
+$_Module_Forum_LIST_POST_AUTHOR					= $_Module_Forum_DB_Query_SELECT_FORUM_POSTS_Fetch_Array['post_author'];
+$_Module_Forum_LIST_POST_DATA					= $_Module_Forum_DB_Query_SELECT_FORUM_POSTS_Fetch_Array['post_data'];
+$_Module_Forum_LIST_POST_DATE					= $_Module_Forum_DB_Query_SELECT_FORUM_POSTS_Fetch_Array['post_date'];
+$_Module_Forum_LIST_POST_LAST_EDIT				= $_Module_Forum_DB_Query_SELECT_FORUM_POSTS_Fetch_Array['post_last_edit'];
+$_Module_Forum_LIST_POST_TOPIC_ID					= $_Module_Forum_DB_Query_SELECT_FORUM_POSTS_Fetch_Array['post_topic_id'];
+
+$_Module_Forum_DB_Query_SELECT_MEMBERS				= $DB->query("SELECT * FROM {$_ACCESS_DATABASE_PREFIX}_members WHERE member_username='$_Module_Forum_LIST_POST_AUTHOR'");
+
+while ($_Module_Forum_DB_Query_SELECT_MEMBERS_Fetch_Array = $DB->fetch_array($_Module_Forum_DB_Query_SELECT_MEMBERS)) {
+
+$_Module_Forum_LIST_MEMBER_AVATAR					= $_Module_Forum_DB_Query_SELECT_MEMBERS_Fetch_Array['member_avatar'];
+$_Module_Forum_LIST_MEMBER_LOCATION				= $_Module_Forum_DB_Query_SELECT_MEMBERS_Fetch_Array['member_city'];
+$_Module_Forum_LIST_MEMBER_EXPERIENCEENCE_AMOUNT			= $_Module_Forum_DB_Query_SELECT_MEMBERS_Fetch_Array['member_experience_amount'];
+$_Module_Forum_LIST_MEMBER_JOIN_DATE				= $_Module_Forum_DB_Query_SELECT_MEMBERS_Fetch_Array['member_join_date'];
+$_Module_Forum_LIST_MEMBER_NUMBER_OF_POSTS			= $_Module_Forum_DB_Query_SELECT_MEMBERS_Fetch_Array['member_number_of_posts'];
+$_Module_Forum_LIST_MEMBER_SIGNATURE				= $_Module_Forum_DB_Query_SELECT_MEMBERS_Fetch_Array['member_signature'];
+
+if ($_Module_Forum_LIST_MEMBER_SIGNATURE == "") {
+
+$_Module_Forum_LIST_MEMBER_SIGNATURE = "No Signature Has Been Set";
+
+} // [ + ] IF_SIGNATURE_BLANK
+
+if ($_Module_Forum_LIST_MEMBER_LOCATION == "") {
+
+$_Module_Forum_LIST_MEMBER_LOCATION = "No Location Has Been Set";
+
+} // [ + ] IF_LOCATION_BLANK
+
+/*
+ ============================
+ +
+ + Display TopicID -> Post(s)
+ +
+ ============================
+*/
+
+if ($_GET["TopicID"] == "$_Module_Forum_LIST_POST_TOPIC_ID") {
+
+/*
+ ===================
+ +
+ + ACCESS 1; OPEN
+ +
+ ===================
+*/
+
+if ($_Module_Forum_LIST_POST_ACCESS_LEVEL == 1) {
+
+echo ("
+											<CENTER>
+												<TABLE WIDTH=\"100%\" CELLPADDING=\"0\" CELLSPACING=\"0\" BORDER=\"1\">
+													<TR>
+														<TD WIDTH=\"10%\" VALIGN=\"TOP\"><IMG SRC=\"Theme/$_GLOBAL_THEME_DIRECTORY/Image/Icon_Avatar/$_Module_Forum_LIST_MEMBER_AVATAR\" ALT=\"Member :: $_Module_Forum_LIST_POST_AUTHOR\"><HR><B>Posts</B>: $_Module_Forum_LIST_MEMBER_NUMBER_OF_POSTS<BR><B>Location</B>: $_Module_Forum_LIST_MEMBER_LOCATION<BR><B>Experience</B>: $_Module_Forum_LIST_MEMBER_EXPERIENCEENCE_AMOUNT<BR><BR>[ <A HREF=\"?$_INTERNAL_USER_MODULE&#61;Forum&amp;Display&#61;Update_Post&amp;ModifyPostID&#61;$_Module_Forum_LIST_POST_ID\" TITLE=\":: Edit This Post ::\">Edit Post</A> - <A HREF=\"?$_INTERNAL_USER_MODULE&#61;Forum&amp;DeleteMessageID&#61;$_Module_Forum_LIST_POST_ID\" TITLE=\":: Delete This Post ::\">Delete</A> ]<HR></TD>
+														<TD WIDTH=\"90%\" VALIGN=\"TOP\">&nbsp;<A HREF=\"?$_INTERNAL_USER_MODULE&#61;Profile&amp;Name&#61;$_Module_Forum_LIST_POST_AUTHOR\" TITLE=\"View Profile: $_Module_Forum_LIST_POST_AUTHOR\">$_Module_Forum_LIST_POST_AUTHOR</A><BR>_______________________<BR><BR>&nbsp;$_Module_Forum_LIST_POST_DATA<HR><B>Signature</B>: $_Module_Forum_LIST_MEMBER_SIGNATURE<BR>_______________________<BR><B>Posted</B>: $_Module_Forum_LIST_POST_DATE<BR><B>Last Edit</B>: $_Module_Forum_LIST_POST_LAST_EDIT<HR><FORM ACTION=\"?$_INTERNAL_USER_MODULE&#61;Forum&amp;Display&#61;Reply_Form\" METHOD=\"POST\"><INPUT TYPE=\"HIDDEN\" VALUE=\"$_Module_Forum_LIST_POST_TOPIC_ID\" NAME=\"post_reply_post_id\"><INPUT TYPE=\"SUBMIT\" VALUE=\"Reply\"></FORM></TD>
+													</TR>
+												</TABLE>
+											</CENTER><BR>
+");
+
+} else {
+
+/*
+ ===================
+ +
+ + ACCESS 2; LOCKED
+ +
+ ===================
+*/
+
+if ($_Module_Forum_LIST_POST_ACCESS_LEVEL == 2) {
+
+echo ("
+											<CENTER>
+												<TABLE WIDTH=\"100%\" CELLPADDING=\"0\" CELLSPACING=\"0\" BORDER=\"1\">
+													<TR>
+														<TD WIDTH=\"10%\" VALIGN=\"TOP\"><IMG SRC=\"Theme/$_GLOBAL_THEME_DIRECTORY/Image/Icon_Avatar/$_Module_Forum_LIST_MEMBER_AVATAR\" ALT=\"Member :: $_Module_Forum_LIST_POST_AUTHOR\"><HR><B>Posts</B>: $_Module_Forum_LIST_MEMBER_NUMBER_OF_POSTS<BR><B>Location</B>: $_Module_Forum_LIST_MEMBER_LOCATION<BR><B>Experience</B>: $_Module_Forum_LIST_MEMBER_EXPERIENCEENCE_AMOUNT<BR><BR>[ <A HREF=\"?$_INTERNAL_USER_MODULE&#61;Forum&amp;Display&#61;Update_Post&amp;ModifyPostID&#61;$_Module_Forum_LIST_POST_ID\" TITLE=\":: Edit This Post ::\">Edit Post</A> - <A HREF=\"?$_INTERNAL_USER_MODULE&#61;Forum&amp;DeleteMessageID&#61;$_Module_Forum_LIST_POST_ID\" TITLE=\":: Delete This Post ::\">Delete</A> ]<HR></TD>
+														<TD WIDTH=\"90%\" VALIGN=\"TOP\">&nbsp;<A HREF=\"?$_INTERNAL_USER_MODULE&#61;Profile&amp;Name&#61;$_Module_Forum_LIST_POST_AUTHOR\" TITLE=\"View Profile: $_Module_Forum_LIST_POST_AUTHOR\">$_Module_Forum_LIST_POST_AUTHOR</A><BR>_______________________<BR><BR>&nbsp;$_Module_Forum_LIST_POST_DATA<HR><B>Signature</B>: $_Module_Forum_LIST_MEMBER_SIGNATURE<BR>_______________________<BR><B>Posted</B>: $_Module_Forum_LIST_POST_DATE<BR><B>Last Edit</B>: $_Module_Forum_LIST_POST_LAST_EDIT<HR></TD>
+													</TR>
+												</TABLE>
+											</CENTER><BR>
+");
+
+} else {
+
+/*
+ ===================
+ +
+ + ACCESS 3; CLOSED
+ +
+ ===================
+*/
+
+if ($_Module_Forum_LIST_POST_ACCESS_LEVEL == 3) {
+
+if ($_GLOBAL_MEMBER_ACCESS_LEVEL >= 2) {
+
+echo ("
+											<CENTER>
+												<TABLE WIDTH=\"100%\" CELLPADDING=\"0\" CELLSPACING=\"0\" BORDER=\"1\">
+													<TR>
+														<TD WIDTH=\"10%\" VALIGN=\"TOP\"><IMG SRC=\"Theme/$_GLOBAL_THEME_DIRECTORY/Image/Icon_Avatar/$_Module_Forum_LIST_MEMBER_AVATAR\" ALT=\"Member :: $_Module_Forum_LIST_POST_AUTHOR\"><HR><B>Posts</B>: $_Module_Forum_LIST_MEMBER_NUMBER_OF_POSTS<BR><B>Location</B>: $_Module_Forum_LIST_MEMBER_LOCATION<BR><B>Experience</B>: $_Module_Forum_LIST_MEMBER_EXPERIENCEENCE_AMOUNT<BR><BR>[ <A HREF=\"?$_INTERNAL_USER_MODULE&#61;Forum&amp;Display&#61;Update_Post&amp;ModifyPostID&#61;$_Module_Forum_LIST_POST_ID\" TITLE=\":: Edit This Post ::\">Edit Post</A> - <A HREF=\"?$_INTERNAL_USER_MODULE&#61;Forum&amp;DeleteMessageID&#61;$_Module_Forum_LIST_POST_ID\" TITLE=\":: Delete This Post ::\">Delete</A> ]<HR></TD>
+														<TD WIDTH=\"90%\" VALIGN=\"TOP\">&nbsp;<A HREF=\"?$_INTERNAL_USER_MODULE&#61;Profile&amp;Name&#61;$_Module_Forum_LIST_POST_AUTHOR\" TITLE=\"View Profile: $_Module_Forum_LIST_POST_AUTHOR\">$_Module_Forum_LIST_POST_AUTHOR</A><BR>_______________________<BR><BR>&nbsp;$_Module_Forum_LIST_POST_DATA<HR><B>Signature</B>: $_Module_Forum_LIST_MEMBER_SIGNATURE<BR>_______________________<BR><B>Posted</B>: $_Module_Forum_LIST_POST_DATE<BR><B>Last Edit</B>: $_Module_Forum_LIST_POST_LAST_EDIT<HR><FORM ACTION=\"?$_INTERNAL_USER_MODULE&#61;Forum&amp;Display&#61;Reply_Form\" METHOD=\"POST\"><INPUT TYPE=\"HIDDEN\" VALUE=\"$_Module_Forum_LIST_POST_TOPIC_ID\" NAME=\"reply_post_id\"><INPUT TYPE=\"SUBMIT\" VALUE=\"Reply\"></FORM></TD>
+													</TR>
+												</TABLE>
+											</CENTER><BR>
+");
+
+} else {
+											echo ($_Message_Forum_ACCESS_LEVEL_ADMINISTRATOR);
+} // [ + ] IF_ACCESS_ADMIN [ 2 ]
+
+} // [ + ] IF_ACCESS [ 3 ]
+
+} // [ + ] IF_ACCESS [ 2 ]
+
+} // [ + ] IF_ACCESS [ 1 ]
+
+} // [ + ] WHILE_ARRAY_MEMBER
+
+/*
+ ============================
+ + Kill DB Query
+ ============================
+*/
+
+$DB->free($_Module_Forum_DB_Query_SELECT_MEMBERS);
+
+} // [ + ] IF_TOPICID
+
+/*
+ ============================
+ +
+ + Display Modify Post Form
+ +
+ ============================
+*/
+
+if ($_GET["Display"] == "Update_Post") {
+
+$_Module_Forum_DB_Query_SELECT_FORUM_POSTS_FOR_UPDATE		= $DB->query("SELECT * FROM {$_ACCESS_DATABASE_PREFIX}_forum_post WHERE id='$_Module_Forum_LIST_POST_ID'");
+
+$_Module_Forum_DB_Query_SELECT_FORUM_POSTS_FOR_UPDATE_Fetch_Array = $DB->fetch_array($_Module_Forum_DB_Query_SELECT_FORUM_POSTS_FOR_UPDATE);
+
+$_Module_Forum_Update_Post_LIST_POST_ID				= $_Module_Forum_DB_Query_SELECT_FORUM_POSTS_FOR_UPDATE_Fetch_Array['id'];
+$_Module_Forum_Update_Post_LIST_POST_AUTHOR			= $_Module_Forum_DB_Query_SELECT_FORUM_POSTS_FOR_UPDATE_Fetch_Array['post_author'];
+$_Module_Forum_Update_Post_LIST_POST_DATA				= $_Module_Forum_DB_Query_SELECT_FORUM_POSTS_FOR_UPDATE_Fetch_Array['post_data'];
+$_Module_Forum_Update_Post_LIST_POST_TOPIC_ID			= $_Module_Forum_DB_Query_SELECT_FORUM_POSTS_FOR_UPDATE_Fetch_Array['post_topic_id'];
+
+$_Module_Forum_Update_Post_LIST_POST_DATA				= str_replace($_GLOBAL_SAFEHTML_CODE_BACK, $_GLOBAL_SAFEHTML_CODE_BACK_REPLACE, $_Module_Forum_Update_Post_LIST_POST_DATA);
+$_Module_Forum_Update_Post_LIST_POST_DATA				= str_replace($_GLOBAL_SAFEHTML_SMILEYS_BACK, $_GLOBAL_SAFEHTML_SMILEYS_BACK_REPLACE, $_Module_Forum_Update_Post_LIST_POST_DATA);
+
+if ($_GET["ModifyPostID"] == "$_Module_Forum_Update_Post_LIST_POST_ID") {
+
+if ($_GLOBAL_USERNAME != "$_Module_Forum_Update_Post_LIST_POST_AUTHOR") {
+
+											echo ($_Message_Forum_DENY_EDIT);
+
+} else {
+
+$_Module_Forum_POST_UPDATE_POST_DATA				= $_POST['post_update_post'];
+$_Module_Forum_POST_UPDATE_POST_DATA				= str_replace($_GLOBAL_SAFEHTML_CODE, $_GLOBAL_SAFEHTML_CODE_REPLACE, $_Module_Forum_POST_UPDATE_POST_DATA);
+$_Module_Forum_POST_UPDATE_POST_DATA				= str_replace($_GLOBAL_SAFEHTML_SMILEYS, $_GLOBAL_SAFEHTML_SMILEYS_REPLACE, $_Module_Forum_POST_UPDATE_POST_DATA);
+
+if (!$_Module_Forum_POST_UPDATE_POST_DATA) {
+
+echo ("
+											<FORM ACTION=\"?$_INTERNAL_USER_MODULE&#61;Forum&amp;Display&#61;Update_Post&amp;ModifyPostID&#61;$_Module_Forum_Update_Post_LIST_POST_ID\" METHOD=\"POST\">
+												Message:<BR>
+													<TEXTAREA COLS=\"75\" ROWS=\"15\" MAXLENGTH=\"2000\" NAME=\"post_update_post\">$_Module_Forum_Update_Post_LIST_POST_DATA</TEXTAREA><BR>
+												<INPUT TYPE=\"SUBMIT\" VALUE=\"Update\">
+											</FORM>
+");
+
+} else {
+
+$_Module_Forum_DB_Query_UPDATE_FORUM_POST			= $DB->query("UPDATE {$_ACCESS_DATABASE_PREFIX}_forum_post SET post_data='$_Module_Forum_POST_UPDATE_POST_DATA',post_last_edit='$_GLOBAL_DATE' WHERE ID='$_Module_Forum_Update_Post_LIST_POST_ID'");
+
+if ($_Module_Forum_DB_Query_UPDATE_FORUM_POST) {
+											echo ("$_Message_Forum_POST_UPDATE<BR><BR>[ <A HREF=\"?$_INTERNAL_USER_MODULE&#61;Forum&amp;TopicID&#61;$_Module_Forum_Update_Post_LIST_POST_TOPIC_ID\">Please Click Here To View Your Message</A> ]</CENTER>");
+} else {
+											echo ($_Message_Forum_POST_UPDATE_ERROR);
+} // [ + ] IF_DB_Query_UPDATE
+
+/*
+ ============================
+ + Kill DB Query
+ ============================
+*/
+
+$DB->free($_Module_Forum_DB_Query_UPDATE_FORUM_POST);
+
+} // [ + ] IF_!POST
+
+} // [ + ] IF_!USERNAME
+
+/*
+ ============================
+ + Kill DB Query
+ ============================
+*/
+
+$DB->free($_Module_Forum_DB_Query_SELECT_FORUM_POSTS_FOR_UPDATE);
+
+} // [ + ] IF_Update_ID
+
+} // [ + ] IF_Display_Update_Post
+
+} // [ + ] WHILE_ARRAY [ 3 ]
+
+/*
+ ============================
+ + Kill DB Query
+ ============================
+*/
+
+$DB->free($_Module_Forum_DB_Query_SELECT_FORUM_POSTS);
+
+} // [ + ] WHILE_ARRAY [ 2 ]
+
+/*
+ ============================
+ + Kill DB Query
+ ============================
+*/
+
+$DB->free($_Module_Forum_DB_Query_SELECT_FORUM_TOPICS);
+
+} // [ + ] WHILE_ARRAY [ 1 ]
+
+/*
+ ============================
+ + Kill DB Query
+ ============================
+*/
+
+$DB->free($_Module_Forum_DB_Query_SELECT_FORUMS);
+
+/*
+ ==========================================
+ +
+ +
+ + Create Topic(s) / Post(s)
+ +
+ +
+ ==========================================
+*/
+
+/*
+ ============================
+ +
+ + Display Create Topic Form
+ +
+ ============================
+*/
+
+if ($_GET["Display"] == "Create_Topic") {
+
+$_Module_Forum_DB_Query_SELECT_FORUM_FORUM			= $DB->query("SELECT * FROM {$_ACCESS_DATABASE_PREFIX}_forum_forum WHERE forum_access_level='1'");
+
+$_Module_Forum_POST_CREATE_TOPIC_TITLE				= $_POST['post_create_topic_title'];
+$_Module_Forum_POST_CREATE_TOPIC_TITLE				= str_replace("'","&#39;", $_Module_Forum_POST_CREATE_TOPIC_TITLE);
+$_Module_Forum_POST_CREATE_TOPIC_TITLE				= str_replace("<","&lt;", $_Module_Forum_POST_CREATE_TOPIC_TITLE);
+$_Module_Forum_POST_CREATE_TOPIC_DESCRIPTION			= $_POST['post_create_topic_description'];
+$_Module_Forum_POST_CREATE_TOPIC_DESCRIPTION			= str_replace($_GLOBAL_SAFEHTML_CODE, $_GLOBAL_SAFEHTML_CODE_REPLACE, $_Module_Forum_POST_CREATE_TOPIC_DESCRIPTION);
+$_Module_Forum_POST_CREATE_TOPIC_DESCRIPTION			= str_replace($_GLOBAL_SAFEHTML_SMILEYS, $_GLOBAL_SAFEHTML_SMILEYS_REPLACE, $_Module_Forum_POST_CREATE_TOPIC_DESCRIPTION);
+
+$_Module_Forum_POST_CREATE_TOPIC_FORUM_ID				= $_POST['post_create_topic_forum_id'];
+
+if ($DB->num_rows($_Module_Forum_DB_Query_SELECT_FORUM_FORUM) <= 0) {
+
+											echo ($_Message_Forum_CREATE_TOPIC_NO_FORUM);
+
+} else {
+
+if (!$_Module_Forum_POST_CREATE_TOPIC_TITLE) {
+
+echo ("
+											$_GLOBAL_TEXTEDITOR_BUTTONS
+											<BR><BR><FORM ACTION=\"?$_INTERNAL_USER_MODULE&#61;Forum&amp;Display&#61;Create_Topic\" METHOD=\"POST\">
+												Topic Title: (Maximum Length: 100 Characters)<BR>
+													<INPUT TYPE=\"TEXT\" MAXLENGTH=\"100\" NAME=\"post_create_topic_title\"><BR>
+												Place Topic Within Forum:<BR>
+													<SELECT NAME=\"post_create_topic_forum_id\">
+");
+
+while ($_Module_Forum_DB_Query_SELECT_FORUM_FORUM_Fetch_Array = $DB->fetch_array($_Module_Forum_DB_Query_SELECT_FORUM_FORUM)) {
+
+$_Module_Forum_LIST_FORUM_TOPIC_ID				= $_Module_Forum_DB_Query_SELECT_FORUM_FORUM_Fetch_Array['id'];
+$_Module_Forum_LIST_FORUM_TOPIC_TITLE				= $_Module_Forum_DB_Query_SELECT_FORUM_FORUM_Fetch_Array['forum_title'];
+
+												echo ("<OPTION VALUE=\"$_Module_Forum_LIST_FORUM_TOPIC_ID\">$_Module_Forum_LIST_FORUM_TOPIC_TITLE</OPTION>");
+
+} // [ + ] WHILE_ARRAY
+
+/*
+ ============================
+ + Kill DB Query
+ ============================
+*/
+
+$DB->free($_Module_Forum_DB_Query_SELECT_FORUM_FORUM);
+
+echo ("
+													</SELECT>
+													<BR>
+												Topic Description: ( Maximum Length: 100 Characters )<BR>
+													<TEXTAREA ROWS=\"15\" COLS=\"75\" MAXLENGTH=\"100\" NAME=\"post_create_topic_description\" ID=\"WYSIWYG\">Description of this Topic...</TEXTAREA><BR>
+												<INPUT TYPE=\"SUBMIT\" VALUE=\"Submit\">
+											</FORM><BR>
+");
+
+} else {
+
+if (strlen($_Module_Forum_POST_CREATE_TOPIC_TITLE) > "100") {
+
+											echo ($_Message_Forum_CREATE_TOPIC_TITLE_ERROR);
+
+} else {
+
+if (strlen($_Module_Forum_POST_UPDATE_POST_DATA) > "100") {
+
+											echo ($_Message_Forum_CREATE_TOPIC_DESCRIPTION_ERROR);
+
+} else {
+
+$_Module_Forum_DB_Query_INSERT_FORUM_TOPIC			= $DB->query("INSERT INTO {$_ACCESS_DATABASE_PREFIX}_forum_topic(topic_access_level,topic_date,topic_description,topic_forum_id,topic_last_post,topic_last_poster,topic_title)VALUES('1','$_GLOBAL_DATE','$_Module_Forum_POST_CREATE_TOPIC_DESCRIPTION','$_Module_Forum_POST_CREATE_TOPIC_FORUM_ID','$_GLOBAL_DATE','$_GLOBAL_USERNAME','$_Module_Forum_POST_CREATE_TOPIC_TITLE')");
+
+if ($_Module_Forum_DB_Query_INSERT_FORUM_TOPIC) {
+
+											echo ("$_Message_Forum_CREATE_TOPIC<BR><BR>[ <A HREF=\"?$_INTERNAL_USER_MODULE&#61;Forum&amp;Display&#61;Create_Post\" TITLE=\"Create Post\">Please click here to Create the first Post</A> ]</CENTER>");
+
+} else {
+
+											echo ($_Message_Forum_CREATE_TOPIC_ERROR);
+
+} // [ + ] IF_DB_Query_INSERT_FORUM_TOPIC
+
+/*
+ ============================
+ + Kill DB Query
+ ============================
+*/
+
+$DB->free($_Module_Forum_DB_Query_INSERT_FORUM_TOPIC);
+
+} // [ + ] IF_STRING_LENGTH
+
+} // [ + ] IF_STRING_LENGTH
+
+} // [ + ] IF_POST
+
+/*
+ ============================
+ + Kill DB Query
+ ============================
+*/
+
+$DB->free($_Module_Forum_DB_Query_SELECT_FORUM_FORUM);
+
+} // [ + ] IF_NUMBER_OF_ROWS
+
+} // [ + ] IF_DISPLAY_CREATE_TOPIC
+
+/*
+ ============================
+ +
+ + Display Create Post Form 
+ +
+ ============================
+*/
+
+if ($_GET["Display"] == "Create_Post") {
+
+$_Module_Forum_POST_CREATE_POST_TOPIC_ID				= $_POST['post_topic_id_option'];
+$_Module_Forum_POST_CREATE_POST_DATA				= $_POST['post_create_post_data'];
+$_Module_Forum_POST_CREATE_POST_DATA				= str_replace($_GLOBAL_SAFEHTML_CODE, $_GLOBAL_SAFEHTML_CODE_REPLACE, $_Module_Forum_POST_CREATE_POST_DATA);
+$_Module_Forum_POST_CREATE_POST_DATA				= str_replace($_GLOBAL_SAFEHTML_SMILEYS, $_GLOBAL_SAFEHTML_SMILEYS_REPLACE, $_Module_Forum_POST_CREATE_POST_DATA);
+
+$_Module_Forum_DB_Query_SELECT_FORUM_TOPIC_ACCESS_LEVEL		= $DB->query("SELECT * FROM {$_ACCESS_DATABASE_PREFIX}_forum_topic WHERE topic_access_level='1' ORDER BY id ASC");
+
+if ($DB->num_rows($_Module_Forum_DB_Query_SELECT_FORUM_TOPIC_ACCESS_LEVEL) <= 0) {
+
+											echo ($_Message_Forum_CREATE_POST_NO_TOPIC);
+
+} else {
+
+if (!$_Module_Forum_POST_CREATE_POST_TOPIC_ID) {
+
+echo ("
+											$_GLOBAL_TEXTEDITOR_BUTTONS
+											<BR><BR><FORM ACTION=\"?$_INTERNAL_USER_MODULE&#61;Forum&amp;Display&#61;Create_Post\" METHOD=\"POST\">
+												Topic:<BR>
+													<SELECT NAME=\"post_topic_id_option\">
+");
+
+$_Module_Forum_DB_Query_SELECT_FORUM_TOPIC_FOR_CREATE_POST		= $DB->query("SELECT * FROM {$_ACCESS_DATABASE_PREFIX}_forum_topic WHERE topic_access_level='1' ORDER BY id ASC");
+
+while ($_Module_Forum_DB_Query_SELECT_FORUM_TOPIC_FOR_CREATE_POST_Fetch_Array = $DB->fetch_array($_Module_Forum_DB_Query_SELECT_FORUM_TOPIC_FOR_CREATE_POST)) {
+
+$_Module_Forum_LIST_TOPIC_ID_FOR_CREATE_POST			= $_Module_Forum_DB_Query_SELECT_FORUM_TOPIC_FOR_CREATE_POST_Fetch_Array['id'];
+$_Module_Forum_LIST_TOPIC_TITLE_FOR_CREATE_POST			= $_Module_Forum_DB_Query_SELECT_FORUM_TOPIC_FOR_CREATE_POST_Fetch_Array['topic_title'];
+
+echo ("
+													<OPTION VALUE=\"$_Module_Forum_LIST_TOPIC_ID_FOR_CREATE_POST\">$_Module_Forum_LIST_TOPIC_TITLE_FOR_CREATE_POST</OPTION>
+");
+
+} // [ + ] WHILE_ARRAY
+
+echo ("
+													</SELECT>
+													<BR>
+												Message:<BR>
+													<TEXTAREA ROWS=\"15\" COLS=\"75\" MAXLENGTH=\"2000\" NAME=\"post_create_post_data\" ID=\"WYSIWYG\">Message...</TEXTAREA><BR>
+												<INPUT TYPE=\"SUBMIT\" VALUE=\"Submit\">
+											</FORM>
+");
+
+} else {
+
+$_Module_Forum_DB_Query_INSERT_FORUM_POST			= $DB->query("INSERT INTO {$_ACCESS_DATABASE_PREFIX}_forum_post(post_access_level,post_author,post_data,post_date,post_last_edit,post_topic_id)VALUES('1','$_GLOBAL_USERNAME','$_Module_Forum_POST_CREATE_POST_DATA','$_GLOBAL_DATE','N/A','$_Module_Forum_POST_CREATE_POST_TOPIC_ID')");
+
+if ($_Module_Forum_DB_Query_INSERT_FORUM_POST) {
+
+											echo ("$_Message_Forum_CREATE_POST<BR><BR>[ <A HREF=\"?$_INTERNAL_USER_MODULE&#61;Forum&amp;TopicID&#61;$_Module_Forum_POST_CREATE_POST_TOPIC_ID\" TITLE=\"View Message\" TITLE=\"View Message\">Please Click Here To View Your Message</A> ]</CENTER>");
+} else {
+
+											echo ($_Message_Forum_CREATE_POST_ERROR);
+} // [ + ] IF_DB_Query_INSERT_FORUM_POST
+
+/*
+ ============================
+ + Kill DB Query
+ ============================
+*/
+
+$DB->free($_Module_Forum_DB_Query_INSERT_FORUM_POST);
+
+} // [ + ] IF_POST
+
+} // [ + ] IF_NUMBER_OF_ROWS
+
+/*
+ ============================
+ + Kill DB Query
+ ============================
+*/
+
+$DB->free($_Module_Forum_DB_Query_SELECT_FORUM_TOPIC_ACCESS_LEVEL);
+
+} // [ + ] IF_CREATE_POST
+
+/*
+ ============================
+ +
+ + Display Reply Form
+ +
+ ============================
+*/
+
+if ($_GET["Display"] == "Reply_Form") {
+
+$_Module_Forum_POST_REPLY_POST_DATA				= $_POST['post_reply_message'];
+$_Module_Forum_POST_REPLY_POST_DATA				= str_replace($_GLOBAL_SAFEHTML_CODE, $_GLOBAL_SAFEHTML_CODE_REPLACE, $_Module_Forum_POST_REPLY_POST_DATA);
+$_Module_Forum_POST_REPLY_POST_DATA				= str_replace($_GLOBAL_SAFEHTML_SMILEYS, $_GLOBAL_SAFEHTML_SMILEYS_REPLACE, $_Module_Forum_POST_REPLY_POST_DATA);
+
+$_Module_Forum_POST_REPLY_POST_ID					= $_POST['post_reply_post_id'];
+$_Module_Forum_POST_REPLY_POST_ID_2				= $_POST['post_reply_post_id_2'];
+
+if (!$_Module_Forum_POST_REPLY_POST_DATA) {
+
+echo ("
+
+											<FORM ACTION=\"?$_INTERNAL_USER_MODULE&#61;Forum&amp;Display&#61;Reply_Form\" METHOD=\"POST\">
+													<INPUT TYPE=\"HIDDEN\" VALUE=\"$_Module_Forum_POST_REPLY_POST_ID\" NAME=\"post_reply_post_id_2\">
+												Message:<BR>
+													<TEXTAREA COLS=\"75\" ROWS=\"15\" MAXLENGTH=\"2000\" NAME=\"post_reply_message\">Write The Reply Message Here...</TEXTAREA><BR>
+												<INPUT TYPE=\"SUBMIT\" VALUE=\"Submit\">
+											</FORM>
+");
+
+} else {
+
+if ($_Module_Forum_POST_REPLY_POST_ID_2 == "") {
+
+											echo ($_Message_Forum_CREATE_POST_ERROR);
+
+} else {
+
+$_Module_Forum_DB_Query_INSERT_FORUM_POST_2			= $DB->query("INSERT INTO {$_ACCESS_DATABASE_PREFIX}_forum_post(post_access_level,post_author,post_data,post_date,post_last_edit,post_topic_id)VALUES('1','$_GLOBAL_USERNAME','$_Module_Forum_POST_REPLY_POST_DATA','$_GLOBAL_DATE','N/A','$_Module_Forum_POST_REPLY_POST_ID_2')");
+
+if ($_Module_Forum_DB_Query_INSERT_FORUM_POST_2) {
+
+											echo ("$_Message_Forum_CREATE_POST<BR><BR>[ <A HREF=\"?$_INTERNAL_USER_MODULE&#61;Forum&amp;TopicID&#61;$_Module_Forum_POST_REPLY_POST_ID_2\" TITLE=\"View Message\">Please click here to View your Message</A> ]</CENTER>");
+
+} else {
+
+											echo ($_Message_Forum_CREATE_POST_ERROR);
+
+} // [ + ] IF_DB_Query_INSERT_FORUM_POST
+
+/*
+ ============================
+ + Kill DB Query
+ ============================
+*/
+
+$DB->free($_Module_Forum_DB_Query_INSERT_FORUM_POST_2);
+
+/*
+ ============================
+ +
+ + Update Member Experience Amount
+ +
+ ============================
+*/
+
+$_Module_Forum_UPDATE_MEMBER_EXPERIENCE				= $_GLOBAL_MEMBER_EXPERIENCE + 10;
+$_Module_Forum_UPDATE_MEMBER_NUMBER_OF_POSTS			= $_GLOBAL_MEMBER_NUMBER_OF_POSTS + 1;
+
+$_Module_Forum_UPDATE_MEMBER					= $DB->query("UPDATE {$_ACCESS_DATABASE_PREFIX}_members SET member_experience_amount='$_Module_Forum_UPDATE_MEMBER_EXPERIENCE',member_number_of_posts='$_Module_Forum_UPDATE_MEMBER_NUMBER_OF_POSTS' WHERE member_username='$_GLOBAL_USERNAME'");
+
+if ($_Module_Forum_UPDATE_MEMBER) {
+											//echo ($_Message_Forum_EXPERIENCE);
+
+} else {
+
+											echo ($_Message_Forum_EXPERIENCE_ERROR);
+
+} // [ + ] IF_DB_Query_UPDATE_MEMBER
+
+/*
+ ============================
+ + Kill DB Query
+ ============================
+*/
+
+$DB->free($_Module_Forum_UPDATE_MEMBER);
+
+} // [ + ] IF_NULL_ID
+
+} // [ + ] IF_POST
+
+} // [ + ] IF_REPLY_FORM
+
+/*
+ ==========================================
+ +
+ +
+ + Delete Forum Posts
+ +
+ +
+ ==========================================
+*/
+
+/*
+ ============================
+ +
+ + Select Forum Posts ID
+ +
+ ============================
+*/
+
+$_Module_Forum_DB_Query_SELECT_FORUM_MESSAGE_FOR_DELETE		= $DB->query("SELECT * FROM {$_ACCESS_DATABASE_PREFIX}_forum_post ORDER BY id ASC");
+
+while ($_Module_Forum_DB_Query_SELECT_FORUM_MESSAGE_FOR_DELETE_Fetch_Array = $DB->fetch_array($_Module_Forum_DB_Query_SELECT_FORUM_MESSAGE_FOR_DELETE)) {
+
+$_Module_Forum_LIST_FORUM_MESSAGE_ID_FOR_DELETE			= $_Module_Forum_DB_Query_SELECT_FORUM_MESSAGE_FOR_DELETE_Fetch_Array['id'];
+$_Module_Forum_LIST_FORUM_MESSAGE_AUTHOR_FOR_DELETE		= $_Module_Forum_DB_Query_SELECT_FORUM_MESSAGE_FOR_DELETE_Fetch_Array['post_author'];
+
+/*
+ ============================
+ +
+ + Delete Selected Post ID
+ +
+ ============================
+*/
+
+if ($_GET["DeleteMessageID"] == "$_Module_Forum_LIST_FORUM_MESSAGE_ID_FOR_DELETE") {
+
+if ($_GLOBAL_USERNAME != $_Module_Forum_LIST_FORUM_MESSAGE_AUTHOR_FOR_DELETE) {
+
+								echo ($_Message_Forum_DELETE_POST_ERROR);
+
+} else {
+
+$_Module_Forum_DB_Query_DELETE_FORUM_MESSAGE_ID			= $DB->query("DELETE FROM {$_ACCESS_DATABASE_PREFIX}_forum_post WHERE id='$_Module_Forum_LIST_FORUM_MESSAGE_ID_FOR_DELETE'");
+
+if ($_Module_Forum_DB_Query_DELETE_FORUM_MESSAGE_ID) {
+
+								echo ($_Message_Forum_DELETE_POST);
+
+} // [ + ] IF_DB_Query
+
+/*
+ ============================
+ + Kill DB Query
+ ============================
+*/
+
+$DB->free($_Module_Forum_DB_Query_DELETE_FORUM_MESSAGE_ID);
+
+} // [ + ] IF_IsMessageAuthor
+
+} // [ + ] IF_DeleteMessageID
+
+} // [ + ] WHILE_ARRAY
+
+/*
+ ============================
+ + Kill DB Query
+ ============================
+*/
+
+$DB->free($_Module_Forum_DB_Query_SELECT_FORUM_MESSAGE_FOR_DELETE);
+
+/*
+ ============================
+ +
+ + Display Jump-To Form
+ +
+ ============================
+*/
+
+$_Module_Forum_DB_Query_SELECT_FORUM_FORUM_FOR_JUMP		= $DB->query("SELECT * FROM {$_ACCESS_DATABASE_PREFIX}_forum_forum ORDER BY forum_title ASC");
+
+$_Module_Forum_POST_JUMP_TO					= $_POST['post_jump_to'];
+
+if (!$_Module_Forum_POST_JUMP_TO) {
+
+echo ("
+											<BR><BR><FORM ACTION=\"?$_INTERNAL_USER_MODULE&#61;Forum&amp;ForumID&#61;All\" METHOD=\"POST\">
+												<SELECT NAME=\"post_jump_to\">
+													<OPTION VALUE=\"?$_INTERNAL_USER_MODULE&#61;Forum&amp;ForumID&#61;All\">Jump To...</OPTION>
+													<OPTION VALUE=\"?$_INTERNAL_USER_MODULE&#61;Forum&amp;Display&#61;Create_Post\">Create New Post</OPTION>
+													<OPTION VALUE=\"?$_INTERNAL_USER_MODULE&#61;Forum&amp;Display&#61;Create_Topic\">Create New Topic</OPTION>
+													<OPTION VALUE=\"?$_INTERNAL_USER_MODULE&#61;Forum&amp;ForumID&#61;All\">---------------------------</OPTION>
+");
+
+while ($_Module_Forum_DB_Query_SELECT_FORUM_FORUM_FOR_JUMP_Fetch_Array = $DB->fetch_array($_Module_Forum_DB_Query_SELECT_FORUM_FORUM_FOR_JUMP)) {
+
+$_Module_Forum_JUMP_TO_ID					= $_Module_Forum_DB_Query_SELECT_FORUM_FORUM_FOR_JUMP_Fetch_Array['id'];
+$_Module_Forum_JUMP_TO_TITLE					= $_Module_Forum_DB_Query_SELECT_FORUM_FORUM_FOR_JUMP_Fetch_Array['forum_title'];
+
+											echo ("<OPTION VALUE=\"?$_INTERNAL_USER_MODULE&#61;Forum&amp;ForumID&#61;$_Module_Forum_JUMP_TO_ID\">Forum: $_Module_Forum_JUMP_TO_TITLE</OPTION>");
+} // [ + ] WHILE_ARRAY_JUMP_TO
+
+echo ("
+												</SELECT><BR>
+												<INPUT TYPE=\"SUBMIT\" VALUE=\"Go\">
+											</FORM>
+");
+
+} else {
+
+header("location: $_Module_Forum_POST_JUMP_TO");
+
+} // [ + ] IF_!POST_JUMP_TO
+
+/*
+ ============================
+ + Kill DB Query
+ ============================
+*/
+
+$DB->free($_Module_Forum_DB_Query_SELECT_FORUM_FORUM_FOR_JUMP);
+?>

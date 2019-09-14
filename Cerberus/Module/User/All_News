@@ -1,0 +1,135 @@
+<?php
+/*
+ ===========================================================================================
+ + Cerberus Content Management System.
+ + ---
+ + - Author : Gary Christopher Johnson
+ + - E-Mail : TinkeSoftware@Protonmail.com // GCJohnsonChevalier@Protonmail.com
+ + - Company: Tinke Software
+ + - Notes  : View this file in a non-formatting text editor for correct indentation display
+ + ---
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ + ---
+ + - File Location: root->Module->User->All_News
+ + - File Version:  0.4 - Sunday, September, 08, 2019.
+ + ---
+ +%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ +%%%()()%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()()()%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%/-\%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%|4|%  ~ Wyn ~
+ +%%%()()%%()()()%%()%%()%%()()()%%()()()%%()%%()%%()()()%%()()()%%%%%%%%%%%%\-/% Build 0.6
+ ===========================================================================================
+*/
+
+/*
+ ===========================
+ +
+ +
+ + All News
+ +
+ +
+ ===========================
+*/
+
+											echo ($_Message_All_News_Header);
+
+$_Module_All_News_DB_Query_SELECT_NEWS		= $DB->query("SELECT * FROM {$_ACCESS_DATABASE_PREFIX}_news ORDER BY id DESC");
+
+if ($DB->num_rows($_Module_All_News_DB_Query_SELECT_NEWS) <= 0) {
+											echo ($_Message_All_News_NO_NEWS);
+} // [ + ] IF_NUMBER_OF_ROWS
+
+/*
+ ===========================
+ +
+ + List News Entries
+ +
+ ===========================
+*/
+
+while ($_Module_All_News_DB_Query_SELECT_NEWS_Fetch_Array = $DB->fetch_array($_Module_All_News_DB_Query_SELECT_NEWS)) {
+
+$_Module_All_News_LIST_NEWS_ID			= $_Module_All_News_DB_Query_SELECT_NEWS_Fetch_Array['id'];
+$_Module_All_News_LIST_NEWS_AUTHOR		= $_Module_All_News_DB_Query_SELECT_NEWS_Fetch_Array['news_author'];
+$_Module_All_News_LIST_NEWS_AVATAR		= $_Module_All_News_DB_Query_SELECT_NEWS_Fetch_Array['news_avatar'];
+$_Module_All_News_LIST_NEWS_DATA			= $_Module_All_News_DB_Query_SELECT_NEWS_Fetch_Array['news_data'];
+$_Module_All_News_LIST_NEWS_MOOD			= $_Module_All_News_DB_Query_SELECT_NEWS_Fetch_Array['news_mood'];
+$_Module_All_News_LIST_NEWS_MUSIC			= $_Module_All_News_DB_Query_SELECT_NEWS_Fetch_Array['news_music'];
+$_Module_All_News_LIST_NEWS_TIME			= $_Module_All_News_DB_Query_SELECT_NEWS_Fetch_Array['news_time'];
+$_Module_All_News_LIST_NEWS_TITLE			= $_Module_All_News_DB_Query_SELECT_NEWS_Fetch_Array['news_title'];
+
+/*
+ ===========================
+ +
+ + Display All News Entries
+ +
+ ===========================
+*/
+
+if ($_GET["DisplayID"] == "All") {
+
+echo ("
+											<CENTER>
+												<TABLE BORDER=\"1\" WIDTH=\"100%\" CELLPADDING=\"0\" CELLSPACING=\"0\">
+													<TR>
+														<TD WIDTH=\"10%\"><B>ID</A>: $_Module_All_News_LIST_NEWS_ID</A></TD>
+														<TD WIDTH=\"35%\"><B>News Entry</A>: <A HREF=\"?$_INTERNAL_USER_MODULE&#61;All_News&amp;DisplayID&#61;$_Module_All_News_LIST_NEWS_ID\" TITLE=\"Open News Entry :: $_Module_All_News_LIST_NEWS_TITLE\">$_Module_All_News_LIST_NEWS_TITLE</A></TD>
+														<TD WIDTH=\"55%\"><B>Posted On</B>: $_Module_All_News_LIST_NEWS_TIME</TD>
+													</TR>
+												</TABLE>
+											</CENTER>
+");
+
+} // [ + ] IF_DisplayID_ALL
+
+/*
+ ===========================
+ +
+ + Display Selected News ID
+ +
+ ===========================
+*/
+
+if ($_GET["DisplayID"] == "$_Module_All_News_LIST_NEWS_ID") {
+
+echo ("
+											$_Module_All_News_LIST_NEWS_TITLE
+											<HR>
+												<IMG SRC=\"Theme/$_GLOBAL_THEME_DIRECTORY/Image/Icon_Avatar/$_Module_All_News_LIST_NEWS_AVATAR\" TITLE=\":: $_Module_All_News_LIST_NEWS_AUTHOR ::\" ALT=\":: $_Module_All_News_LIST_NEWS_AUTHOR ::\"><BR><BR>
+												<I>$_Module_All_News_LIST_NEWS_DATA</I>
+											<HR>
+												<B>Author Was Feeling</B>: <I>$_Module_All_News_LIST_NEWS_MOOD</I> - <B>Author Was Listening To</B>: <I>$_Module_All_News_LIST_NEWS_MUSIC</I><BR>
+												<B>Written By</B>: <I><A HREF=\"?$_INTERNAL_USER_MODULE&#61;Profile&amp;Name&#61;$_Module_All_News_LIST_NEWS_AUTHOR\" TITLE=\"Profile :: $_Module_All_News_LIST_NEWS_AUTHOR\">$_Module_All_News_LIST_NEWS_AUTHOR</A></I> <B>On</B>: <I>$_Module_All_News_LIST_NEWS_TIME</I>
+												<BR><BR>
+											[ <A HREF=\"?$_INTERNAL_USER_MODULE&#61;Send_Friend\" TITLE=\":: Share This News Entry Via Electronic Mail ::\">Share</A> - <A HREF=\"System/Printable/News/$_Module_All_News_LIST_NEWS_TITLE.html\" TITLE=\":: Print This News Entry ::\">Print</A> - <A HREF=\"?$_INTERNAL_ADMINISTRATOR_MODULE&#61;cPanel&amp;Action&#61;Modify&amp;Data&#61;News&amp;ModifyNewsID&#61;$_Module_All_News_LIST_NEWS_ID\" TITLE=\":: Modify This News Entry ::\">Modify</A> - <A HREF=\"?$_INTERNAL_ADMINISTRATOR_MODULE&#61;cPanel&amp;Action&#61;Modify&amp;Data&#61;News&amp;DeleteNewsID&#61;$_Module_All_News_LIST_NEWS_ID\" TITLE=\":: Delete This News Entry ::\">Delete</A> ]
+");
+
+} else {
+											//echo ($_Message_All_News_ENTRY_DOES_NOT_EXIST);
+} // [ + ] IF_DisplayID_Selected_ID
+
+} // [ + ] WHILE_NEWS_LOOP
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_All_News_DB_Query_SELECT_NEWS);
+?>

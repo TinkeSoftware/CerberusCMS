@@ -1,0 +1,67 @@
+<?php
+/*
+ ===========================================================================================
+ + Cerberus Content Management System.
+ + ---
+ + - Author : Gary Christopher Johnson
+ + - E-Mail : TinkeSoftware@Protonmail.com // GCJohnsonChevalier@Protonmail.com
+ + - Company: Tinke Software
+ + - Notes  : View this file in a non-formatting text editor for correct indentation display
+ + ---
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ + ---
+ + - File Location: root->Module->Block->Modules.blk
+ + - File Version:  0.4 - Sunday, September, 08, 2019.
+ + ---
+ +%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ +%%%()()%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()()()%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%/-\%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%|4|%  ~ Wyn ~
+ +%%%()()%%()()()%%()%%()%%()()()%%()()()%%()%%()%%()()()%%()()()%%%%%%%%%%%%\-/% Build 0.6
+ ===========================================================================================
+*/
+
+/*
+ ===========================
+ +
+ +
+ + Modules Block
+ +
+ +
+ ===========================
+*/
+
+$_Block_Modules_DB_Query_SELECT_AHREF			= $DB->query("SELECT * FROM {$_ACCESS_DATABASE_PREFIX}_ahref ORDER BY ahref_row ASC");
+
+while ($_Block_Modules_DB_Query_SELECT_AHREF_Fetch_Array = $DB->fetch_array($_Block_Modules_DB_Query_SELECT_AHREF)) {
+
+$_Block_Modules_LIST_AHREF_NAME				= $_Block_Modules_DB_Query_SELECT_AHREF_Fetch_Array['ahref_name'];
+$_Block_Modules_LIST_AHREF_URL				= $_Block_Modules_DB_Query_SELECT_AHREF_Fetch_Array['ahref_url'];
+
+											echo ("<BIG><B>&middot;</B></BIG>&nbsp;<A HREF=\"$_Block_Modules_LIST_AHREF_URL\" TITLE=\"Open Application Module :: $_Block_Modules_LIST_AHREF_NAME\">$_Block_Modules_LIST_AHREF_NAME</A><BR>");
+
+} // [ + ] WHILE_AHREF
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Block_Modules_DB_Query_SELECT_AHREF);
+?>

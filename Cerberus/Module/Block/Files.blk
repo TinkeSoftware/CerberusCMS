@@ -1,0 +1,76 @@
+<?php
+/*
+ ===========================================================================================
+ + Cerberus Content Management System.
+ + ---
+ + - Author : Gary Christopher Johnson
+ + - E-Mail : TinkeSoftware@Protonmail.com // GCJohnsonChevalier@Protonmail.com
+ + - Company: Tinke Software
+ + - Notes  : View this file in a non-formatting text editor for correct indentation display
+ + ---
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ + ---
+ + - File Location: root->Module->Block->Files.blk
+ + - File Version:  0.4 - Sunday, September, 08, 2019.
+ + ---
+ +%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ +%%%()()%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()()()%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%/-\%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%|4|%  ~ Wyn ~
+ +%%%()()%%()()()%%()%%()%%()()()%%()()()%%()%%()%%()()()%%()()()%%%%%%%%%%%%\-/% Build 0.6
+ ===========================================================================================
+*/
+
+/*
+ ===========================
+ +
+ +
+ + Files Block
+ +
+ +
+ ===========================
+*/
+
+$_Block_Files_DB_Query_SELECT_FILES			= $DB->query("SELECT * FROM {$_ACCESS_DATABASE_PREFIX}_files ORDER BY id DESC LIMIT 10");
+
+if ($DB->num_rows($_Block_Files_DB_Query_SELECT_FILES) <= 0) {
+
+											echo ("No File(s) Exist.");
+											
+} else {
+
+while ($_Block_Files_DB_Query_SELECT_FILES_Fetch_Array = $DB->fetch_array($_Block_Files_DB_Query_SELECT_FILES)) {
+
+$_Block_Files_LIST_FILE_ID				= $_Block_Files_DB_Query_SELECT_FILES_Fetch_Array['id'];
+$_Block_Files_LIST_FILE_DOWNLOADS			= $_Block_Files_DB_Query_SELECT_FILES_Fetch_Array['file_number_of_downloads'];
+$_Block_Files_LIST_FILE_TITLE				= $_Block_Files_DB_Query_SELECT_FILES_Fetch_Array['file_title'];
+
+											echo ("<BIG><B>&middot;</B></BIG>&nbsp;<A HREF=\"?$_INTERNAL_USER_MODULE&#61;Files&amp;FileID&#61;$_Block_Files_LIST_FILE_ID\" TITLE=\"View File :: $_Block_Files_LIST_FILE_TITLE\">$_Block_Files_LIST_FILE_TITLE</A><BR>");
+
+} // [ + ] WHILE_FILES
+
+} // [ + ] IF_NUMBER_OF_ROWS
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Block_Files_DB_Query_SELECT_FILES);
+?>

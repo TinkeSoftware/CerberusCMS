@@ -1,0 +1,75 @@
+<?php
+/*
+ ===========================================================================================
+ + Cerberus Content Management System.
+ + ---
+ + - Author : Gary Christopher Johnson
+ + - E-Mail : TinkeSoftware@Protonmail.com // GCJohnsonChevalier@Protonmail.com
+ + - Company: Tinke Software
+ + - Notes  : View this file in a non-formatting text editor for correct indentation display
+ + ---
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ + ---
+ + - File Location: root->Module->Block->Language.blk
+ + - File Version:  0.4 - Sunday, September, 08, 2019.
+ + ---
+ +%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ +%%%()()%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()()()%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%/-\%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%|4|%  ~ Wyn ~
+ +%%%()()%%()()()%%()%%()%%()()()%%()()()%%()%%()%%()()()%%()()()%%%%%%%%%%%%\-/% Build 0.6
+ ===========================================================================================
+*/
+
+/*
+ ===========================
+ +
+ +
+ + Language Block
+ +
+ +
+ ===========================
+*/
+
+$_Block_Language_SPECIFY_LANGUAGE_DIRECTORY		= "System/Language/";
+$_Block_Language_OPEN_LANGUAGE_DIRECTORY			= opendir($_Block_Language_SPECIFY_LANGUAGE_DIRECTORY);
+
+											echo ("<FORM ACTION=\"?InternalApplication&#61;Language\" METHOD=\"post\"><SELECT NAME=\"post_language\">");
+
+while (($_Block_Language_READ_LANGUAGE_DIRECTORY = readdir($_Block_Language_OPEN_LANGUAGE_DIRECTORY))) {
+
+if ($_Block_Language_READ_LANGUAGE_DIRECTORY == "." || $_Block_Language_READ_LANGUAGE_DIRECTORY == ".." || $_Block_Language_READ_LANGUAGE_DIRECTORY == "index.php") {
+/**
+ * Do Nothing
+**/
+} else {
+											echo ("<OPTION VALUE=\"$_Block_Language_READ_LANGUAGE_DIRECTORY\">$_Block_Language_READ_LANGUAGE_DIRECTORY</OPTION>");
+
+} // [ + ] IF_LANGUAGE_DIR
+
+} // [ + ] WHILE_READ_DIRECTORY
+											echo ("</SELECT><BR><INPUT TYPE=\"submit\" VALUE=\"Set Language\"></FORM>");
+
+/*
+ ===========================
+ + Close Language Directory
+ ===========================
+*/
+
+closedir($_Block_Language_OPEN_LANGUAGE_DIRECTORY);
+?>

@@ -1,0 +1,140 @@
+<?php
+/*
+ ===========================================================================================
+ + Cerberus Content Management System.
+ + ---
+ + - Author : Gary Christopher Johnson
+ + - E-Mail : TinkeSoftware@Protonmail.com // GCJohnsonChevalier@Protonmail.com
+ + - Company: Tinke Software
+ + - Notes  : View this file in a non-formatting text editor for correct indentation display
+ + ---
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ + ---
+ + - File Location: root->Module->User->E-Mail
+ + - File Version:  0.4 - Sunday, September, 08, 2019.
+ + ---
+ +%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ +%%%()()%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()()()%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%/-\%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%|4|%  ~ Wyn ~
+ +%%%()()%%()()()%%()%%()%%()()()%%()()()%%()%%()%%()()()%%()()()%%%%%%%%%%%%\-/% Build 0.6
+ ===========================================================================================
+*/
+
+/*
+ ===========================
+ +
+ +
+ + E-Mail
+ +
+ +
+ ===========================
+*/
+
+ 												echo ("$_Message_EMail_Header");
+
+/*
+ ===========================
+ +
+ + List Member Entries
+ +
+ ===========================
+*/
+
+$_Module_E_Mail_DB_Query_SELECT_MEMBERS				= $DB->query("SELECT * FROM {$_ACCESS_DATABASE_PREFIX}_members");
+
+while ($_Module_E_Mail_DB_Query_SELECT_MEMBERS_Fetch_Array	= $DB->fetch_array($_Module_E_Mail_DB_Query_SELECT_MEMBERS)) {
+
+$_Module_E_Mail_LIST_MEMBER_ID					= $_Module_E_Mail_DB_Query_SELECT_MEMBERS_Fetch_Array['id'];
+$_Module_E_Mail_LIST_MEMBER_EMAIL_ADDRESS			= $_Module_E_Mail_DB_Query_SELECT_MEMBERS_Fetch_Array['member_email_address'];
+$_Module_E_Mail_LIST_MEMBER_USERNAME				= $_Module_E_Mail_DB_Query_SELECT_MEMBERS_Fetch_Array['member_username'];
+
+/*
+ ===========================
+ +
+ + Send E-Mail
+ +
+ ===========================
+*/
+
+if ($_GET["E-MailID"] == "$_Module_E_Mail_LIST_MEMBER_ID") {
+
+/*
+ ===========================
+ + Send E-Mail Form Post Variables
+ ===========================
+*/
+
+$_Module_E_Mail_POST_MESSAGE					= $_POST['post_message'];
+
+/*
+ ===========================
+ + Send E-Mail Form
+ ===========================
+*/
+
+if (!$_Module_E_Mail_POST_MESSAGE) {
+
+echo ("
+												<FORM ACTION=\"?$_INTERNAL_USER_MODULE&#61;E-Mail&amp;E-MailID&#61;$_Module_E_Mail_LIST_MEMBER_ID\" METHOD=\"post\">
+													Send Electronic Mail Message To: <I><A HREF=\"?$_INTERNAL_USER_MODULE&#61;Profile&amp;Name&#61;$_Module_E_Mail_LIST_MEMBER_USERNAME\" TITLE=\"Open Profile For :: $_Module_E_Mail_LIST_MEMBER_USERNAME\">$_Module_E_Mail_LIST_MEMBER_USERNAME</A></I><BR>
+														<TEXTAREA ROWS=\"15\" COLS=\"75\" NAME=\"post_message\"></TEXTAREA><BR>
+													<INPUT TYPE=\"submit\" VALUE=\"Send Message\">
+												</FORM>
+");
+
+} else {
+
+/*
+ ===========================
+ +
+ + Send E-Mail Notification
+ +
+ ===========================
+*/
+
+if(mail($_Module_E_Mail_LIST_MEMBER_EMAIL_ADDRESS,"Message From :: $_GLOBAL_USERNAME - $_GLOBAL_SITE_TITLE","
+Dear $_Module_E_Mail_LIST_MEMBER_EMAIL_ADDRESS,
+=============================================================
+[ $_GLOBAL_USERNAME ] has sent you this Electronic Message from the Electronic Mail Module:
+
+$_Module_E_Mail_POST_MESSAGE
+=============================================================
+Have a nice day,
+		    ~ $_GLOBAL_SITE_TITLE.
+
+[ $_GLOBAL_REMOTE_ADDRESS ]")) {
+											echo ($_Message_EMail_SEND);
+} else {
+											echo ($_Message_EMail_SEND_ERROR);
+} // [ + ] IF_MAIL
+
+} // [ + ] IF_NULL
+
+} // [ + ] IF_E-MailID
+
+} // [ + ] WHILE_ARRAY
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_E_Mail_DB_Query_SELECT_MEMBERS);
+?>

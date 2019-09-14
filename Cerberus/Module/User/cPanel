@@ -1,0 +1,212 @@
+<?php
+/*
+ ===========================================================================================
+ + Cerberus Content Management System.
+ + ---
+ + - Author : Gary Christopher Johnson
+ + - E-Mail : TinkeSoftware@Protonmail.com // GCJohnsonChevalier@Protonmail.com
+ + - Company: Tinke Software
+ + - Notes  : View this file in a non-formatting text editor for correct indentation display
+ + ---
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ + ---
+ + - File Location: root->Module->User->cPanel
+ + - File Version:  0.4 - Sunday, September, 08, 2019.
+ + ---
+ +%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ +%%%()()%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()()()%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%/-\%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%|4|%  ~ Wyn ~
+ +%%%()()%%()()()%%()%%()%%()()()%%()()()%%()%%()%%()()()%%()()()%%%%%%%%%%%%\-/% Build 0.6
+ ===========================================================================================
+*/
+
+/*
+ ===========================
+ +
+ +
+ + Member cPanel
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ +
+ + Audio To Rank Number
+ +
+ ===========================
+*/
+
+if ($_GLOBAL_MEMBER_RANK <= 1) {
+
+	$_PLAY_SOUND	= "Theme/$_GLOBAL_THEME_DIRECTORY/Audio/Rank_1.$_GLOBAL_SOUND_EXTENSION";
+
+} // [ + ] If Member Rank Less Than Or Equal To 1, Play Specific Audio File
+
+if ($_GLOBAL_MEMBER_RANK = 2) {
+
+	$_PLAY_SOUND	= "Theme/$_GLOBAL_THEME_DIRECTORY/Audio/Rank_2.$_GLOBAL_SOUND_EXTENSION";
+
+} // [ + ] If Member Rank Equal To 2 Play, Specific Audio File
+
+if ($_GLOBAL_MEMBER_RANK = 3) {
+
+	$_PLAY_SOUND	= "Theme/$_GLOBAL_THEME_DIRECTORY/Audio/Rank_3.$_GLOBAL_SOUND_EXTENSION";
+
+} // [ + ] If Member Rank Equal To 3, Play Specific Audio File
+
+if ($_GLOBAL_MEMBER_RANK = 4) {
+
+	$_PLAY_SOUND	= "Theme/$_GLOBAL_THEME_DIRECTORY/Audio/Rank_4.$_GLOBAL_SOUND_EXTENSION";
+
+} // [ + ] If Member Rank Equal To 4, Play Specific Audio File
+
+if ($_GLOBAL_MEMBER_RANK = 5) {
+
+	$_PLAY_SOUND	= "Theme/$_GLOBAL_THEME_DIRECTORY/Audio/Rank_5.$_GLOBAL_SOUND_EXTENSION";
+
+} // [ + ] If Member Rank Equal To 5, Play Specific Audio File
+
+/*
+ ===========================
+ +
+ + Member Control Panel
+ +
+ ===========================
+*/
+
+echo ("
+											$_Message_cPanel_Header
+
+											<CENTER>
+												<A HREF=\"?$_INTERNAL_USER_MODULE&#61;Change_Password\" TITLE=\":: Change Password ::\"><IMG SRC=\"Theme/$_GLOBAL_THEME_DIRECTORY/Image/Icon_Member/Icon_Password.$_GLOBAL_IMAGE_EXTENSION\" HEIGHT=\"60\" WIDTH=\"60\"></IMG></A>&nbsp;
+												<A HREF=\"?$_INTERNAL_USER_MODULE&#61;Edit_Profile\" TITLE=\":: Edit Profile Data ::\"><IMG SRC=\"Theme/$_GLOBAL_THEME_DIRECTORY/Image/Icon_Member/Icon_Profile.$_GLOBAL_IMAGE_EXTENSION\" HEIGHT=\"60\" WIDTH=\"60\"></IMG></A>&nbsp;
+												<A HREF=\"?$_INTERNAL_USER_MODULE&#61;Friend&amp;DisplayID&#61;All\" TITLE=\":: Open Friends List ::\"><IMG SRC=\"Theme/$_GLOBAL_THEME_DIRECTORY/Image/Icon_Member/Icon_Friends.$_GLOBAL_IMAGE_EXTENSION\" HEIGHT=\"60\" WIDTH=\"60\"></IMG></A>&nbsp;
+											</CENTER>
+
+											<CENTER>
+												<A HREF=\"?$_INTERNAL_USER_MODULE&#61;Private_Files\" TITLE=\":: Upload & Manage Private Files ::\"><IMG SRC=\"Theme/$_GLOBAL_THEME_DIRECTORY/Image/Icon_Member/Icon_Files.$_GLOBAL_IMAGE_EXTENSION\" HEIGHT=\"60\" WIDTH=\"60\"></IMG></A>&nbsp;
+												<A HREF=\"?$_INTERNAL_USER_MODULE&#61;Private_Message&amp;PrivateMessageID&#61;All\" TITLE=\":: Send & Receive Private Messages ::\"><IMG SRC=\"Theme/$_GLOBAL_THEME_DIRECTORY/Image/Icon_Member/Icon_Messages.$_GLOBAL_IMAGE_EXTENSION\" HEIGHT=\"60\" WIDTH=\"60\"></IMG></A>&nbsp;
+												<A HREF=\"?$_INTERNAL_USER_MODULE&#61;Webspace\" TITLE=\":: Manage Personal Hypertext Markup Language Web Page ::\"><IMG SRC=\"Theme/$_GLOBAL_THEME_DIRECTORY/Image/Icon_Member/Icon_Web_Page.$_GLOBAL_IMAGE_EXTENSION\" HEIGHT=\"60\" WIDTH=\"60\"></IMG></A>&nbsp;
+											</CENTER>
+
+											<HR>
+											<CENTER>[ <A HREF=\"?InternalApplication&#61;Logout\" TITLE=\":: Logout :: Secure-Delete Sessions, Credentials & Cookies ::\">Logout</A> ]</CENTER>
+");
+
+/*
+ ===========================
+ +
+ + List Member Entries
+ +
+ ===========================
+*/
+
+$_Module_cPanel_DB_Query_SELECT_MEMBERS				= $DB->query("SELECT * FROM {$_ACCESS_DATABASE_PREFIX}_members WHERE member_username='$_GLOBAL_USERNAME'");
+
+$_Module_cPanel_DB_Query_SELECT_MEMBERS_Fetch_Array = $DB->fetch_array($_Module_cPanel_DB_Query_SELECT_MEMBERS);
+
+$_Module_cPanel_LIST_MEMBER_ID						= $_Module_cPanel_DB_Query_SELECT_MEMBERS_Fetch_Array['id'];
+$_Module_cPanel_LIST_MEMBER_KEY						= $_Module_cPanel_DB_Query_SELECT_MEMBERS_Fetch_Array['member_t_random'];
+$_Module_cPanel_LIST_MEMBER_LOGGED					= $_Module_cPanel_DB_Query_SELECT_MEMBERS_Fetch_Array['member_t_logged'];
+$_Module_cPanel_LIST_MEMBER_SOUND					= $_Module_cPanel_DB_Query_SELECT_MEMBERS_Fetch_Array['member_sound'];
+
+/*
+ ===========================
+ + Member Key Post Variables
+ ===========================
+*/
+
+$_Module_cPanel_POST_MEMBER_KEY						= $_POST['member_key'];
+$_Module_cPanel_POST_MEMBER_KEY						= stripslashes($_Module_cPanel_POST_MEMBER_KEY);
+
+/*
+ ===========================
+ +
+ + Sound On || Off
+ +
+ ===========================
+*/
+
+if ($_Module_cPanel_LIST_MEMBER_SOUND >= "1") {
+
+echo ("
+											<EMBED SRC=\"$_PLAY_SOUND\" HIDDEN=\"true\" AUTOPLAY=\"true\" LOOP=\"false\"></EMBED>
+");
+
+} // [ + ] IF Member cPanel Sound Option Is On
+
+/*
+ ===========================
+ +
+ + Activated || !Activated
+ +
+ ===========================
+*/
+
+if (!$_Module_cPanel_POST_MEMBER_KEY) {
+
+if($_Module_cPanel_LIST_MEMBER_LOGGED <= 0) {
+
+echo ("
+											<BR><BR>$_Message_cPanel_KEY_ACTIVATE<HR>
+												<FORM ACTION=\"?$_INTERNAL_USER_MODULE&#61;cPanel\" METHOD=\"POST\">
+													Activation Key:<BR>
+														<INPUT TYPE=\"TEXT\" NAME=\"member_key\" MAXLENGTH=\"32\"><BR>
+													<INPUT TYPE=\"SUBMIT\" VALUE=\"Submit\">
+												</FORM>
+");
+
+} // [ + ] IF_LOGGED
+
+} else {
+											echo ("$_Message_cPanel_KEY_CHECK <BR>");
+if ($_Module_cPanel_LIST_MEMBER_KEY != $_Module_cPanel_POST_MEMBER_KEY) {
+											echo ($_Message_cPanel_KEY_CHECK_ERROR);
+} else {
+
+$_Module_cPanel_DB_Query_UPDATE_MEMBERS				= $DB->query("UPDATE {$_ACCESS_DATABASE_PREFIX}_members SET member_t_logged='1' WHERE id='$_Module_cPanel_LIST_MEMBER_ID'");
+
+if($_Module_cPanel_DB_Query_UPDATE_MEMBERS) {
+											echo ($_Message_cPanel_KEY_ACCEPT);
+} else {
+											echo ($_Message_cPanel_KEY_ACCEPT_ERROR);
+} // [ + ] IF_ACTIVATE
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_cPanel_DB_Query_UPDATE_MEMBERS);
+
+} // [ + ] IF_LIST_KEY
+
+} // [ + ] IF_POST_KEY
+
+/*
+ ===========================
+ + Kill DB Query
+ ===========================
+*/
+
+$DB->free($_Module_cPanel_DB_Query_SELECT_MEMBERS);
+?>

@@ -1,0 +1,256 @@
+<?php
+/*
+ ===========================================================================================
+ + Cerberus Content Management System.
+ + ---
+ + - Author : Gary Christopher Johnson
+ + - E-Mail : TinkeSoftware@Protonmail.com // GCJohnsonChevalier@Protonmail.com
+ + - Company: Tinke Software
+ + - Notes  : View this file in a non-formatting text editor for correct indentation display
+ + ---
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ + ---
+ + - File Location: root->Module->Administration->Categories
+ + - File Version:  0.4 - Sunday, September, 08, 2019.
+ + ---
+ +%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ +%%%()()%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()()()%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%/-\%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%|4|%  ~ Wyn ~
+ +%%%()()%%()()()%%()%%()%%()()()%%()()()%%()%%()%%()()()%%()()()%%%%%%%%%%%%\-/% Build 0.6
+ ===========================================================================================
+*/
+
+/*
+ ===========================
+ +
+ +
+ + Install Category
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ +
+ + Form Variables
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Post Variables
+ ===========================
+*/
+
+$_Module_Category_POST_INSTALL_CATEGORY_NAME				= $_POST['Module_Category_Install_File_Category_Name'];
+$_Module_Category_POST_INSTALL_CATEGORY_DESCRIPTION			= $_POST['Module_Category_Install_File_Category_Description'];
+
+/*
+ ===========================
+ + Character Replace
+ ===========================
+*/
+
+$_Module_Category_POST_INSTALL_CATEGORY_NAME				= preg_replace("/'/","&#39;", $_Module_Category_POST_INSTALL_CATEGORY_NAME);
+$_Module_Category_POST_INSTALL_CATEGORY_DESCRIPTION			= preg_replace("/'/","&#39;", $_Module_Category_POST_INSTALL_CATEGORY_DESCRIPTION);
+
+if ((!$_Module_Category_POST_INSTALL_CATEGORY_NAME) || (!$_Module_Category_POST_INSTALL_CATEGORY_DESCRIPTION)) {
+
+/*
+ ===========================
+ +
+ + Install Category Form
+ +
+ ===========================
+*/
+
+echo ("
+													<CENTER><B>Install File Category</B></CENTER><HR>
+														<FORM ACTION=\"?$_INTERNAL_ADMINISTRATOR_MODULE&#61;cPanel&amp;Action&#61;Categories\" METHOD=\"post\">
+															File Category Name:<BR>
+																<INPUT TYPE=\"text\" NAME=\"Module_Category_Install_File_Category_Name\" MAXLENGTH=\"50\"><BR>
+															File Category Description:<BR>
+																<INPUT TYPE=\"text\" NAME=\"Module_Category_Install_File_Category_Description\" MAXLENGTH=\"250\"><BR>
+																<INPUT TYPE=\"submit\" VALUE=\"Install File Category\">
+														</FORM><BR><BR>
+");
+
+} else {
+
+/*
+ ===========================
+ +
+ + Install Category SQL Entry
+ +
+ ===========================
+*/
+
+$_Module_Category_DB_Query_INSTALL_CATEGORY				= $DB->query("INSERT INTO {$_ACCESS_DATABASE_PREFIX}_categories(category_description,category_time,category_title)VALUES('$_Module_Category_POST_INSTALL_CATEGORY_DESCRIPTION','$_GLOBAL_DATE','$_Module_Category_POST_INSTALL_CATEGORY_NAME')");
+
+if ($_Module_Category_DB_Query_INSTALL_CATEGORY) {
+													echo ($_Message_Categories_INSTALL_CATEGORY_SUCCESSFUL);
+} else {
+													echo ($_Message_ERROR_ACTION_UNIVERSAL);
+} // [ + ] IF_QUERY
+
+/*
+ ===========================
+ + Kill SQL Query
+ ===========================
+*/
+
+$DB->free($_Module_Category_DB_Query_INSTALL_CATEGORY);
+
+} // [ + ] IF_NULL
+
+/*
+ ===========================
+ +
+ +
+ + Display Category Entries
+ +
+ +
+ ===========================
+*/
+
+$_Module_Category_DB_Query_SELECT_CATEGORIES				= $DB->query("SELECT * FROM {$_ACCESS_DATABASE_PREFIX}_categories ORDER BY category_title ASC");
+
+													echo ("<HR><CENTER><B>Existing Categories</B></CENTER><HR>");
+
+if ($DB->num_rows($_Module_Category_DB_Query_SELECT_CATEGORIES) <= 0) {
+													echo ($_Message_Categories_NO_CATEGORIES_INSTALLED);
+} else {
+
+while ($_Module_Category_DB_Query_SELECT_CATEGORIES_Fetch_Array = $DB->fetch_array($_Module_Category_DB_Query_SELECT_CATEGORIES)) {
+
+$_Module_Categories_LIST_CATEGORY_ID					= $_Module_Category_DB_Query_SELECT_CATEGORIES_Fetch_Array['id'];
+$_Module_Categories_LIST_CATEGORY_DESCRIPTION				= $_Module_Category_DB_Query_SELECT_CATEGORIES_Fetch_Array['category_description'];
+$_Module_Categories_LIST_CATEGORY_TITLE					= $_Module_Category_DB_Query_SELECT_CATEGORIES_Fetch_Array['category_title'];
+
+echo ("
+													<CENTER>
+														<TABLE BORDER=\"1\" WIDTH=\"100%\" CELLPADDING=\"0\" CELLSPACING=\"0\">
+															<TR>
+																<TD WIDTH=\"100%\">Category Name: <B>$_Module_Categories_LIST_CATEGORY_TITLE</B></TD>
+																<TD><A HREF=\"?$_INTERNAL_ADMINISTRATOR_MODULE&#61;cPanel&amp;Action&#61;Categories&amp;DeleteID&#61;$_Module_Categories_LIST_CATEGORY_ID\" TITLE=\"Delete :: $_Module_Categories_LIST_CATEGORY_TITLE\">Delete</A></TD>
+																<TD><A HREF=\"?$_INTERNAL_ADMINISTRATOR_MODULE&#61;cPanel&amp;Action&#61;Categories&amp;ModifyID&#61;$_Module_Categories_LIST_CATEGORY_ID\" TITLE=\"Modify :: $_Module_Categories_LIST_CATEGORY_TITLE\">Modify</A></TD>
+															</TR>
+														</TABLE>
+													</CENTER>
+");
+
+/*
+ ===========================
+ +
+ +
+ + Delete Category By ID
+ +
+ +
+ ===========================
+*/
+
+if ($_GET["DeleteID"] == "$_Module_Categories_LIST_CATEGORY_ID") {
+
+$_Module_Categories_DB_Query_DELETE_CATEGORY				= $DB->query("DELETE FROM {$_ACCESS_DATABASE_PREFIX}_categories WHERE id='$_Module_Categories_LIST_CATEGORY_ID'");
+
+if ($_Module_Categories_DB_Query_DELETE_CATEGORY) {
+													echo ($_Message_Categories_DELETE_CATEGORY_SUCCESSFUL);
+} else {
+													echo ($_Message_ERROR_ACTION_UNIVERSAL);
+} // [ + ] IF_DELETE_QUERY
+
+$DB->free($_Module_Categories_DB_Query_DELETE_CATEGORY);
+
+} // [ + ] IF_DELETE
+
+/*
+ ===========================
+ +
+ +
+ + Modify Category By ID
+ +
+ +
+ ===========================
+*/
+
+if ($_GET["ModifyID"] == "$_Module_Categories_LIST_CATEGORY_ID") {
+
+/*
+ ===========================
+ +
+ + Form Variables
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Post Variables
+ ===========================
+*/
+
+$_Module_Categories_POST_UPDATE_CATEGORY_NAME				= $_POST['module_categories_update_category_name'];
+$_Module_Categories_POST_UPDATE_CATEGORY_DESCRIPTION 			= $_POST['module_categories_update_category_description'];
+
+/*
+ ===========================
+ + Character Replace
+ ===========================
+*/
+
+$_Module_Categories_POST_UPDATE_CATEGORY_NAME				= preg_replace("/'/","&#39;", $_Module_Categories_POST_UPDATE_CATEGORY_NAME);
+$_Module_Categories_POST_UPDATE_CATEGORY_DESCRIPTION 			= preg_replace("/'/","&#39;", $_Module_Categories_POST_UPDATE_CATEGORY_DESCRIPTION);
+
+if ((!$_Module_Categories_POST_UPDATE_CATEGORY_NAME) || (!$_Module_Categories_POST_UPDATE_CATEGORY_DESCRIPTION)) {
+
+echo ("
+													<BR><BR><HR><CENTER><B>Currently Modifying Category: <I>$_Module_Categories_LIST_CATEGORY_TITLE</I></B></CENTER><HR>
+														<FORM ACTION=\"?$_INTERNAL_ADMINISTRATOR_MODULE&#61;cPanel&amp;Action&#61;Categories&amp;ModifyID&#61;$_Module_Categories_LIST_CATEGORY_ID\" METHOD=\"post\">
+															Category Name:<BR>
+																<INPUT TYPE=\"text\" NAME=\"module_categories_update_category_name\" VALUE=\"$_Module_Categories_LIST_CATEGORY_TITLE\" MAXLENGTH=\"50\"><BR>
+															Category Description:<BR>
+																<INPUT TYPE=\"text\" NAME=\"module_categories_update_category_description\" VALUE=\"$_Module_Categories_LIST_CATEGORY_DESCRIPTION\" MAXLENGTH=\"250\"><BR>
+																<INPUT TYPE=\"submit\" VALUE=\"Update\">
+														</FORM><HR><BR><BR>
+");
+
+} else {
+
+$_Module_Categories_DB_Query_UPDATE_CATEGORY				= $DB->query("UPDATE {$_ACCESS_DATABASE_PREFIX}_categories SET category_description='$_Module_Categories_POST_UPDATE_CATEGORY_DESCRIPTION',category_title='$_Module_Categories_POST_UPDATE_CATEGORY_NAME' WHERE id='$_Module_Categories_LIST_CATEGORY_ID'");
+
+if ($_Module_Categories_DB_Query_UPDATE_CATEGORY) {
+													echo ($_Message_Categories_UPDATE_CATEGORY_SUCCESSFUL);
+} else {
+													echo ($_Message_ERROR_ACTION_UNIVERSAL);
+} // [ + ] IF_QUERY
+
+$DB->free($_Module_Categories_DB_Query_UPDATE_CATEGORY);
+
+} // [ + ] IF_NULL
+
+} // [ + ] IF_Modify
+
+} // [ + ] WHILE_ARRAY
+
+} // [ + ] IF_Number_Of_Rows
+
+$DB->free($_Module_Category_DB_Query_SELECT_CATEGORIES);
+?>

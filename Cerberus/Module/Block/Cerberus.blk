@@ -1,0 +1,63 @@
+<?php
+/*
+ ===========================================================================================
+ + Cerberus Content Management System.
+ + ---
+ + - Author : Gary Christopher Johnson
+ + - E-Mail : TinkeSoftware@Protonmail.com // GCJohnsonChevalier@Protonmail.com
+ + - Company: Tinke Software
+ + - Notes  : View this file in a non-formatting text editor for correct indentation display
+ + ---
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ + ---
+ + - File Location: root->Module->Block->Cerberus.blk
+ + - File Version:  0.4 - Sunday, September, 08, 2019.
+ + ---
+ +%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ +%%%()()%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()()()%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%/-\%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%|4|%  ~ Wyn ~
+ +%%%()()%%()()()%%()%%()%%()()()%%()()()%%()%%()%%()()()%%()()()%%%%%%%%%%%%\-/% Build 0.6
+ ===========================================================================================
+*/
+
+/*
+ ===========================
+ +
+ +
+ + Cerberus Block
+ +
+ +
+ ===========================
+*/
+
+echo ("
+											<A HREF=\"https://www.SourceForge.net/projects/cerberuscms\" TITLE=\"Cerberus Content Management System :: SourceForge Project Page\" TARGET=\"_NEW\"><IMG SRC=\"Theme/$_GLOBAL_THEME_DIRECTORY/Image/Badges/Cerberus_Badge.png\" ALT=\"Cerberus Content Management System :: SourceForge\"></A><BR><BR>
+											<A HREF=\"https://www.Chromium.org/\" TITLE=\"Chromium Project\" TARGET=\"_NEW\"><IMG SRC=\"Theme/$_GLOBAL_THEME_DIRECTORY/Image/Badges/Chromium_Badge.png\" ALT=\"Chromium Project\"></A><BR><BR>
+											<A HREF=\"https://www.Mozilla.org/firefox/\" TITLE=\"Mozilla FireFox Web Browser\" TARGET=\"_NEW\"><IMG SRC=\"Theme/$_GLOBAL_THEME_DIRECTORY/Image/Badges/FireFox_Badge.png\" ALT=\"Mozilla FireFox Web Browser\"></A><BR><BR>
+											<A HREF=\"https://www.GitHub.com/TinkeSoftware/CerberusCMS\" TITLE=\"Cerberus Content Management System :: Clean Code Project :: Official GitHub Repository\" TARGET=\"_NEW\"><IMG SRC=\"Theme/$_GLOBAL_THEME_DIRECTORY/Image/Badges/CleanCode_Badge.png\" ALT=\":: Cerberus Content Management System Is A Clean Code Project ::\"></A><BR><BR>
+											<A TITLE=\"Cerberus Content Management System Is Hand Crafted In The United States of America\"><IMG SRC=\"Theme/$_GLOBAL_THEME_DIRECTORY/Image/Badges/MadeInUSA.png\" WIDTH=\"125\" HEIGHT=\"50\" ALT=\":: Cerberus Content Management System Is Crafted In The United States of America ::\"></A><BR><BR>
+											<A HREF=\"https://www.Apache.org\" TITLE=\"Apache Software Foundation\" TARGET=\"_NEW\"><IMG SRC=\"Theme/$_GLOBAL_THEME_DIRECTORY/Image/Badges/Apache.png\" ALT=\"Apache Software Foundation\"></A><BR>
+											<A HREF=\"https://www.MySQL.com\" TITLE=\"MySQL Database Management System\" TARGET=\"_NEW\"><IMG SRC=\"Theme/$_GLOBAL_THEME_DIRECTORY/Image/Badges/MySQL.gif\" ALT=\"MySQL Database Management System\"></A><BR>
+											<A HREF=\"https://www.PHP.net\" TITLE=\"Post Hypertext Preprocessor ( PHP ) Scripting Language\" TARGET=\"_NEW\"><IMG SRC=\"Theme/$_GLOBAL_THEME_DIRECTORY/Image/Badges/PHP.png\" ALT=\"Post Hypertext Preprocessor ( PHP ) Scripting Language\"></A><BR>
+											<A HREF=\"http://tool.motoricerca.info/robots-checker.phtml\" TITLE=\"Robots Validator\" TARGET=\"_NEW\"><IMG SRC=\"Theme/$_GLOBAL_THEME_DIRECTORY/Image/Badges/Robots.png\" ALT=\"Robots Validator\"></A><BR>
+											<A HREF=\"https://jigsaw.w3.org/css-validator/\" TITLE=\"Cascading Style Sheet Validator\" TARGET=\"_NEW\"><IMG SRC=\"Theme/$_GLOBAL_THEME_DIRECTORY/Image/Badges/W3C_CSS.png\" ALT=\"Cascading Style Sheet Validator\"></A><BR>
+											<A HREF=\"https://validator.w3.org/\" TITLE=\"Hypertext Markup Language Validator\" TARGET=\"_NEW\"><IMG SRC=\"Theme/$_GLOBAL_THEME_DIRECTORY/Image/Badges/W3C_HTML.png\" ALT=\"Hypertext Markup Language Validator\"></A><BR>
+											<A HREF=\"https://validator.w3.org/feed/\" TITLE=\"Really Simple Syndication Validator\" TARGET=\"_NEW\"><IMG SRC=\"Theme/$_GLOBAL_THEME_DIRECTORY/Image/Badges/W3C_RSS.png\" ALT=\"Really Simple Syndication Validator\"></A>
+");
+?>

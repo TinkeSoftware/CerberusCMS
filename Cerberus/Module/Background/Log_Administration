@@ -1,0 +1,203 @@
+<?php
+/*
+ ===========================================================================================
+ + Cerberus Content Management System.
+ + ---
+ + - Author : Gary Christopher Johnson
+ + - E-Mail : TinkeSoftware@Protonmail.com // GCJohnsonChevalier@Protonmail.com
+ + - Company: Tinke Software
+ + - Notes  : View this file in a non-formatting text editor for correct indentation display
+ + ---
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ + ---
+ + - File Location: root->Module->Background->Log_Administration
+ + - File Version:  0.4 - Sunday, September, 08, 2019.
+ + ---
+ +%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ +%%%()()%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()()()%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%/-\%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%|4|%  ~ Wyn ~
+ +%%%()()%%()()()%%()%%()%%()()()%%()()()%%()%%()%%()()()%%()()()%%%%%%%%%%%%\-/% Build 0.6
+ ===========================================================================================
+*/
+
+/*
+ ===========================
+ +
+ +
+ + Log Administration
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ +
+ + Administration Details
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Log Variables
+ ===========================
+*/
+
+$_Log_Administration_GET_IP						= $_SERVER['REMOTE_ADDR'];
+$_Log_Administration_GET_HOST						= $_SERVER['REMOTE_HOST'];
+$_Log_Administration_GET_REFERRER						= $_SERVER['HTTP_REFERER'];
+$_Log_Administration_GET_BROWSER						= $_SERVER['HTTP_USER_AGENT'];
+$_Log_Administration_GET_LOG_USER						= $_GLOBAL_USERNAME;
+
+/*
+ ===========================
+ + Specify Log File
+ ===========================
+*/
+
+$_Log_Administration_OPEN_FILE_NAME					= fopen("Module/Administration/Access_Log/Log.html", "a");
+
+/*
+ ===========================
+ + Replace Characters
+ ===========================
+*/
+
+$_Log_Administration_REPLACE_CHARACTERS[0]				= "<";
+$_Log_Administration_REPLACE_CHARACTERS[1]				= ">";
+$_Log_Administration_REPLACE_CHARACTERS[2]				= "'";
+$_Log_Administration_REPLACE_CHARACTERS[3]				= "\"";
+
+$_Log_Administration_REPLACE_CHARACTERS_WITH[0]				= "Z";
+$_Log_Administration_REPLACE_CHARACTERS_WITH[1] 				= "Z";
+$_Log_Administration_REPLACE_CHARACTERS_WITH[2] 				= "Z";
+$_Log_Administration_REPLACE_CHARACTERS_WITH[3] 				= "Z";
+
+$_Log_Administration_GET_REFERRER						= str_replace($_Log_Administration_REPLACE_CHARACTERS, $_Log_Administration_REPLACE_CHARACTERS_WITH, $_Log_Administration_GET_REFERRER);
+$_Log_Administration_GET_BROWSER						= str_replace($_Log_Administration_REPLACE_CHARACTERS, $_Log_Administration_REPLACE_CHARACTERS_WITH, $_Log_Administration_GET_BROWSER);
+$_Log_Administration_GET_LOG_USER						= str_replace($_Log_Administration_REPLACE_CHARACTERS, $_Log_Administration_REPLACE_CHARACTERS_WITH, $_Log_Administration_GET_LOG_USER);
+
+/*
+ ===========================
+ + If String Length Over Limit
+ ===========================
+*/
+
+if (strlen($_Log_Administration_GET_IP) > "32") {
+
+	$_Log_Administration_GET_IP = "Unknown";
+
+} // [ + ] IF_STRING_LENGTH
+
+if (strlen($_Log_Administration_GET_REFERRER) > "250") {
+
+	$_Log_Administration_GET_REFERRER = "Unknown";
+
+} // [ + ] IF_STRING_LENGTH
+
+if (strlen($_Log_Administration_GET_BROWSER) > "250") {
+
+	$_Log_Administration_GET_BROWSER = "Unknown";
+
+} // [ + ] IF_STRING_LENGTH
+
+if (strlen($_Log_Administration_GET_LOG_USER) > "20") {
+
+	$_Log_Administration_GET_LOG_USER = "Unknown";
+
+} // [ + ] IF_STRING_LENGTH
+
+/*
+ ===========================
+ + If User Null
+ ===========================
+*/
+
+if ($_Log_Administration_GET_LOG_USER == null) {
+
+	$_Log_Administration_GET_LOG_USER	= "Unknown";
+
+} // [ + ] IF_NULL_USER
+
+/*
+ ===========================
+ + Write Data To File
+ ===========================
+*/
+
+/*
+ ===========================
+ + Log Username
+ ===========================
+*/
+
+fwrite($_Log_Administration_OPEN_FILE_NAME, "<CENTER><TABLE WIDTH=\"100%\" CELLPADDING=\"0\" CELLSPACING=\"0\" BORDER=\"1\"><TD WIDTH=\"20%\">Visitor: <A HREF=\"?$_INTERNAL_USER_MODULE&#61;Profile&amp;Name&#61;$_Log_Administration_GET_LOG_USER\" TITLE=\"$_Log_Administration_GET_LOG_USER's Profile\">$_Log_Administration_GET_LOG_USER</A></TD>");
+fwrite($_Log_Administration_OPEN_FILE_NAME, "<TD WIDTH=\"15%\">Time: <A TITLE=\"$_GLOBAL_DATE\">Hover</A></TD>");
+
+/*
+ ===========================
+ + Log IP Address
+ ===========================
+*/
+
+if ($_Log_Administration_GET_IP != null) {
+
+fwrite($_Log_Administration_OPEN_FILE_NAME, "<TD WIDTH=\"15%\">IP: <A HREF=\"https://WhoIs.DomainTools.com/$_Log_Administration_GET_IP\" TARGET=\"_NEW\" TITLE=\"View Who-IS Information For Internet Protocol Address :: $_Log_Administration_GET_IP\">$_Log_Administration_GET_IP</A></TD>");
+
+} else {
+
+fwrite($_Log_Administration_OPEN_FILE_NAME, "<TD WIDTH=\"15%\">IP: Unknown</TD>");
+
+} // [ + ] IF_GET_IP
+
+/*
+ ===========================
+ + Log Referrer
+ ===========================
+*/
+
+if ($_Log_Administration_GET_REFERRER != null) {
+
+fwrite($_Log_Administration_OPEN_FILE_NAME, "<TD WIDTH=\"15%\">Referrer: <A HREF=\"$_Log_Administration_GET_REFERRER\" TARGET=\"_NEW\" TITLE=\"Referrer :: $_Log_Administration_GET_REFERRER\">View</A></TD>");
+
+} else {
+
+fwrite($_Log_Administration_OPEN_FILE_NAME, "<CENTER><TABLE WIDTH=\"100%\" CELLPADDING=\"0\" CELLSPACING=\"0\" BORDER=\"1\"><TD WIDTH=\"20%\">Visitor: Anonymous</TD>");
+
+fwrite($_Log_Administration_OPEN_FILE_NAME, "<TD WIDTH=\"15%\">Time: <A TITLE=\"$_GLOBAL_DATE\">Hover</A></TD>");
+
+} // [ + ] IF_GET_REFERRER
+
+/*
+ ===========================
+ + Log Browser Type
+ ===========================
+*/
+
+fwrite($_Log_Administration_OPEN_FILE_NAME, "<TD WIDTH=\"15%\">Browser: <A TITLE=\"$_Log_Administration_GET_BROWSER\">Hover</A></TD></TR></TABLE></CENTER>");
+
+/*
+ ===========================
+ + Close File
+ ===========================
+*/
+
+fclose($_Log_Administration_OPEN_FILE_NAME);
+?>

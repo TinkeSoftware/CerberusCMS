@@ -1,0 +1,52 @@
+<?php
+/*
+ ===========================================================================================
+ + Cerberus Content Management System.
+ + ---
+ + - Author : Gary Christopher Johnson
+ + - E-Mail : TinkeSoftware@Protonmail.com // GCJohnsonChevalier@Protonmail.com
+ + - Company: Tinke Software
+ + - Notes  : View this file in a non-formatting text editor for correct indentation display
+ + ---
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ + ---
+ + - File Location: root->System->Text-Editor->Default->Text-Editor.cerb
+ + - File Version:  0.4 - Sunday, September, 08, 2019.
+ + ---
+ +%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ +%%%()()%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()()()%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%/-\%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%|4|%  ~ Wyn ~
+ +%%%()()%%()()()%%()%%()%%()()()%%()()()%%()%%()%%()()()%%()()()%%%%%%%%%%%%\-/% Build 0.6
+ ===========================================================================================
+*/
+
+$_GLOBAL_TEXTEDITOR_BUTTONS					= "
+									<script type=\"text/javascript\" src=\"./System/Text-Editor/Default/Text-Editor.js\"></script>
+									<BUTTON TYPE=\"button\" CLASS=\"button\" onclick=\"insert('WYSIWYG', '[b]', '[/b]');\" TITLE=\"Insert :: Bold :: BB Code\">[B]</BUTTON>
+									<BUTTON TYPE=\"button\" CLASS=\"button\" onclick=\"insert('WYSIWYG', '[u]', '[/u]');\" TITLE=\"Insert :: Underlined :: BB Code\">[U]</BUTTON>
+									<BUTTON TYPE=\"button\" CLASS=\"button\" onclick=\"insert('WYSIWYG', '[i]', '[/i]');\" TITLE=\"Insert :: Italic :: BB Code\">[I]</BUTTON>
+									<BUTTON TYPE=\"button\" CLASS=\"button\" onclick=\"insert('WYSIWYG', '[big]', '[/big]');\" TITLE=\"Insert :: Big :: BB Code\">[BIG]</BUTTON>
+									<BUTTON TYPE=\"button\" CLASS=\"button\" onclick=\"insert('WYSIWYG', '[center]', '[/center]');\" TITLE=\"Insert :: Centered :: BB Code\">[CNTR]</BUTTON>
+									<BUTTON TYPE=\"button\" CLASS=\"button\" onclick=\"insert('WYSIWYG', '[br]', '');\" TITLE=\"Insert :: Break Repeat :: BB Code\">[BR]</BUTTON>
+									<BUTTON TYPE=\"button\" CLASS=\"button\" onclick=\"insert('WYSIWYG', '[image]', '[/image]');\" TITLE=\"Insert :: Image :: BB Code\">[IMG]</BUTTON>
+									<BUTTON TYPE=\"button\" CLASS=\"button\" onclick=\"insert('WYSIWYG', '[link]', '[/link]');\" TITLE=\"Insert :: Link :: BB Code\">[LNK]</BUTTON>
+									<BUTTON TYPE=\"button\" CLASS=\"button\" onclick=\"insert('WYSIWYG', '[smile]', '');\" TITLE=\"Insert :: Smile :: BB Code\">[Smile]</BUTTON>
+								";
+
+?>

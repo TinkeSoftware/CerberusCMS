@@ -1,0 +1,272 @@
+<?php
+/*
+ ===========================================================================================
+ + Cerberus Content Management System.
+ + ---
+ + - Author : Gary Christopher Johnson
+ + - E-Mail : TinkeSoftware@Protonmail.com // GCJohnsonChevalier@Protonmail.com
+ + - Company: Tinke Software
+ + - Notes  : View this file in a non-formatting text editor for correct indentation display
+ + ---
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ + ---
+ + - File Location: root->System->Safe-HTML->default->Safe-HTML.cerb
+ + - File Version:  0.4 - Sunday, September, 08, 2019.
+ + ---
+ +%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ +%%%()()%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()()()%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%/-\%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%|4|%  ~ Wyn ~
+ +%%%()()%%()()()%%()%%()%%()()()%%()()()%%()%%()%%()()()%%()()()%%%%%%%%%%%%\-/% Build 0.6
+ ===========================================================================================
+*/
+
+/*
+ ===========================
+ +
+ +
+ + Safe-HTML
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ +
+ + Safe-HTML Code Conversion
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Tags
+ ===========================
+*/
+
+$_GLOBAL_SAFEHTML_CODE[0]  						= "'";
+$_GLOBAL_SAFEHTML_CODE[1] 						= "<";
+$_GLOBAL_SAFEHTML_CODE[2] 						= "[b]";
+$_GLOBAL_SAFEHTML_CODE[3] 						= "[/b]";
+$_GLOBAL_SAFEHTML_CODE[4] 						= "[u]";
+$_GLOBAL_SAFEHTML_CODE[5] 						= "[/u]";
+$_GLOBAL_SAFEHTML_CODE[6] 						= "[i]";
+$_GLOBAL_SAFEHTML_CODE[7] 						= "[/i]";
+$_GLOBAL_SAFEHTML_CODE[8] 						= "[center]";
+$_GLOBAL_SAFEHTML_CODE[9] 						= "[/center]";
+$_GLOBAL_SAFEHTML_CODE[10] 						= "[br]";
+$_GLOBAL_SAFEHTML_CODE[11] 						= "[link]";
+$_GLOBAL_SAFEHTML_CODE[12] 						= "[/link]";
+$_GLOBAL_SAFEHTML_CODE[13] 						= "[big]";
+$_GLOBAL_SAFEHTML_CODE[14] 						= "[/big]";
+
+/*
+ ===========================
+ + Smileys
+ ===========================
+*/
+
+$_GLOBAL_SAFEHTML_SMILEYS[0]	 					= "[angry]";
+$_GLOBAL_SAFEHTML_SMILEYS[1]	 					= "[birdy]";
+$_GLOBAL_SAFEHTML_SMILEYS[2]	 					= "[confused]";
+$_GLOBAL_SAFEHTML_SMILEYS[3]	 					= "[cry]";
+$_GLOBAL_SAFEHTML_SMILEYS[4]	 					= "[kiss]";
+$_GLOBAL_SAFEHTML_SMILEYS[5]	 					= "[drool]";
+$_GLOBAL_SAFEHTML_SMILEYS[6]	 					= "[nervous]";
+$_GLOBAL_SAFEHTML_SMILEYS[7]	 					= "[peace]";
+$_GLOBAL_SAFEHTML_SMILEYS[8]	 					= "[sleeping]";
+$_GLOBAL_SAFEHTML_SMILEYS[9]	 					= "[smile]";
+$_GLOBAL_SAFEHTML_SMILEYS[10]	 					= "[turd]";
+$_GLOBAL_SAFEHTML_SMILEYS[11]	 					= "[weird]";
+$_GLOBAL_SAFEHTML_SMILEYS[12]	 					= "[devil]";
+$_GLOBAL_SAFEHTML_SMILEYS[13]	 					= "[scream]";
+
+/*
+ ===========================
+ + Tags Replace
+ ===========================
+*/
+
+$_GLOBAL_SAFEHTML_CODE_REPLACE[0]	 					= "&#39;";
+$_GLOBAL_SAFEHTML_CODE_REPLACE[1]	 					= "&lt;";
+$_GLOBAL_SAFEHTML_CODE_REPLACE[2]	 					= "<B>";
+$_GLOBAL_SAFEHTML_CODE_REPLACE[3]	 					= "</B>";
+$_GLOBAL_SAFEHTML_CODE_REPLACE[4]	 					= "<U>";
+$_GLOBAL_SAFEHTML_CODE_REPLACE[5]	 					= "</U>";
+$_GLOBAL_SAFEHTML_CODE_REPLACE[6]	 					= "<I>";
+$_GLOBAL_SAFEHTML_CODE_REPLACE[7]	 					= "</I>";
+$_GLOBAL_SAFEHTML_CODE_REPLACE[8]	 					= "<CENTER>";
+$_GLOBAL_SAFEHTML_CODE_REPLACE[9]	 					= "</CENTER>";
+$_GLOBAL_SAFEHTML_CODE_REPLACE[10]	 				= "<BR>";
+$_GLOBAL_SAFEHTML_CODE_REPLACE[11]	 				= "<A HREF=\"";
+$_GLOBAL_SAFEHTML_CODE_REPLACE[12]	 				= "\" TITLE=\"Click here to open this Web Link in a new window -- Look to the bottom left of your browser to see where it goes\" Target=\"_NEW\">Web Link</A>";
+$_GLOBAL_SAFEHTML_CODE_REPLACE[13]	 				= "<BIG>";
+$_GLOBAL_SAFEHTML_CODE_REPLACE[14]	 				= "</BIG>";
+
+/*
+ ===========================
+ + Smileys Replace
+ ===========================
+*/
+
+$_GLOBAL_SAFEHTML_SMILEYS_REPLACE[0]	 				= "<IMG SRC=\"System/Smiley/$_GLOBAL_SAFEHTML_DIRECTORY/angry.gif\" TITLE=\":: Angry ::\" ALT=\":: Angry ::\">";
+$_GLOBAL_SAFEHTML_SMILEYS_REPLACE[1]	 				= "<IMG SRC=\"System/Smiley/$_GLOBAL_SAFEHTML_DIRECTORY/birdy.gif\" TITLE=\":: Birdy ::\" ALT=\":: Birdy ::\">";
+$_GLOBAL_SAFEHTML_SMILEYS_REPLACE[2]	 				= "<IMG SRC=\"System/Smiley/$_GLOBAL_SAFEHTML_DIRECTORY/confused.gif\" TITLE=\":: Confused ::\" ALT=\":: Confused ::\">";
+$_GLOBAL_SAFEHTML_SMILEYS_REPLACE[3]	 				= "<IMG SRC=\"System/Smiley/$_GLOBAL_SAFEHTML_DIRECTORY/cry.gif\" TITLE=\":: Crying ::\" ALT=\":: Crying ::\">";
+$_GLOBAL_SAFEHTML_SMILEYS_REPLACE[4]	 				= "<IMG SRC=\"System/Smiley/$_GLOBAL_SAFEHTML_DIRECTORY/kiss.gif\" TITLE=\":: Kiss ::\" ALT=\":: Kiss ::\">";
+$_GLOBAL_SAFEHTML_SMILEYS_REPLACE[5]	 				= "<IMG SRC=\"System/Smiley/$_GLOBAL_SAFEHTML_DIRECTORY/drool.gif\" TITLE=\":: Drool ::\" ALT=\":: Drool ::\">";
+$_GLOBAL_SAFEHTML_SMILEYS_REPLACE[6]	 				= "<IMG SRC=\"System/Smiley/$_GLOBAL_SAFEHTML_DIRECTORY/nervous.gif\" TITLE=\":: Nervous ::\" ALT=\":: Nervous ::\">";
+$_GLOBAL_SAFEHTML_SMILEYS_REPLACE[7]	 				= "<IMG SRC=\"System/Smiley/$_GLOBAL_SAFEHTML_DIRECTORY/peace.gif\" TITLE=\":: Peace ::\" ALT=\":: Peace ::\">";
+$_GLOBAL_SAFEHTML_SMILEYS_REPLACE[8]	 				= "<IMG SRC=\"System/Smiley/$_GLOBAL_SAFEHTML_DIRECTORY/sleeping.gif\" TITLE=\":: Sleeping ::\" ALT=\":: Sleeping ::\">";
+$_GLOBAL_SAFEHTML_SMILEYS_REPLACE[9]	 				= "<IMG SRC=\"System/Smiley/$_GLOBAL_SAFEHTML_DIRECTORY/smile.gif\" TITLE=\":: Smiling ::\" ALT=\":: Smiling ::\">";
+$_GLOBAL_SAFEHTML_SMILEYS_REPLACE[10]	 				= "<IMG SRC=\"System/Smiley/$_GLOBAL_SAFEHTML_DIRECTORY/turd.gif\" TITLE=\":: Turd ::\" ALT=\":: Turd ::\">";
+$_GLOBAL_SAFEHTML_SMILEYS_REPLACE[11]	 				= "<IMG SRC=\"System/Smiley/$_GLOBAL_SAFEHTML_DIRECTORY/weird.gif\" TITLE=\":: Weird ::\" ALT=\":: Weird ::\">";
+$_GLOBAL_SAFEHTML_SMILEYS_REPLACE[12]	 				= "<IMG SRC=\"System/Smiley/$_GLOBAL_SAFEHTML_DIRECTORY/devil.jpg\" TITLE=\":: Devil ::\" ALT=\":: Devil ::\">";
+$_GLOBAL_SAFEHTML_SMILEYS_REPLACE[13]	 				= "<IMG SRC=\"System/Smiley/$_GLOBAL_SAFEHTML_DIRECTORY/scream.jpg\" TITLE=\":: Screaming ::\" ALT=\":: Screaming ::\">";
+
+/*
+ ===========================
+ +
+ + Safe-HTML Code Back Conversion
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Tags Back
+ ===========================
+*/
+
+$_GLOBAL_SAFEHTML_CODE_BACK[0]	 					= "&#39;";
+$_GLOBAL_SAFEHTML_CODE_BACK[1]	 					= "&lt;";
+$_GLOBAL_SAFEHTML_CODE_BACK[2]	 					= "<B>";
+$_GLOBAL_SAFEHTML_CODE_BACK[3]	 					= "</B>";
+$_GLOBAL_SAFEHTML_CODE_BACK[4]	 					= "<U>";
+$_GLOBAL_SAFEHTML_CODE_BACK[5]	 					= "</U>";
+$_GLOBAL_SAFEHTML_CODE_BACK[6]	 					= "<I>";
+$_GLOBAL_SAFEHTML_CODE_BACK[7]	 					= "</I>";
+$_GLOBAL_SAFEHTML_CODE_BACK[8]	 					= "<CENTER>";
+$_GLOBAL_SAFEHTML_CODE_BACK[9]	 					= "</CENTER>";
+$_GLOBAL_SAFEHTML_CODE_BACK[10]	 					= "<BR>";
+$_GLOBAL_SAFEHTML_CODE_BACK[11]	 					= "<A HREF=\"";
+$_GLOBAL_SAFEHTML_CODE_BACK[12]	 					= "\" TITLE=\"Click here to open this web link in a new window\" Target=\"_NEW\">Web Link</A>";
+$_GLOBAL_SAFEHTML_CODE_BACK[13]	 					= "<BIG>";
+$_GLOBAL_SAFEHTML_CODE_BACK[14]	 					= "</BIG>";
+
+/*
+ ===========================
+ + Tags Back Replace
+ ===========================
+*/
+
+$_GLOBAL_SAFEHTML_CODE_BACK_REPLACE[0]					= "'";
+$_GLOBAL_SAFEHTML_CODE_BACK_REPLACE[1]					= "<";
+$_GLOBAL_SAFEHTML_CODE_BACK_REPLACE[2]					= "[b]";
+$_GLOBAL_SAFEHTML_CODE_BACK_REPLACE[3]					= "[/b]";
+$_GLOBAL_SAFEHTML_CODE_BACK_REPLACE[4]					= "[u]";
+$_GLOBAL_SAFEHTML_CODE_BACK_REPLACE[5]					= "[/u]";
+$_GLOBAL_SAFEHTML_CODE_BACK_REPLACE[6]					= "[i]";
+$_GLOBAL_SAFEHTML_CODE_BACK_REPLACE[7]					= "[/i]";
+$_GLOBAL_SAFEHTML_CODE_BACK_REPLACE[8]					= "[center]";
+$_GLOBAL_SAFEHTML_CODE_BACK_REPLACE[9]					= "[/center]";
+$_GLOBAL_SAFEHTML_CODE_BACK_REPLACE[10]					= "[br]";
+$_GLOBAL_SAFEHTML_CODE_BACK_REPLACE[11]					= "[link]";
+$_GLOBAL_SAFEHTML_CODE_BACK_REPLACE[12]					= "[/link]";
+$_GLOBAL_SAFEHTML_CODE_BACK_REPLACE[13]					= "[big]";
+$_GLOBAL_SAFEHTML_CODE_BACK_REPLACE[14]					= "[/big]";
+
+/*
+ ===========================
+ + Smileys Back
+ ===========================
+*/
+
+$_GLOBAL_SAFEHTML_SMILEYS_BACK[0]						= "<IMG SRC=\"System/Smiley/$_GLOBAL_SAFEHTML_DIRECTORY/angry.gif\" TITLE=\":: Angry ::\" ALT=\":: Angry ::\">";
+$_GLOBAL_SAFEHTML_SMILEYS_BACK[1]						= "<IMG SRC=\"System/Smiley/$_GLOBAL_SAFEHTML_DIRECTORY/birdy.gif\" TITLE=\":: Birdy ::\" ALT=\":: Birdy ::\">";
+$_GLOBAL_SAFEHTML_SMILEYS_BACK[2]						= "<IMG SRC=\"System/Smiley/$_GLOBAL_SAFEHTML_DIRECTORY/confused.gif\" TITLE=\":: Confused ::\" ALT=\":: Confused ::\">";
+$_GLOBAL_SAFEHTML_SMILEYS_BACK[3]						= "<IMG SRC=\"System/Smiley/$_GLOBAL_SAFEHTML_DIRECTORY/cry.gif\" TITLE=\":: Crying ::\" ALT=\":: Crying ::\">";
+$_GLOBAL_SAFEHTML_SMILEYS_BACK[4]						= "<IMG SRC=\"System/Smiley/$_GLOBAL_SAFEHTML_DIRECTORY/kiss.gif\" TITLE=\":: Kiss ::\" ALT=\":: Kiss ::\">";
+$_GLOBAL_SAFEHTML_SMILEYS_BACK[5]						= "<IMG SRC=\"System/Smiley/$_GLOBAL_SAFEHTML_DIRECTORY/drool.gif\" TITLE=\":: Drool ::\" ALT=\":: Drool ::\">";
+$_GLOBAL_SAFEHTML_SMILEYS_BACK[6]						= "<IMG SRC=\"System/Smiley/$_GLOBAL_SAFEHTML_DIRECTORY/nervous.gif\" TITLE=\":: Nervous ::\" ALT=\":: Nervous ::\">";
+$_GLOBAL_SAFEHTML_SMILEYS_BACK[7]						= "<IMG SRC=\"System/Smiley/$_GLOBAL_SAFEHTML_DIRECTORY/peace.gif\" TITLE=\":: Peace ::\" ALT=\":: Peace ::\">";
+$_GLOBAL_SAFEHTML_SMILEYS_BACK[8]						= "<IMG SRC=\"System/Smiley/$_GLOBAL_SAFEHTML_DIRECTORY/sleeping.gif\" TITLE=\":: Sleeping ::\" ALT=\":: Sleeping ::\">";
+$_GLOBAL_SAFEHTML_SMILEYS_BACK[9]						= "<IMG SRC=\"System/Smiley/$_GLOBAL_SAFEHTML_DIRECTORY/smile.gif\" TITLE=\":: Smiling ::\" ALT=\":: Smiling ::\">";
+$_GLOBAL_SAFEHTML_SMILEYS_BACK[10]					= "<IMG SRC=\"System/Smiley/$_GLOBAL_SAFEHTML_DIRECTORY/turd.gif\" TITLE=\":: Turd ::\" ALT=\":: Turd ::\">";
+$_GLOBAL_SAFEHTML_SMILEYS_BACK[11]					= "<IMG SRC=\"System/Smiley/$_GLOBAL_SAFEHTML_DIRECTORY/weird.gif\" TITLE=\":: Weird ::\" ALT=\":: Weird ::\">";
+$_GLOBAL_SAFEHTML_SMILEYS_BACK[12]					= "<IMG SRC=\"System/Smiley/$_GLOBAL_SAFEHTML_DIRECTORY/devil.jpg\" TITLE=\":: Devil ::\" ALT=\":: Devil ::\">";
+$_GLOBAL_SAFEHTML_SMILEYS_BACK[13]					= "<IMG SRC=\"System/Smiley/$_GLOBAL_SAFEHTML_DIRECTORY/scream.jpg\" TITLE=\":: Screaming ::\" ALT=\":: Screaming ::\">";
+
+/*
+ ===========================
+ + Smileys Back Replace
+ ===========================
+*/
+
+$_GLOBAL_SAFEHTML_SMILEYS_BACK_REPLACE[0]					= "[angry]";
+$_GLOBAL_SAFEHTML_SMILEYS_BACK_REPLACE[1]					= "[birdy]";
+$_GLOBAL_SAFEHTML_SMILEYS_BACK_REPLACE[2]					= "[confused]";
+$_GLOBAL_SAFEHTML_SMILEYS_BACK_REPLACE[3]					= "[cry]";
+$_GLOBAL_SAFEHTML_SMILEYS_BACK_REPLACE[4]					= "[kiss]";
+$_GLOBAL_SAFEHTML_SMILEYS_BACK_REPLACE[5]					= "[drool]";
+$_GLOBAL_SAFEHTML_SMILEYS_BACK_REPLACE[6]					= "[nervous]";
+$_GLOBAL_SAFEHTML_SMILEYS_BACK_REPLACE[7]					= "[peace]";
+$_GLOBAL_SAFEHTML_SMILEYS_BACK_REPLACE[8]					= "[sleeping]";
+$_GLOBAL_SAFEHTML_SMILEYS_BACK_REPLACE[9]					= "[smile]";
+$_GLOBAL_SAFEHTML_SMILEYS_BACK_REPLACE[10]				= "[turd]";
+$_GLOBAL_SAFEHTML_SMILEYS_BACK_REPLACE[11]				= "[weird]";
+$_GLOBAL_SAFEHTML_SMILEYS_BACK_REPLACE[12]				= "[devil]";
+$_GLOBAL_SAFEHTML_SMILEYS_BACK_REPLACE[13]				= "[scream]";
+
+/*
+ ===========================
+ + Safe-HTML Commands
+ ===========================
+*/
+
+$_LIST_SAFEHTML_COMMANDS						= "<B>Bold Text</B>:<BR>[b], [/b]<BR><BR><B><U>Underlined Text</U></B>:<BR>[u], [/u]<BR><BR><B><I>Italic Text</I></B>:<BR>[i], [/i]<BR><BR><B><BIG>Big Text</BIG></B>:<BR>[big], [/big]<BR><BR><B>Centered Text</B>:<BR>[center], [/center]<BR><BR><B>Break Repeat</B>:<BR>[br]<BR><BR><B>Image</B>:<BR>[image], [/image]
+ 							 		<BR><BR><B><A>Link</A></B>:<BR>[link], [/link]
+ 							 		<BR><BR><B>Smiley Faces</B>:<BR>[angry], [birdy], [confused], [cry], [kiss], [drool], [nervous], [peace], [sleeping], [smile], [turd], [weird], [devil], [scream]
+ 							 		<BR><BR>Usage of the previous tags in your post will insert H.T.M.L. code into the S.Q.L. database along with your post.<BR><BR><B>Example</B>:<BR>
+ 							 		This [u]file[/u] is [b]awesome[/b]! [smile] [link]click here![/link]<BR><BR><B>Would output</B>:<BR>
+ 							 		This <U>file</U> is <B>awesome</B>! <IMG SRC=\"System/Smiley/$_GLOBAL_SAFEHTML_DIRECTORY/smile.gif\" TITLE=\":: Smiling ::\" ALT=\":: Smiling ::\"> <A>click here!</A><BR><BR>
+ 							 		You can use any of the previous tags in your post.";
+
+/*
+
+This is an example of how to use Safe-HTML Code and Smiley Code when writing Modules
+
+//Safe-HTML Code Replace Frontwards
+
+$_VAR		 						 	= str_replace($_GLOBAL_SAFEHTML_CODE, $_GLOBAL_SAFEHTML_CODE_REPLACE, $_VAR);
+
+//Smiley Code Replace Frontwards
+
+$_VAR									= str_replace($_GLOBAL_SAFEHTML_SMILEYS, $_GLOBAL_SAFEHTML_SMILEYS_REPLACE, $_VAR);
+
+//Safe-HTML Code Replace Backwards
+
+$_VAR 							 		= str_replace($_GLOBAL_SAFEHTML_CODE_BACK, $_GLOBAL_SAFEHTML_CODE_BACK_REPLACE, $_VAR);
+
+//Smiley Code Replace Backwards
+
+$_VAR									= str_replace($_GLOBAL_SAFEHTML_SMILEYS_CODE_BACK, $_GLOBAL_SAFEHTML_SMILEYS_CODE_BACK_REPLACE, $_VAR);
+
+*/
+?>

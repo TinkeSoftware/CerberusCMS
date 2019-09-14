@@ -1,0 +1,1447 @@
+<?php
+/*
+ ===========================================================================================
+ + Cerberus Content Management System.
+ + ---
+ + - Author : Gary Christopher Johnson
+ + - E-Mail : TinkeSoftware@Protonmail.com // GCJohnsonChevalier@Protonmail.com
+ + - Company: Tinke Software
+ + - Notes  : View this file in a non-formatting text editor for correct indentation display
+ + ---
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ +
+ + ---
+ + - File Location: root->System->Language->English->Language.cerb
+ + - File Version:  0.4 - Sunday, September, 08, 2019.
+ + ---
+ +%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ +%%%()()%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()()()%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()()()%%()()()%%()()()%%()()()%%()()()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%%%%%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%/-\%
+ +%%()%%%%%()%%%%%%()%%()%%()%%()%%()%%%%%%()%%()%%()%%()%%%%%%()%%%%%%%%%%%%|4|%  ~ Wyn ~
+ +%%%()()%%()()()%%()%%()%%()()()%%()()()%%()%%()%%()()()%%()()()%%%%%%%%%%%%\-/% Build 0.6
+ ===========================================================================================
+*/
+
+/*
+ ============================================
+ +
+ +
+ +
+ +
+ +
+ + @ Root Directory
+ +
+ +
+ +
+ +
+ + Alphabetical Order
+ ============================================
+*/
+
+/*
+ ===========================
+ +
+ +
+ + Universal
+ +
+ +
+ ===========================
+*/
+
+$_Message_ERROR_ACTION_UNIVERSAL									= "<CENTER>Cerberus: I am sorry; I was not able to perform your request, please try once more.</CENTER>";
+
+/*
+ ===========================
+ +
+ +
+ + Cerberus.php
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Application Status
+ ===========================
+*/
+
+$_Message_Cerberus_APPLICATION_DEACTIVATED							= "<CENTER>Cerberus: This Application is deactivated.</CENTER>";
+$_Message_Cerberus_APPLICATION_NOT_FOUND								= "<CENTER>Cerberus: The requested Application could not be found.</CENTER>";
+$_Message_Cerberus_APPLICATION_ACCESS_RESTRICTED_ADMINISTRATOR					= "<CENTER>Cerberus: This Application is restricted to Members with Administration privileges.</CENTER>";
+$_Message_Cerberus_APPLICATION_ACCESS_RESTRICTED_MEMBER						= "<CENTER>Cerberus: This Application is restricted to Members.</CENTER>";
+
+/*
+ ===========================
+ + SQL Messages
+ ===========================
+*/
+
+$_Message_Cerberus_ERROR_SQL_RANK									= "Cerberus: There was an error, I was unable to update the Rank SQL Table.";
+$_Message_Cerberus_ERROR_SQL_MEMBER_LAST_POST							= "Cerberus: There was an error, I was unable to update the Member SQL Table.";
+
+/*
+ ===========================
+ + Offline Mode
+ ===========================
+*/
+
+$_Message_Cerberus_OFFLINE_MODE_ENABLED								= "Cerberus: OFFLINE MODE IS ENABLED; PLEASE DO NOT LOG-OUT WHILE THIS IS ON AND BE SURE TO DISABLE OFFLINE MODE WHEN YOU ARE FINISHED WORKING.";
+
+/*
+ ===========================
+ +
+ +
+ + Diagnose.php
+ +
+ +
+ ===========================
+*/
+
+$_Message_Diagnose_DIAGNOSTICS_FINISHED								= "<BR><B>[ Done ]</B><BR><BR><B>If there are any missing files re-upload the file(s) immediately to bring Cerberus into proper operation.</B>";
+$_Message_Diagnose_EXAMINING_FILES								= "<B>Examining Core & System Files...</B>";
+$_Message_Diagnose_LISTING_FILES									= "<BR><BR><B>Listing Core & System Files...</B><BR><BR>";
+
+/*
+ ============================================
+ +
+ +
+ +
+ +
+ +
+ + @ ./Module/Administration/
+ +
+ +
+ +
+ +
+ + Alphabetical Order
+ ============================================
+*/
+
+/*
+ ===========================
+ +
+ +
+ + Administrators
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Header
+ ===========================
+*/
+
+/*
+ ===========================
+ + Messages
+ ===========================
+*/
+
+$_Message_Administrators_UPDATE_WITHOUT_PASSWORD_SUCCESSFUL					= "<BR><HR><CENTER>Cerberus: I have Updated the Member Table ( Without Password ) Successfully.</CENTER><HR><BR>";
+$_Message_Administrators_UPDATE_WITHOUT_PASSWORD_ERROR						= "<BR><HR><CENTER>Cerberus: I was *NOT* able to Update the Member Table ( Without Password ).</CENTER><HR><BR>";
+$_Message_Administrators_UPDATE_WITH_PASSWORD_SUCCESSFUL						= "<BR><HR><CENTER>Cerberus: I have Updated the Member Table ( With Password ) Successfully.</CENTER><HR><BR>";
+$_Message_Administrators_UPDATE_WITH_PASSWORD_ERROR						= "<BR><HR><CENTER>Cerberus: I was *NOT* able to Update the Member Table ( With Password )</CENTER><HR><BR>";
+$_Message_Administrators_SEND_MESSAGE_LENGTH_ERROR							= "<HR><CENTER>Cerberus: Your Message is greater than 100 Characters. Please go back and reduce your Message Length.</CENTER><HR>";
+$_Message_Administrators_SEND_MESSAGE_SUCCESSFUL							= "<HR><CENTER>Cerberus: I have Sent your Message Successfully.</CENTER><HR>";
+$_Message_Administrators_SEND_MESSAGE_ERROR							= "<HR><CENTER>Cerberus: I am sorry, but there was an Error. Please try again.</CENTER><HR>";
+
+/*
+ ===========================
+ +
+ +
+ + Applications
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Messages
+ ===========================
+*/
+
+$_Message_Applications_INSTALL_APPLICATION_SUCCESSFUL						= "<BR><CENTER>Cerberus: I have Installed the Application Successfully.</CENTER><BR>";
+$_Message_Applications_DELETE_APPLICATION_SUCCESSFUL						= "<BR><HR><CENTER>Cerberus: I have Deleted the Application successfully.</CENTER><HR><BR>";
+$_Message_Applications_UPDATE_APPLICATION_SUCCESSFUL						= "<BR><HR><CENTER>Cerberus: I have Updated the Application Successfully.</CENTER><HR><BR>";
+$_Message_Applications_UPLOAD_APPLICATION_SUCCESSFUL						= "<BR><HR><CENTER>Cerberus: I have Uploaded the Application Successfully.</CENTER><HR>";
+
+
+/*
+ ===========================
+ +
+ +
+ + Backup
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Messages
+ ===========================
+*/
+
+$_Message_Backup_COMPRESSION_SUCCESSFUL								= "<CENTER>Cerberus: I have Compressed the File(s) Successfully.</CENTER>";
+$_Message_Backup_DELETE_PACKAGE_SUCCESSFUL							= "<CENTER>Cerberus: I have Deleted the Backup Package successfully.</CENTER>";
+
+/*
+ ===========================
+ +
+ +
+ + Banish
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Messages
+ ===========================
+*/
+
+$_Message_Banish_BANISH_SUCCESSFUL								= "<CENTER>Cerberus: I have Banished the Internet Protocol Address: <I>$_Module_Banish_POST_BANISH_IP_ADDRESS</I> Successfully.</CENTER>";
+$_Message_Banish_NULL_ENTRIES									= "<CENTER>Cerberus: There are no banished Internet Protocol Addresses</CENTER>";
+$_Message_Banish_REMOVE_SUCCESSFUL								= "<CENTER>Cerberus: I have Removed the Banishment from the selected Internet Protocol Address: <I>$_Module_Banish_LIST_BANISHED_IP</I> Successfully.</CENTER>";
+
+/*
+ ===========================
+ +
+ +
+ + Blocks
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Messages
+ ===========================
+*/
+
+$_Message_Blocks_INSTALL_SUCCESSFUL								= "<BR><CENTER>Cerberus: I have Installed the Block: <I>$_Module_Blocks_POST_BLOCK_FILE_NAME</I> Successfully.</CENTER><BR>";
+$_Message_Blocks_DELETE_SUCCESSFUL								= "<BR><CENTER>Cerberus: I have Deleted the Block Successfully.</CENTER><BR>";
+$_Message_Blocks_UPDATE_SUCCESSFUL								= "<BR><CENTER>Cerberus: I have Updated the Block: <I>$_Module_Blocks_POST_UPDATE_BLOCK_FILE_NAME</I> Successfully.</CENTER><BR>";
+$_Message_Blocks_MOVEUP_SUCCESSFUL								= "<CENTER>Cerberus: Block moved up once. [ + ]</CENTER>";
+$_Message_Blocks_MOVEDOWN_SUCCESSFUL								= "<CENTER>Cerberus: Block moved down once. [ - ]</CENTER>";
+$_Message_Blocks_UPLOAD_SUCCESSFUL								= "<BR><HR><CENTER>Cerberus: I have Uploaded the Block: <I>$_Module_Blocks_UPLOAD_FILE</I> Successfully.</CENTER><HR>";
+
+/*
+ ===========================
+ +
+ +
+ + Bot_Monitor
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Messages
+ ===========================
+*/
+
+$_Message_Bot_Monitor_NO_BOTS_FOUND								= "Cerberus: No potential Spam-Bot(s) found.";
+$_Message_Bot_Monitor_DELETE_ACCOUNT_1								= "Cerberus: I have Deleted the Account ID: $_Module_BotMonitor_LIST_MEMBER_ID<BR>and I am attempting to Delete this account directory...<BR>";
+$_Message_Bot_Monitor_DELETE_ACCOUNT_2								= "Cerberus: Deleting Files...<BR>";
+$_Message_Bot_Monitor_DELETE_ACCOUNT_3								= "Cerberus: Error, I was not able to Delete the Files.<BR>";
+$_Message_Bot_Monitor_DELETE_ACCOUNT_4								= "Cerberus: Removing sub-Directory...<BR>";
+$_Message_Bot_Monitor_DELETE_ACCOUNT_5								= "Cerberus: Error, I was not able to Remove the sub-Directory.<BR>";
+$_Message_Bot_Monitor_DELETE_ACCOUNT_6								= "Cerberus: I have successfully Deleted the Directory for: $_Module_BotMonitor_LIST_MEMBER_USERNAME.<BR>";
+$_Message_Bot_Monitor_DELETE_ACCOUNT_7								= "Cerberus: Error, I was not able to Delete the Directory for: $_Module_BotMonitor_LIST_MEMBER_USERNAME. Please manually remove this Directory.<BR>";
+$_Message_Bot_Monitor_DELETE_ACCOUNT_8								= "Cerberus: Deleted (all) account(s) successfully.<BR>Attempting to Delete member Directory(ies)...<BR>";
+$_Message_Bot_Monitor_DELETE_ACCOUNT_9								= "Cerberus: Deleting Files...<BR>";
+$_Message_Bot_Monitor_DELETE_ACCOUNT_10								= "Cerberus: Error, I was not able to Delete the Files.<BR>";
+$_Message_Bot_Monitor_DELETE_ACCOUNT_11								= "Cerberus: Removing sub-Directory...<BR>";
+$_Message_Bot_Monitor_DELETE_ACCOUNT_12								= "Cerberus: Error, I was not able to Remove the sub-Directory.<BR>";
+$_Message_Bot_Monitor_DELETE_ACCOUNT_13								= "Cerberus: I have Deleted the directory(ies) successfully.<BR>";
+$_Message_Bot_Monitor_DELETE_ACCOUNT_14								= "Cerberus: Error, I was not able to Delete the Directory(ies) for: $_Module_BotMonitor_LIST_MEMBER_USERNAME. Please manually remove this (these) Directory(ies).<BR>";
+$_Message_Bot_Monitor_DELETE_ACCOUNT_15								= "Cerberus: Error, I was not able to Delete the member(s). Please try once more.<BR>";
+
+/*
+ ===========================
+ +
+ +
+ + Categories
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Messages
+ ===========================
+*/
+
+$_Message_Categories_INSTALL_CATEGORY_SUCCESSFUL							= "<CENTER>Cerberus: I have Installed the File Category: <I>$_Module_Category_POST_INSTALL_CATEGORY_NAME</I> successfully.</CENTER>";
+$_Message_Categories_NO_CATEGORIES_INSTALLED							= "<CENTER>Cerberus: There are no File Categories Installed.</CENTER>";
+$_Message_Categories_DELETE_CATEGORY_SUCCESSFUL							= "<BR><HR><CENTER>Cerberus: I have Deleted the File Category successfully.</CENTER><HR><BR>";
+$_Message_Categories_UPDATE_CATEGORY_SUCCESSFUL							= "<BR><HR><CENTER>Cerberus: I have Updated the File Category: <I>$_Module_Categories_POST_UPDATE_CATEGORY_NAME</I> successfully.</CENTER><HR><BR>";
+
+/*
+ ===========================
+ +
+ +
+ + Forum
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Messages
+ ===========================
+*/
+
+$_Message_Forum_FORUM_TITLE_TOO_LONG								= "<CENTER>Cerberus: The Forum Title is too long, please reduce the length to less than 100 characters.</CENTER>";
+$_Message_Forum_FORUM_DESCRIPTION_TOO_LONG							= "<CENTER>Cerberus: The Forum Description is too long, please reduce the length to less than 100 characters.</CENTER>";
+$_Message_Forum_INSTALL_FORUM_SUCCESSFUL								= "<CENTER>Cerberus: I have Installed the Forum successfully.</CENTER>";
+$_Message_Forum_INSTALL_FORUM_ERROR								= "<CENTER>Cerberus: I am sorry; I was unable to Install the Forum.</CENTER>";
+$_Message_Forum_NO_FORUMS_EXIST									= "<CENTER>Cerberus: I was not able to Find any Forum(s).</CENTER>";
+$_Message_Forum_FORUM_UPDATED_SUCCESSFULLY							= "<BR><HR><CENTER>Cerberus: I have Updated the Forum: <I>$_Module_Forum_POST_FORUM_MODIFY_TITLE</I> successfully.</CENTER><HR>";
+$_Message_Forum_FORUM_UPDATE_ERROR								= "<BR><HR><CENTER>Cerberus: I was not able to Update the Forum; please try once more.</CENTER><HR>";
+$_Message_Forum_FORUM_DELETED_SUCCESSFULLY							= "<CENTER>Cerberus: I have Deleted the Forum: <I>$_Module_Forum_LIST_FORUM_TITLE</I> successfully.</CENTER>";
+$_Message_Forum_FORUM_DELETE_ERROR								= "<CENTER>Cerberus: I was not able to Delete the Forum; please try once more.</CENTER>";
+
+/*
+ ===========================
+ +
+ +
+ + Modify
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Messages
+ ===========================
+*/
+
+$_Message_Modify_ARTICLE_DELETED_SUCCESSFULLY							= "<CENTER>Cerberus: I have Deleted the Article successfully.</CENTER>";
+$_Message_Modify_ARTICLE_UPDATED_SUCCESSFULLY							= "<CENTER>Cerberus: I have Updated the Article: <I>$_Module_Modify_POST_UPDATE_ARTICLE_TITLE</I> successfully.</CENTER>";
+$_Message_Modify_LINK_DELETED_SUCCESSFULLY							= "<CENTER>Cerberus: I have Deleted the Link successfully.</CENTER>";
+$_Message_Modify_LINK_UPDATED_SUCCESSFULLY							= "<CENTER>Cerberus: I have Updated the Link: <I>$_Module_Modify_POST_UPDATE_LINK_TITLE</I> successfully.</CENTER>";
+$_Message_Modify_NEWS_UPDATED_SUCCESSFULLY							= "<CENTER>Cerberus: I have Updated the News ID: <I>$_Module_Modify_POST_UPDATE_NEWS_TITLE</I> successfully.</CENTER>";
+$_Message_Modify_NEWS_DELETED_SUCCESSFULLY							= "<CENTER>Cerberus: I have Deleted the News ID successfully.</CENTER>";
+$_Message_Modify_FILE_DELETED_SUCCESSFULLY							= "<CENTER>Cerberus: I have Deleted the File successfully.</CENTER>";
+$_Message_Modify_FILE_UPDATED_SUCCESSFULLY							= "<CENTER>Cerberus: I have Updated the File: <I>$_Module_Modify_POST_UPDATE_FILE_TITLE</I> successfully.</CENTER>";
+
+/*
+ ===========================
+ +
+ +
+ + Publish
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Messages
+ ===========================
+*/
+
+$_Message_Publish_PUBLISH_NEWS_SUCCESSFUL								= "<CENTER>Cerberus: I have Published the News Item: <I>$_Module_Publish_POST_PUBLISH_NEWS_TITLE</I> successfully.</CENTER>";
+$_Message_Publish_PUBLISH_ARTICLE_SUCCESSFUL							= "<BR><HR><CENTER>Cerberus: I have Published the Article: <I>$_Module_Publish_POST_PUBLISH_ARTICLE_TITLE</I> successfully.</CENTER><HR><BR>";
+$_Message_Publish_MASS_NEWSLETTER_SENT_SUCCESSFULLY						= "Cerberus: Message Sent To: $_Module_Publish_LIST_MEMBER_EMAIL_ADDRESS<BR>";
+
+/*
+ ===========================
+ +
+ +
+ + Ranks
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Messages
+ ===========================
+*/
+
+$_Message_Ranks_RANKS_UPDATED_SUCCESSFULLY							= "<CENTER>Cerberus: I have Updated the Ranks successfully.</CENTER>";
+
+/*
+ ===========================
+ +
+ +
+ + Referrers
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Messages
+ ===========================
+*/
+
+$_Message_Referrers_REFERRER_LOG_RENEWED_SUCCESSFULLY						= "<CENTER>Cerberus: I have Renewed the Referrer Log successfully.</CENTER>";
+
+/*
+ ===========================
+ +
+ +
+ + Settings
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Messages
+ ===========================
+*/
+
+$_Message_Settings_SETTINGS_UPDATED_SUCCESSFULLY							= "<CENTER>Cerberus: I have Updated the System Settings successfully.</CENTER>";
+
+/*
+ ===========================
+ +
+ +
+ + SQL_Query
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Messages
+ ===========================
+*/
+
+$_Message_SQL_Query_QUERY_EXECUTED_SUCCESSFULLY							= "<CENTER>Cerberus: I have Executed your S.Q.L. Query successfully.</CENTER><HR>$_Module_SQL_Query_POST_SQL_QUERY";
+
+/*
+ ===========================
+ +
+ +
+ + Submissions
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Messages
+ ===========================
+*/
+
+$_Message_Submissions_NO_SUBMISSIONS_EXIST							= "<CENTER>Cerberus: I was not able to Find any News or Message Submission(s).</CENTER>";
+$_Message_Submissions_SUBMISSION_DELETED_SUCCESSFULLY						= "<BR><HR><CENTER>Cerberus: I have Deleted the Submission successfully.</CENTER><HR><BR>";
+
+/*
+ ===========================
+ +
+ +
+ + Web_Pages
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Messages
+ ===========================
+*/
+
+$_Message_Web_Pages_LINK_INSTALLED_SUCCESSFULLY							= "<CENTER>Cerberus: I have Installed the Link: <I>$_Module_Web_Pages_POST_LINK_NAME</I> successfully.</CENTER>";
+$_Message_Web_Pages_NO_LINKS_EXIST								= "<CENTER>Cerberus: I was not able to find any Link(s).</CENTER>";
+$_Message_Web_Pages_LINK_DELETED_SUCCESSFULLY							= "<CENTER>Cerberus: I have Deleted the Link successfully.</CENTER>";
+$_Message_Web_Pages_LINK_UPDATED_SUCCESSFULLY							= "<CENTER>Cerberus: I have Updated the Link successfully.</CENTER>";
+$_Message_Web_Pages_WEB_PAGE_INSTALLED_SUCCESSFULLY						= "<BR><HR><CENTER>Cerberus: I have Installed the Web Page: <I>$_Module_Web_Pages_POST_INSTALL_PAGE_NAME</I> successfully.</CENTER><HR>";
+$_Message_Web_Pages_WEB_PAGE_DELETED_SUCCESSFULLY							= "<CENTER>Cerberus: I have Deleted the Web Page successfully.</CENTER>";
+$_Message_Web_Pages_WEB_PAGE_UPDATED_SUCCESSFULLY							= "<CENTER>Cerberus: I have Updated the Web Page successfully.</CENTER>";
+
+/*
+ ============================================
+ +
+ +
+ +
+ +
+ +
+ + @ ./Module/Background/
+ +
+ +
+ +
+ +
+ + Alphabetical Order
+ ============================================
+*/
+
+/*
+ ===========================
+ +
+ +
+ + Log_Background
+ +
+ +
+ ===========================
+*/
+
+$_Message_Log_Background_ERROR_SQL_STATISTICS							= "Cerberus: I was not able to Update the Statistics SQL Table.";
+$_Message_Log_Background_ERROR_SQL_MEMBERS							= "Cerberus: I was not able to Update the Members SQL Table.";
+
+/*
+ ============================================
+ +
+ +
+ +
+ +
+ +
+ + @ ./Module/User/
+ +
+ +
+ +
+ +
+ + Alphabetical Order
+ ============================================
+*/
+
+/*
+ ===========================
+ +
+ +
+ + All_News
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Header
+ ===========================
+*/
+
+$_Message_All_News_Header									= "<CENTER>[ <B><A HREF=\"?$_INTERNAL_USER_MODULE&#61;Application_List\" TITLE=\"Open Application Module :: Application List\">Root</A> // <A HREF=\"?$_INTERNAL_USER_MODULE&#61;All_News&amp;DisplayID&#61;All\" TITLE=\"Root // Open Application Module :: All News\">All News</A> // <A HREF=\"./Module/User/All_News\" TITLE=\"View Source Code For Application Module :: All_News\">Source</A></B> ]</CENTER><HR><BR>";
+
+/*
+ ===========================
+ + Messages
+ ===========================
+*/
+
+$_Message_All_News_NO_NEWS									= "<CENTER>Cerberus: I was not able to Find any News Entries.</CENTER>";
+$_Message_All_News_ENTRY_DOES_NOT_EXIST								= "<CENTER>Cerberus: The Selected News Entry ID Does Not Exist.</CENTER>";
+
+/*
+ ===========================
+ +
+ +
+ + All_Shouts
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Header
+ ===========================
+*/
+
+$_Message_All_Shouts_Header									= "<CENTER>[ <B><A HREF=\"?$_INTERNAL_USER_MODULE&#61;Application_List\" TITLE=\"Open Application Module :: Application List\">Root</A> // <A HREF=\"?$_INTERNAL_USER_MODULE&#61;All_Shouts\" TITLE=\"Root // Open Application Module :: All Shouts\">All Shouts</A> // <A HREF=\"./Module/User/All_Shouts\" TITLE=\"View Source Code For Application Module :: All_Shouts\">Source</A></B> ]</CENTER><HR><BR>";
+
+/*
+ ===========================
+ + Messages
+ ===========================
+*/
+
+$_Message_All_Shouts_POST_SHOUT									= "<CENTER>Cerberus: I have posted your Shout successfully.</CENTER>";
+$_Message_All_Shouts_ERROR_ACCESS_LEVEL								= "<CENTER>Cerberus: Please Log-in to Shout.</CENTER>";
+$_Message_All_Shouts_DELETE_SHOUT									= "Cerberus: I have Deleted your Shout successfully.";
+$_Message_All_Shouts_DELETE_SHOUT_ERROR								= "Cerberus: I was not able to Delete your shout; please try once more.";
+$_Message_All_Shouts_DELETE_SHOUT_NOT_USER							= "Cerberus: I was not able to Delete this Shout Message because it was not posted by you.";
+$_Message_All_Shouts_POST_ERROR									= "<CENTER>Cerberus: I was not able to Post your Shout Message; please try once more.</CENTER>";
+$_Message_All_Shouts_POST_LENGTH_ERROR								= "Cerberus: Your Message has too many characters, the maximum length is 250 characters, please reduce your Message length.";
+$_Message_All_Shouts_NO_SHOUTS									= "<CENTER>Cerberus: I was not able to find any Shout Messages.</CENTER>";
+
+/*
+ ===========================
+ +
+ +
+ + Articles
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Header
+ ===========================
+*/
+
+$_Message_Articles_Header									= "<CENTER>[ <B><A HREF=\"?$_INTERNAL_USER_MODULE&#61;Application_List\" TITLE=\"Open Application Module :: Application List\">Root</A> // <A HREF=\"?$_INTERNAL_USER_MODULE&#61;Articles&amp;DisplayID&#61;All\" TITLE=\"Root // Open Application Module :: All Articles\">All Articles</A> // <A HREF=\"./Module/User/Articles\" TITLE=\"View Source Code For Application Module :: Articles\">Source</A></B> ]</CENTER><HR><BR>";
+
+/*
+ ===========================
+ + Messages
+ ===========================
+*/
+
+$_Message_Articles_NO_ARTICLES									= "<CENTER>Cerberus: I was not able to find any Article(s).</CENTER>";
+
+/*
+ ===========================
+ +
+ +
+ + Application_List
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Header
+ ===========================
+*/
+
+$_Message_Application_List_Header									= "<CENTER>[ <B><A HREF=\"?$_INTERNAL_USER_MODULE&#61;Application_List\" TITLE=\"Open Application Module :: Application List\">Application List</A> // <A HREF=\"./Module/User/Application_List\" TITLE=\"View Source Code For Application Module :: Application_List\">Source</A></B> ]</CENTER><HR><BR>";
+
+/*
+ ===========================
+ +
+ +
+ + Change_Password
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Header
+ ===========================
+*/
+
+$_Message_Change_Password_Header									= "<CENTER>[ <B><A HREF=\"?$_INTERNAL_USER_MODULE&#61;Application_List\" TITLE=\"Open Application Module :: Application List\">Root</A> // <A HREF=\"?$_INTERNAL_USER_MODULE&#61;cPanel\" TITLE=\"Root // Open Application Module :: Member Control Panel\">Member Control Panel</A> // <A HREF=\"?$_INTERNAL_USER_MODULE&#61;Change_Password\" TITLE=\"Root // Open Application Module :: cPanel // Open Application Module :: Change Password\">Change Password</A> // <A HREF=\"./Module/User/Change_Password\" TITLE=\"View Source Code For Application Module :: Change_Password\">Source</A></B> ]</CENTER><HR><BR>";
+
+/*
+ ===========================
+ + Messages
+ ===========================
+*/
+
+$_Message_Change_Password_WARNING									= "Cerberus: You will be automatically Logged-Out after changing your password.";
+$_Message_Change_Password_PASSWORD_MISMATCH							= "<CENTER>Cerberus: The Passwords that you have provided do not match each other; please try once more.</CENTER>";
+$_Message_Change_Password_PASSWORD_UPDATE								= "<CENTER>Cerberus: I have Updated your Password successfully; You will now be Logged-out, please Log-in again.</CENTER>";
+$_Message_Change_Password_PASSWORD_UPDATE_ERROR							= "<CENTER>Cerberus: I was not able to Update your Password, please try again.</CENTER>";
+$_Message_Change_Password_PASSWORD_UPDATE_EMAIL_ERROR 						= "<CENTER>Cerberus: I was not able to Send the Notification Electronic Mail Message; please try once more.</CENTER>";
+
+/*
+ ===========================
+ +
+ +
+ + Comment
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Messages
+ ===========================
+*/
+
+$_Message_Comment_Header										= "<CENTER>[ <B><A HREF=\"?$_INTERNAL_USER_MODULE&#61;Application_List\" TITLE=\"Open Application Module :: Application List\">Root</A> // <A HREF=\"?$_INTERNAL_USER_MODULE&#61;Comment\" TITLE=\"Root // Open Application Module :: Comment\">Comment</A> // <A HREF=\"./Module/User/Comment\" TITLE=\"View Source Code For Application Module :: Comment\">Source</A></B> ]</CENTER><HR><BR>";
+
+/*
+ ===========================
+ + Messages
+ ===========================
+*/
+
+$_Message_Comment_ADD										= "<CENTER>Cerberus: I have posted your Comment successfully.</CENTER>";
+$_Message_Comment_ADD_ERROR									= "<CENTER>Cerberus: I was not able to Post your Comment; please try once more.</CENTER>";
+$_Message_Comment_UPDATE										= "<CENTER>Cerberus: I have Updated your Comment successfully.</CENTER>";
+$_Message_Comment_UPDATE_ERROR									= "<CENTER>Cerberus: I was not able to Update your Comment; please try once more.</CENTER>";
+$_Message_Comment_DELETE										= "<CENTER>Cerberus: I have Deleted your Comment successfully.</CENTER>";
+$_Message_Comment_DELETE_ERROR									= "<CENTER>Cerberus: I was not able to Delete your Comment; please try once more.</CENTER>";
+
+/*
+ ===========================
+ +
+ +
+ + Contact_Admin
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Header
+ ===========================
+*/
+
+$_Message_Contact_Admin_Header									= "<CENTER>[ <B><A HREF=\"?$_INTERNAL_USER_MODULE&#61;Application_List\" TITLE=\"Open Application Module :: Application List\">Root</A> // <A HREF=\"?$_INTERNAL_USER_MODULE&#61;Contact_Admin\" TITLE=\"Root // Open Application Module :: Contact Services Administrator\">Contact Services Administrator</A> // <A HREF=\"./Module/User/Contact_Admin\" TITLE=\"View Source Code For Application Module :: Contact_Admin\">Source</A></B> ]</CENTER><HR><BR>";
+
+/*
+ ===========================
+ + Messages
+ ===========================
+*/
+
+$_Message_Contact_Admin_MESSAGE_SENT								= "<CENTER>Cerberus: I have Sent your Message successfully.</CENTER>";
+$_Message_Contact_Admin_MESSAGE_SENT_ERROR							= "<CENTER>Cerberus: I was not able to Send your Message; please try again.</CENTER>";
+
+/*
+ ===========================
+ +
+ +
+ + cPanel
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Header
+ ===========================
+*/
+
+$_Message_cPanel_Header										= "<CENTER>[ <B><A HREF=\"?$_INTERNAL_USER_MODULE&#61;Application_List\" TITLE=\"Open Application Module :: Application List\">Root</A> // <A HREF=\"?$_INTERNAL_USER_MODULE&#61;cPanel\" TITLE=\"Root // Open Application Module :: Member Control Panel\">Member Control Panel</A> // <A HREF=\"./Module/User/cPanel\" TITLE=\"View Source Code For Application Module :: cPanel\">Source</A></B> ]</CENTER><HR><BR>";
+
+/*
+ ===========================
+ + Messages
+ ===========================
+*/
+
+$_Message_cPanel_KEY_ACCEPT									= "Cerberus: I have Accepted your Key; Please change your Password as soon as possible; You will not see this Message again.";
+$_Message_cPanel_KEY_ACCEPT_ERROR									= "Cerberus: I was not able to Update your Account; please try once more.";
+$_Message_cPanel_KEY_ACTIVATE									= "<B>Cerberus: Please Activate your Account</B>";
+$_Message_cPanel_KEY_CHECK									= "Cerberus: Checking Key...";
+$_Message_cPanel_KEY_CHECK_ERROR									= "Cerberus: The Key you have provided does not match the Key in our Database; please try once more.";
+
+/*
+ ===========================
+ +
+ +
+ + Documentation
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Header
+ ===========================
+*/
+
+$_Message_Documentation_Header									= "<CENTER>[ <B><A HREF=\"?$_INTERNAL_USER_MODULE&#61;Application_List\" TITLE=\"Open Application Module :: Application List\">Root</A> // <A HREF=\"?$_INTERNAL_USER_MODULE&#61;Documentation\" TITLE=\"Root // Open Application Module :: Documentation\">Documentation</A> // <A HREF=\"./Module/User/Documentation\" TITLE=\"View Source Code For Application Module :: Documentation\">Source</A></B> ]</CENTER><HR><BR>";
+
+/*
+ ===========================
+ +
+ +
+ + E-Mail
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Header
+ ===========================
+*/
+
+$_Message_EMail_Header										= "<CENTER>[ <B><A HREF=\"?$_INTERNAL_USER_MODULE&#61;Application_List\" TITLE=\"Open Application Module :: Application List\">Root</A> // <A HREF=\"?$_INTERNAL_USER_MODULE&#61;E-Mail\" TITLE=\"Root // Open Application Module :: E-Mail\">E-Mail</A> // <A HREF=\"./Module/User/E-Mail\" TITLE=\"View Source Code For Application Module :: E-Mail\">Source</A></B> ]</CENTER><HR><BR>";
+
+/*
+ ===========================
+ + Messages
+ ===========================
+*/
+
+$_Message_EMail_SEND										= "<CENTER>Cerberus: I have Sent your Message successfully.</CENTER>";
+$_Message_EMail_SEND_ERROR									= "<CENTER>Cerberus: I was not able to Send your Message; please try once more.</CENTER>";
+
+/*
+ ===========================
+ +
+ +
+ + Edit_Profile
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Header
+ ===========================
+*/
+
+$_Message_Edit_Profile_Header									= "<CENTER>[ <B><A HREF=\"?$_INTERNAL_USER_MODULE&#61;Application_List\" TITLE=\"Open Application Module :: Application List\">Root</A> // <A HREF=\"?$_INTERNAL_USER_MODULE&#61;cPanel\" TITLE=\"Root // Open Application Module :: Member Control Panel\">Member Control Panel</A> // <A HREF=\"?$_INTERNAL_USER_MODULE&#61;Edit_Profile\" TITLE=\"Root // Open Application Module :: cPanel // Open Application Module :: Edit Profile\">Edit Profile</A> // <A HREF=\"./Module/User/Edit_Profile\" TITLE=\"View Source Code For Application Module :: Edit_Profile\">Source</A></B> ]</CENTER><HR><BR>";
+
+/*
+ ===========================
+ + Messages
+ ===========================
+*/
+
+$_Message_Edit_Profile_UPDATE_ERROR								= "<CENTER>Cerberus: I was not able to Update your Profile; please try once more.</CENTER>";
+$_Message_Edit_Profile_UPDATE									= "<CENTER>Cerberus: I have Updated your Profile successfully.</CENTER>";
+
+/*
+ ===========================
+ +
+ +
+ + Files
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Header
+ ===========================
+*/
+
+$_Message_Files_Header										= "<CENTER>[ <B><A HREF=\"?$_INTERNAL_USER_MODULE&#61;Application_List\" TITLE=\"Open Application Module :: Application List\">Root</A> // <A HREF=\"?$_INTERNAL_USER_MODULE&#61;Files&amp;CategoryID&#61;All\" TITLE=\"Root // Open Application Module :: File Categories\">File Categories</A> // <A HREF=\"./Module/User/Files\" TITLE=\"View Source Code For Application Module :: Files\">Source</A></B> ]</CENTER><HR><BR>";
+
+/*
+ ===========================
+ + Messages
+ ===========================
+*/
+
+$_Message_Files_NO_CATEGORIES									= "<CENTER>Cerberus: I was not able to Find any Categories.</CENTER>";
+$_Message_Files_NO_COMMENTS									= "<CENTER>Cerberus: I was not able to Find any Comments for this File.</CENTER>";
+$_Message_Files_DOWNLOAD_ERROR									= "<CENTER>Cerberus: I was not able to Retrieve your File(s); please try once more.</CENTER>";
+$_Message_Files_DOWNLOAD_MISSING									= "<BR><HR><CENTER>Cerberus: I was not able to Find the File associated with this FileID because it is missing.</CENTER><HR>";
+$_Message_Files_NO_FILES										= "Cerberus: I was not able to Find any Files in this File Category.";
+
+/*
+ ===========================
+ +
+ +
+ + Forum
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Header
+ ===========================
+*/
+
+$_Message_Forum_Header										= "<CENTER>[ <B><A HREF=\"?$_INTERNAL_USER_MODULE&#61;Application_List\" TITLE=\"Open Application Module :: Application List\">Root</A> // <A HREF=\"?$_INTERNAL_USER_MODULE&#61;Forum&amp;ForumID&#61;All\" TITLE=\"Root // Open Application Module :: Forum\">Forum</A> // <A HREF=\"./Module/User/Forum\" TITLE=\"View Source Code For Application Module :: Forum\">Source</A></B> ]</CENTER><HR><BR>";
+
+/*
+ ===========================
+ + Messages
+ ===========================
+*/
+
+$_Message_Forum_NO_FORUMS									= "<CENTER>Cerberus: I was not able to Find any Forum(s).</CENTER>";
+$_Message_Forum_CREATE_TOPIC_NO_FORUM								= "<CENTER>Cerberus: You can not Create a Topic without a Forum.</CENTER>";
+$_Message_Forum_CREATE_POST									= "<CENTER>Cerberus: I have Posted your Message successfully.";
+$_Message_Forum_CREATE_POST_ERROR									= "<CENTER>Cerberus: I was not able to Post your Message.</CENTER>";
+$_Message_Forum_CREATE_POST_NO_TOPIC								= "<CENTER>Cerberus: You can not Create a Post without a Topic.</CENTER>";
+$_Message_Forum_CREATE_TOPIC_TITLE_ERROR								= "<CENTER>Cerberus: The Topic Title is too long, please reduce the length to less than 100 characters.</CENTER>";
+$_Message_Forum_CREATE_TOPIC_DESCRIPTION_ERROR							= "<CENTER>Cerberus: The Topic Description is too long, please reduce the length to less than 100 characters.</CENTER>";
+$_Message_Forum_CREATE_TOPIC									= "<CENTER>Cerberus: I have Created your Topic successfully.";
+$_Message_Forum_CREATE_TOPIC_ERROR								= "<CENTER>Cerberus: I was not able to Create your Topic; please try once more.</CENTER>";
+$_Message_Forum_ACCESS_LEVEL_ADMINISTRATOR							= "<CENTER>Cerberus: This Topic is Closed to you and is only accessable by Administrators.</CENTER>";
+$_Message_Forum_DENY_EDIT									= "<CENTER>Cerberus: You are not the Author of this Post.</CENTER>";
+$_Message_Forum_EXPERIENCE									= "<CENTER>Cerberus: You have Earned 10 Experience Points.</CENTER>";
+$_Message_Forum_EXPERIENCE_ERROR									= "<CENTER>Cerberus: I was not able to Give you any Experience Points.</CENTER>";
+$_Message_Forum_POST_UPDATE									= "<CENTER>Cerberus: I have Updated your Message successfully.";
+$_Message_Forum_POST_UPDATE_ERROR									= "<CENTER>Cerberus: I was not able to Update your Message.</CENTER>";
+$_Message_Forum_DELETE_POST									= "<CENTER>Cerberus: I have Deleted the Post successfully.</CENTER>";
+$_Message_Forum_DELETE_POST_ERROR									= "<CENTER>Cerberus: You are not the Author of this Post.</CENTER>";
+
+/*
+ ===========================
+ +
+ +
+ + Friend
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Header
+ ===========================
+*/
+
+$_Message_Friend_Header										= "<CENTER>[ <B><A HREF=\"?$_INTERNAL_USER_MODULE&#61;Application_List\" TITLE=\"Open Application Module :: Application List\">Root</A> // <A HREF=\"?$_INTERNAL_USER_MODULE&#61;cPanel\" TITLE=\"Root // Open Application Module :: Member Control Panel\">Member Control Panel</A> // <A HREF=\"?$_INTERNAL_USER_MODULE&#61;Friend&amp;DisplayID&#61;All\" TITLE=\"Root // Open Application Module :: cPanel // Open Application Module :: Friends List\">Friends List</A> // <A HREF=\"./Module/User/Friend\" TITLE=\"View Source Code For Application Module :: Friend\">Source</A></B> ]</CENTER><HR><BR>";
+
+/*
+ ===========================
+ + Messages
+ ===========================
+*/
+
+$_Message_Friend_ADD										= "<CENTER>Cerberus: I have Added the Profile to your Friend List successfully.</CENTER>";
+$_Message_Friend_ADD_ERROR									= "<CENTER>Cerberus: I was not able to Add your Friend.</CENTER>";
+$_Message_Friend_REMOVE										= "<CENTER>Cerberus: I have removed the Profile from your Friend List successfully.</CENTER>";
+$_Message_Friend_REMOVE_ERROR									= "<CENTER>Cerberus: I was not able to remove the Profile from your Friend List; please try once more.</CENTER>";
+
+/*
+ ===========================
+ +
+ +
+ + Links
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Header
+ ===========================
+*/
+
+$_Message_Links_Header										= "<CENTER>[ <B><A HREF=\"?$_INTERNAL_USER_MODULE&#61;Application_List\" TITLE=\"Open Application Module :: Application List\">Root</A> // <A HREF=\"?$_INTERNAL_USER_MODULE&#61;Links&amp;DisplayID&#61;All\" TITLE=\"Root // Open Application Module :: Links\">Links</A> // <A HREF=\"./Module/User/Links\" TITLE=\"View Source Code For Application Module :: Links\">Source</A></B> ]</CENTER><HR><BR>";
+
+/*
+ ===========================
+ + Messages
+ ===========================
+*/
+
+$_Message_Links_NO_LINKS										= "<CENTER>Cerberus: I was not able to Find any Links.</CENTER>";
+$_Message_Links_POST_SUCCESSFUL									= "<CENTER>Cerberus: I have posted your Link successfully.</CENTER>";
+$_Message_Links_POST_ERROR									= "<CENTER>Cerberus: I was not able to Post your Link; please try once more.</CENTER>";
+$_Message_Links_POST_EXPERIENCE_AMOUNT								= "<CENTER>Cerberus: You have earned 15 Experience Points.</CENTER>";
+$_Message_Links_POST_EXPERIENCE_AMOUNT_ERROR							= "<CENTER>Cerberus: I was not able to Give you Experience Points.</CENTER>";
+
+/*
+ ===========================
+ +
+ +
+ + List
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Header
+ ===========================
+*/
+
+$_Message_List_Header										= "<CENTER>[ <B><A HREF=\"?$_INTERNAL_USER_MODULE&#61;Application_List\" TITLE=\"Open Application Module :: Application List\">Root</A> // <A HREF=\"?$_INTERNAL_USER_MODULE&#61;List&amp;Display&#61;List\" TITLE=\"Root // Open Application Module :: List\">List</A> // <A HREF=\"./Module/User/List\" TITLE=\"View Source Code For Application Module :: List\">Source</A></B> ]</CENTER><HR><BR>";
+
+/*
+ ===========================
+ + Messages
+ ===========================
+*/
+
+$_Message_List_Header_AVATARS									= "<CENTER><B>Avatars</B></CENTER><HR>";
+$_Message_List_Header_SMILEYS									= "<CENTER><B>Smiley Codes</B></CENTER><HR>";
+$_Message_List_Header_MYFILES									= "<CENTER><B>My Personal Files</B></CENTER><HR>";
+$_Message_List_Header_RANKS									= "<CENTER><B>Ranks</B></CENTER><HR>";
+$_Message_List_Header_SAFEHTML									= "<CENTER><B>Safe-HTML // Bulletin Board ( BB ) Codes</B></CENTER><HR>";
+$_Message_List_ACCESS_ERROR									= "<CENTER>This Application Is Restricted To Members</CENTER>";
+
+/*
+ ===========================
+ +
+ +
+ + Login
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Header
+ ===========================
+*/
+
+$_Message_Login_Header										= "<CENTER>[ <B><A HREF=\"?$_INTERNAL_USER_MODULE&#61;Application_List\" TITLE=\"Open Application Module :: Application List\">Root</A> // <A HREF=\"?$_INTERNAL_USER_MODULE&#61;Login\" TITLE=\"Root // Open Application Module :: Login\">Login</A> // <A HREF=\"./Module/User/Login\" TITLE=\"View Source Code For Application Module :: Login\">Source</A></B> ]</CENTER><HR><BR>";
+
+/*
+ ===========================
+ + Messages
+ ===========================
+*/
+
+$_Message_Login_ERROR										= "<BR><CENTER><B>Cerberus: That information is not in our Database; please try once more.</B></CENTER>";
+
+/*
+ ===========================
+ +
+ +
+ + Members
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Header
+ ===========================
+*/
+
+$_Message_Members_Header										= "<CENTER>[ <B><A HREF=\"?$_INTERNAL_USER_MODULE&#61;Application_List\" TITLE=\"Open Application Module :: Application List\">Root</A> // <A HREF=\"?$_INTERNAL_USER_MODULE&#61;Members\" TITLE=\"Root // Open Application Module :: Member List\">Member List</A> // <A HREF=\"./Module/User/Members\" TITLE=\"View Source Code For Application Module :: Members\">Source</A></B> ]</CENTER><HR><BR>";
+
+/*
+ ===========================
+ +
+ +
+ + Members_Online
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Header
+ ===========================
+*/
+
+$_Message_Members_Online_Header									= "<CENTER>[ <B><A HREF=\"?$_INTERNAL_USER_MODULE&#61;Application_List\" TITLE=\"Open Application Module :: Application List\">Root</A> // <A HREF=\"?$_INTERNAL_USER_MODULE&#61;Members_Online\" TITLE=\"Root // Open Application Module :: Active Member List\">Active Member List</A> // <A HREF=\"./Module/User/Members_Online\" TITLE=\"View Source Code For Application Module :: Members_Online\">Source</A></B> ]</CENTER><HR><BR>";
+
+/*
+ ===========================
+ +
+ +
+ + News
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Messages
+ ===========================
+*/
+
+$_Message_News_NO_NEWS										= "<CENTER>Cerberus: I was not able to Find any News.</CENTER>";
+
+/*
+ ===========================
+ +
+ +
+ + Polls
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Header
+ ===========================
+*/
+
+$_Message_Polls_Header										= "<CENTER>[ <B><A HREF=\"?$_INTERNAL_USER_MODULE&#61;Application_List\" TITLE=\"Open Application Module :: Application List\">Root</A> // <A HREF=\"?$_INTERNAL_USER_MODULE&#61;Polls&amp;PollID&#61;All\" TITLE=\"Root // Open Application Module :: All Polls\">All Polls</A> // <A HREF=\"./Module/User/Polls\" TITLE=\"View Source Code For Application Module :: Polls\">Source</A></B> ]</CENTER><HR><BR>";
+
+/*
+ ===========================
+ + Messages
+ ===========================
+*/
+
+$_Message_Polls_NO_POLLS										= "<CENTER>Cerberus: I was not able to Find any Polls.</CENTER>";
+$_Message_Polls_POST_EXPERIENCE_AMOUNT								= "<CENTER>Cerberus: You have Earned 15 Experience Points.</CENTER>";
+$_Message_Polls_POST_EXPERIENCE_AMOUNT_ERROR							= "<CENTER>Cerberus: I was not able to Give you any Experience Points.</CENTER>";
+$_Message_Polls_POST_VOTE_SUCCESSFUL								= "<CENTER>Cerberus: I have Logged your Vote successfully.</CENTER>";
+$_Message_Polls_POST_VOTE_ERROR									= "<CENTER>Cerberus: I was not able to Log your Vote; please try once more.</CENTER>";
+
+/*
+ ===========================
+ +
+ +
+ + Private_Files
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Header
+ ===========================
+*/
+
+$_Message_Private_Files_Header									= "<CENTER>[ <B><A HREF=\"?$_INTERNAL_USER_MODULE&#61;Application_List\" TITLE=\"Open Application Module :: Application List\">Root</A> // <A HREF=\"?$_INTERNAL_USER_MODULE&#61;cPanel\" TITLE=\"Root // Open Application Module :: Member Control Panel\">Member Control Panel</A> // <A HREF=\"?$_INTERNAL_USER_MODULE&#61;Private_Files\" TITLE=\"Root // Open Application Module :: cPanel // Open Application Module :: Private Files\">Private Files</A> // <A HREF=\"./Module/User/Private_Files\" TITLE=\"View Source Code For Application Module :: Private_Files\">Source</A></B> ]</CENTER><HR><BR>";
+
+/*
+ ===========================
+ + Messages
+ ===========================
+*/
+
+$_Message_Private_Files_DELETE_SUCCESSFUL								= "<CENTER>Cerberus: I have Deleted your File successfully.</CENTER>";
+$_Message_Private_Files_DELETE_ERROR								= "<CENTER>Cerberus: I was not able to Delete your File; please try once more.</CENTER>";
+$_Message_Private_Files_UPLOAD_SUCCESSFUL								= "<CENTER>Cerberus: I have Uploaded your File successfully.</CENTER>";
+$_Message_Private_Files_UPLOAD_ERROR_EXTENSION							= "<CENTER>Cerberus: I was not able to Upload your File because that File Extension is not allowed.</CENTER>";
+$_Message_Private_Files_UPLOAD_ERROR_FILESIZE							= "<CENTER>Cerberus: That file size is larger than the allowed upload size.</CENTER>";
+
+/*
+ ===========================
+ +
+ +
+ + Private_Messages
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Header
+ ===========================
+*/
+
+$_Message_Private_Messages_Header									= "<CENTER>[ <B><A HREF=\"?$_INTERNAL_USER_MODULE&#61;Application_List\" TITLE=\"Open Application Module :: Application List\">Root</A> // <A HREF=\"?$_INTERNAL_USER_MODULE&#61;cPanel\" TITLE=\"Root // Open Application Module :: Member Control Panel\">Member Control Panel</A> // <A HREF=\"?$_INTERNAL_USER_MODULE&#61;Private_Message&amp;PrivateMessageID&#61;All\" TITLE=\"Root // Open Application Module :: cPanel // Open Application Module :: Private Messages\">Private Messages</A> // <A HREF=\"./Module/User/Private_Message\" TITLE=\"View Source Code For Application Module :: Private_Message\">Source</A></B> ]</CENTER><HR><BR>";
+
+/*
+ ===========================
+ + Messages
+ ===========================
+*/
+
+$_Message_Private_Messages_DELETE_SUCCESSFUL							= "<CENTER>Cerberus: I have Deleted the Message successfully.</CENTER>";
+$_Message_Private_Messages_DELETE_ERROR								= "<CENTER>Cerberus: I was not able to Delete the Message; please try once more.</CENTER>";
+$_Message_Private_Messages_NO_MESSAGES								= "<CENTER>Cerberus: I was not able to Find any Messages.</CENTER>";
+$_Message_Private_Messages_SEND_SUCCESSFUL							= "<CENTER>Cerberus: I have Sent your Message successfully.</CENTER>";
+$_Message_Private_Messages_SEND_ERROR								= "<CENTER>Cerberus: I was not able to Send your Message; please try once more.</CENTER>";
+
+/*
+ ===========================
+ +
+ +
+ + Profile
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Messages
+ ===========================
+*/
+
+$_Message_Profile_NO_COMMENTS									= "<CENTER>Cerberus: I was not able to Find any Comments.</CENTER>";
+
+/*
+ ===========================
+ +
+ +
+ + Referrers
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Header
+ ===========================
+*/
+
+$_Message_Referrers_Header									= "<CENTER>[ <B><A HREF=\"?$_INTERNAL_USER_MODULE&#61;Application_List\" TITLE=\"Open Application Module :: Application List\">Root</A> // <A HREF=\"?$_INTERNAL_USER_MODULE&#61;Referrers\" TITLE=\"Root // Open Application Module :: Visitor Log\">Visitor Log ( Last 1,000+ Visitors - 1,400 KB )</A> // <A HREF=\"./Module/User/Referrers\" TITLE=\"View Source Code For Application Module :: Referrers\">Source</A></B> ]</CENTER><HR><BR>";
+
+/*
+ ===========================
+ +
+ +
+ + Register
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Header
+ ===========================
+*/
+
+$_Message_Register_Header									= "<CENTER>[ <B><A HREF=\"?$_INTERNAL_USER_MODULE&#61;Application_List\" TITLE=\"Open Application Module :: Application List\">Root</A> // <A HREF=\"?$_INTERNAL_USER_MODULE&#61;Register\" TITLE=\"Root // Open Application Module :: Register\">Register</A> // <A HREF=\"./Module/User/Register\" TITLE=\"View Source Code For Application Module :: Register\">Source</A></B> ]</CENTER><HR><BR>";
+
+/*
+ ===========================
+ + Messages
+ ===========================
+*/
+
+$_Message_Register_REGISTRATION_SUCCESSFUL							= "<CENTER>Cerberus: Thank you for Registering, please check your Electronic Mail Inbox to access your Account.</CENTER>";
+$_Message_Register_REGISTRATION_ERROR								= "<CENTER>Cerberus: I was not able to Register the Information you have provided; please try once more.</CENTER>";
+$_Message_Register_REGISTRATION_DENIED								= "<CENTER>Cerberus: You are already Registered. If you would like to create a new Account, please Log-out first.</CENTER>";
+$_Message_Register_REGISTRATION_MEMBER_EXISTS							= "<CENTER>Cerberus: I am sorry, but that Member Name / Electronic Mail Address combination already exists in our system. Please Try Again.</CENTER>";
+$_Message_Register_REGISTRATION_INVALID_EMAIL							= "<CENTER>Cerberus: The Electronic Mail Address you have provided is not valid.</CENTER>";
+$_Message_Register_REGISTRATION_KEY_ERROR								= "<CENTER>Cerberus: The Key you have Entered does not match the Key Printed. Please try again.</CENTER>";
+$_Message_Register_REGISTRATION_EMAIL_FUNCTION_ERROR						= "<CENTER>Cerberus: There was an Error, please contact an Administrator. (mail()).</CENTER>";
+$_Message_Register_REGISTRATION_MEMBER_NAME_ERROR							= "<CENTER>Cerberus: The Member Name you have provided is not valid; The Name cannot contain any symbols or spaces.</CENTER>";
+$_Message_Register_REGISTRATION_MEMBER_NAME_LENGTH_ERROR 						= "<CENTER>Cerberus: The Member Name cannot be less than 4 Characters.</CENTER>";
+
+/*
+ ===========================
+ +
+ +
+ + Reset_Password
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Header
+ ===========================
+*/
+
+$_Message_Reset_Password_Header									= "<CENTER>[ <B><A HREF=\"?$_INTERNAL_USER_MODULE&#61;Application_List\" TITLE=\"Open Application Module :: Application List\">Root</A> // <A HREF=\"?$_INTERNAL_USER_MODULE&#61;Reset_Password\" TITLE=\"Root // Open Application Module :: Reset Password\">Reset Password</A> // <A HREF=\"./Module/User/Reset_Password\" TITLE=\"View Source Code For Application Module :: Reset Password\">Source</A></B> ]</CENTER><HR><BR>";
+
+/*
+ ===========================
+ + Messages
+ ===========================
+*/
+
+$_Message_Reset_Password_SUCCESSFUL								= "<CENTER>Cerberus: I have Reset your Password, please check your Electronic Mail Inbox to retrieve your new Password.</CENTER>";
+$_Message_Reset_Password_RESET_ERROR								= "<CENTER>Cerberus: I was not able to Reset your Password; please try once more.</CENTER>";
+$_Message_Reset_Password_RESET_DENIED								= "<CENTER>Cerberus: You are currently Logged-In and do not need to reset your Password.</CENTER>";
+
+/*
+ ===========================
+ +
+ +
+ + Search
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Header
+ ===========================
+*/
+
+$_Message_Search_Header										= "<CENTER>[ <B><A HREF=\"?$_INTERNAL_USER_MODULE&#61;Application_List\" TITLE=\"Open Application Module :: Application List\">Root</A> // <A HREF=\"?$_INTERNAL_USER_MODULE&#61;Search\" TITLE=\"Root // Open Application Module :: Search\">Search</A> // <A HREF=\"./Module/User/Search\" TITLE=\"View Source Code For Application Module :: Search\">Source</A></B> ]</CENTER><HR><BR>";
+
+/*
+ ===========================
+ + Messages
+ ===========================
+*/
+
+$_Message_Search_RESULTS_ARTICLE_NONE								= "<CENTER>Cerberus: I was not able to Find any Result(s) for your Article Search.</CENTER>";
+$_Message_Search_RESULTS_FILE_NONE								= "<CENTER>Cerberus: I was not able to Find any Result(s) for your File Search.</CENTER>";
+$_Message_Search_RESULTS_FORUM_NONE								= "<CENTER>Cerberus: I was not able to Find any Result(s) for your Forum Search.</CENTER>";
+$_Message_Search_RESULTS_MEMBER_NONE								= "<CENTER>Cerberus: I was not able to Find any Result(s) for your Member Search.</CENTER>";
+$_Message_Search_RESULTS_NEWS_NONE								= "<CENTER>Cerberus: I was not able to Find any Result(s) for your News Search.</CENTER>";
+
+/*
+ ===========================
+ +
+ +
+ + Send_Friend
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Header
+ ===========================
+*/
+
+$_Message_Send_Friend_Header									= "<CENTER>[ <B><A HREF=\"?$_INTERNAL_USER_MODULE&#61;Application_List\" TITLE=\"Open Application Module :: Application List\">Root</A> // <A HREF=\"?$_INTERNAL_USER_MODULE&#61;Send_Friend\" TITLE=\"Root // Open Application Module :: Send To Friend\">Send To Friend</A> // <A HREF=\"./Module/User/Send_Friend\" TITLE=\"View Source Code For Application Module :: Send_Friend\">Source</A></B> ]</CENTER><HR><BR>";
+
+/*
+ ===========================
+ + Messages
+ ===========================
+*/
+
+$_Message_Send_Friend_SEND_SUCCESSFUL								= "<CENTER>Cerberus: I have Sent your Message successfully.</CENTER>";
+$_Message_Send_Friend_SEND_ERROR									= "<CENTER>Cerberus: I was not able to Send your Message; please try once more.</CENTER>";
+
+/*
+ ===========================
+ +
+ +
+ + Statistics
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Header
+ ===========================
+*/
+
+$_Message_Statistics_Header									= "<CENTER>[ <B><A HREF=\"?$_INTERNAL_USER_MODULE&#61;Application_List\" TITLE=\"Open Application Module :: Application List\">Root</A> // <A HREF=\"?$_INTERNAL_USER_MODULE&#61;Statistics\" TITLE=\"Root // Open Application Module :: Statistics\">Statistics</A> // <A HREF=\"./Module/User/Statistics\" TITLE=\"View Source Code For Application Module :: Statistics\">Source</A></B> ]</CENTER><HR><BR>";
+
+/*
+ ===========================
+ +
+ +
+ + Submit_News
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Header
+ ===========================
+*/
+
+$_Message_Submit_News_Header									= "<CENTER>[ <B><A HREF=\"?$_INTERNAL_USER_MODULE&#61;Application_List\" TITLE=\"Open Application Module :: Application List\">Root</A> // <A HREF=\"?$_INTERNAL_USER_MODULE&#61;Submit_News\" TITLE=\"Root // Open Application Module :: Submit News\">Submit News</A> // <A HREF=\"./Module/User/Submit_News\" TITLE=\"View Source Code For Application Module :: Submit_News\">Source</A></B> ]</CENTER><HR><BR>";
+
+/*
+ ===========================
+ + Messages
+ ===========================
+*/
+
+$_Message_Submit_News_SUBMISSION_SUCCESSFUL							= "<CENTER>Cerberus: I have Sent your Message successfully.<BR>Your message will be reviewed by an administrator within the next 24 hours and will be published if appropriate.</CENTER>";
+$_Message_Submit_News_SUBMISSION_ERROR								= "<CENTER>Cerberus: I was not able to Send your Message; please try once more.</CENTER>";
+
+/*
+ ===========================
+ +
+ +
+ + System_Message
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Header
+ ===========================
+*/
+
+$_Message_System_Message_Header									= "<CENTER>[ <B><A HREF=\"?$_INTERNAL_USER_MODULE&#61;Application_List\" TITLE=\"Open Application Module :: Application List\">Root</A> // <A HREF=\"?$_INTERNAL_USER_MODULE&#61;System_Message&amp;Message&#61;Default\" TITLE=\"Root // Open Application Module :: System Message\">System Message</A> // <A HREF=\"./Module/User/System_Message\" TITLE=\"View Source Code For Application Module :: System_Message\">Source</A></B> ]</CENTER><HR><BR>";
+
+/*
+ ===========================
+ + Messages
+ ===========================
+*/
+
+$_Message_System_Message_DEFAULT_MESSAGE								= "<CENTER>Cerberus: This is the Default System Message: Check The Member Block For Messages From Administrators.</CENTER>";
+
+/*
+ ===========================
+ +
+ +
+ + Upload
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Header
+ ===========================
+*/
+
+$_Message_Upload_Header										= "<CENTER>[ <B><A HREF=\"?$_INTERNAL_USER_MODULE&#61;Application_List\" TITLE=\"Open Application Module :: Application List\">Root</A> // <A HREF=\"?$_INTERNAL_USER_MODULE&#61;Upload\" TITLE=\"Root // Open Application Module :: Upload File(s)\">Upload File(s)</A> // <A HREF=\"./Module/User/Upload\" TITLE=\"View Source Code For Application Module :: Upload\">Source</A></B> ]</CENTER><HR><BR>";
+
+/*
+ ===========================
+ + Messages
+ ===========================
+*/
+
+$_Message_Upload_FILE_TEMPORARY									= "<CENTER>Cerberus: Uploading File(s) To Temporary Directory...</CENTER>";
+$_Message_Upload_FILE_TEMPORARY_ERROR								= "<CENTER>Cerberus: I was not able to Upload the File(s) to the Temporary Directory; Please Try Again.</CENTER>";
+$_Message_Upload_FILE_CHECK									= "<CENTER>Cerberus: Checking File(s)...</CENTER>";
+$_Message_Upload_FILE_EXISTS_ERROR								= "<CENTER>Cerberus: File(s) Exist. [ Upload Haulted ]</CENTER>";
+$_Message_Upload_FILE_UPLOAD_SUCCESSFUL								= "<CENTER>Cerberus: File Upload Complete.</CENTER>";
+$_Message_Upload_FILE_UPLOAD_ERROR								= "<CENTER>Cerberus: I was not able to Upload the File(s); Please Try Again. ( SQL Error )</CENTER>";
+$_Message_Upload_MEMBER_EXPERIENCE_AMOUNT_SUCCESSFUL						= "<CENTER>Cerberus: You have earned 50 Experience Points.</CENTER>";
+$_Message_Upload_MEMBER_EXPERIENCE_AMOUNT_ERROR							= "<CENTER>Cerberus: I was not able to Give you any Experience Points.</CENTER>";
+$_Message_Upload_FILE_EXTENSION_ERROR								= "<CENTER>Cerberus: That File Extension is not allowed. [ Upload Haulted ]</CENTER>";
+$_Message_Upload_FILE_TOO_LARGE									= "<CENTER><B>Cerberus: Those Files are too Large. [ Upload Haulted ]</B></CENTER>";
+
+/*
+ ===========================
+ +
+ +
+ + Webspace
+ +
+ +
+ ===========================
+*/
+
+/*
+ ===========================
+ + Header
+ ===========================
+*/
+
+$_Message_Webspace_Header									= "<CENTER>[ <B><A HREF=\"?$_INTERNAL_USER_MODULE&#61;Application_List\" TITLE=\"Open Application Module :: Application List\">Root</A> // <A HREF=\"?$_INTERNAL_USER_MODULE&#61;cPanel\" TITLE=\"Root // Open Application Module :: Member Control Panel\">Member Control Panel</A> // <A HREF=\"?$_INTERNAL_USER_MODULE&#61;Webspace\" TITLE=\"Root // Open Application Module :: cPanel // Open Application Module :: Personal Web Space\">Personal Web Space</A> // <A HREF=\"./Module/User/Webspace\" TITLE=\"View Source Code For Application Module :: Webspace\">Source</A></B> ]</CENTER><HR><BR>";
+
+/*
+ ===========================
+ + Messages
+ ===========================
+*/
+
+$_Message_Webspace_UPDATE_SUCCESSFUL								= "<CENTER>Cerberus: I have Updated your Web-Page successfully.</CENTER>";
+$_Message_Webspace_UPDATE_ERROR									= "<CENTER>Cerberus: I was not able to Update your Web-Page; please try once more.</CENTER>";
+?>
